@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Movie Stack"
 include(":app")
+include(":core:model")
+include(":core:network")
