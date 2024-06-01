@@ -4,39 +4,30 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.yaroslavzghoba.database.MovieStackDatabase
-import com.yaroslavzghoba.database.model.GenreEntity
+import com.yaroslavzghoba.database.ApplicationDatabase
+import com.yaroslavzghoba.database.model.GenreDbo
 import kotlinx.coroutines.flow.Flow
 
 /**
  * Provides access methods to the `genres` table
- * defined in the [MovieStackDatabase]
+ * defined in the [ApplicationDatabase]
  */
 @Dao
 interface GenreDao {
 
-    /**
-     * Insert each genre in the [genres]
-     * or update if it already exists
-     */
+    /**Insert or update each genre in the [genres] list*/
     @Upsert
-    suspend fun upsertGenres(genres: List<GenreEntity>)
+    suspend fun upsertAll(genres: List<GenreDbo>)
 
-    /**
-     * Delete each genre in the [genres]
-     */
+    /**Delete each genre in the [genres] list*/
     @Delete
-    suspend fun deleteGenres(genres: List<GenreEntity>)
+    suspend fun deleteAll(genres: List<GenreDbo>)
 
-    /**
-     * Find and return a genre whose id equals [id]
-     */
-    @Query("SELECT * FROM genres WHERE id = :id")
-    fun getGenreById(id: Int): Flow<GenreEntity>
+    /**Delete all genres*/
+    @Query("DELETE FROM genres")
+    suspend fun deleteAll()
 
-    /**
-     * Get all genres
-     */
+    /**Get all genres*/
     @Query("SELECT * FROM genres")
-    fun getAllGenres(): Flow<List<GenreEntity>>
+    fun getAll(): Flow<List<GenreDbo>>
 }

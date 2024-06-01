@@ -4,51 +4,38 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.yaroslavzghoba.database.MovieStackDatabase
-import com.yaroslavzghoba.database.model.WishedMovieEntity
+import com.yaroslavzghoba.database.ApplicationDatabase
+import com.yaroslavzghoba.database.model.WishedMovieDbo
 import kotlinx.coroutines.flow.Flow
 
 /**
  * Provides access methods to the `wished_movies` table
- * defined in the [MovieStackDatabase]
+ * defined in the [ApplicationDatabase]
  */
 @Dao
 interface WishedMovieDao {
 
-    /**
-     * Insert the [movie] or update if it already exists
-     */
+    /**Insert or update the [movie]*/
     @Upsert
-    suspend fun upsertMovie(movie: WishedMovieEntity)
+    suspend fun upsert(movie: WishedMovieDbo)
 
-    /**
-     * Insert each wished movie in the [movies]
-     * or update if it already exists
-     */
+    /**Insert or update each movie in the [movies] list*/
     @Upsert
-    suspend fun upsertMovies(movies: List<WishedMovieEntity>)
+    suspend fun upsertAll(movies: List<WishedMovieDbo>)
 
-    /**
-     * Delete the [movie]
-     */
+    /**Delete the [movie]*/
     @Delete
-    suspend fun deleteMovie(movie: WishedMovieEntity)
+    suspend fun delete(movie: WishedMovieDbo)
 
-    /**
-     * Delete each wished movie in the [movies]
-     */
+    /**Delete each movie in the [movies] list*/
     @Delete
-    suspend fun deleteMovies(movies: List<WishedMovieEntity>)
+    suspend fun deleteAll(movies: List<WishedMovieDbo>)
 
-    /**
-     * Find and return wished movie whose id equals [id]
-     */
+    /**Find and return movie whose id equals [id]*/
     @Query("SELECT * FROM wished_movies WHERE id = :id")
-    fun getMovieById(id: Int): Flow<WishedMovieEntity>
+    fun getById(id: Int): Flow<WishedMovieDbo>
 
-    /**
-     * Get all wished movies
-     */
+    /**Get all movies*/
     @Query("SELECT * FROM wished_movies")
-    fun getAllGenres(): Flow<List<WishedMovieEntity>>
+    fun getAll(): Flow<List<WishedMovieDbo>>
 }
