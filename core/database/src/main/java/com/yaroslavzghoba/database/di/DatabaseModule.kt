@@ -1,8 +1,8 @@
 package com.yaroslavzghoba.database.di
 
 import android.content.Context
-import com.yaroslavzghoba.database.MovieStackDatabase
-import com.yaroslavzghoba.database.MovieStackRoomDB
+import com.yaroslavzghoba.database.ApplicationDatabase
+import com.yaroslavzghoba.database.ApplicationRoomDb
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,9 +16,9 @@ internal object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): MovieStackDatabase {
-        return MovieStackDatabase(
-            database = MovieStackRoomDB.getInstance(context = context)
+    fun provideDatabase(@ApplicationContext context: Context): ApplicationDatabase {
+        return ApplicationDatabase(
+            database = ApplicationRoomDb.getInstance(context = context)
         )
     }
 }

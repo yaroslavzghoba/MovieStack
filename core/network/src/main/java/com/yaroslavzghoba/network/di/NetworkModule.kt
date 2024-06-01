@@ -1,9 +1,9 @@
 package com.yaroslavzghoba.network.di
 
-import com.yaroslavzghoba.network.Constants
 import com.yaroslavzghoba.network.NetworkDataSource
 import com.yaroslavzghoba.network.NetworkDataSourceImpl
 import com.yaroslavzghoba.network.service.MovieService
+import com.yaroslavzghoba.network.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,6 +12,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -23,7 +24,7 @@ internal object NetworkModule {
     fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-        .build()
+        .build().create()
 
     @Provides
     @Singleton

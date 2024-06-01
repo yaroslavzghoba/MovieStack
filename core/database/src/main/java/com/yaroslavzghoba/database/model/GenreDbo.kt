@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "genres")
-data class GenreEntity(
+data class GenreDbo(
 
     @PrimaryKey
     @ColumnInfo("id")

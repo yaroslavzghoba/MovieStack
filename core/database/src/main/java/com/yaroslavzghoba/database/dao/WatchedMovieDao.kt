@@ -4,51 +4,38 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.yaroslavzghoba.database.MovieStackDatabase
-import com.yaroslavzghoba.database.model.WatchedMovieEntity
+import com.yaroslavzghoba.database.ApplicationDatabase
+import com.yaroslavzghoba.database.model.WatchedMovieDbo
 import kotlinx.coroutines.flow.Flow
 
 /**
  * Provides access methods to the `watched_movies` table
- * defined in the [MovieStackDatabase]
+ * defined in the [ApplicationDatabase]
  */
 @Dao
 interface WatchedMovieDao {
 
-    /**
-     * Insert the [movie] or update if it already exists
-     */
+    /**Insert or update the [movie]*/
     @Upsert
-    suspend fun upsertMovie(movie: WatchedMovieEntity)
+    suspend fun upsert(movie: WatchedMovieDbo)
 
-    /**
-     * Insert each watched movie in the [movies]
-     * or update if it already exists
-     */
+    /**Insert or update each movie in the [movies] list*/
     @Upsert
-    suspend fun upsertMovies(movies: List<WatchedMovieEntity>)
+    suspend fun upsertAll(movies: List<WatchedMovieDbo>)
 
-    /**
-     * Delete the [movie]
-     */
+    /**Delete the [movie]*/
     @Delete
-    suspend fun deleteMovie(movie: WatchedMovieEntity)
+    suspend fun delete(movie: WatchedMovieDbo)
 
-    /**
-     * Delete each watched movie in the [movies]
-     */
+    /**Delete each movie in the [movies] list*/
     @Delete
-    suspend fun deleteMovies(movies: List<WatchedMovieEntity>)
+    suspend fun deleteAll(movies: List<WatchedMovieDbo>)
 
-    /**
-     * Find and return watched movie whose id equals [id]
-     */
+    /**Find and return movie whose id equals [id]*/
     @Query("SELECT * FROM watched_movies WHERE id = :id")
-    fun getMovieById(id: Int): Flow<WatchedMovieEntity>
+    fun getById(id: Int): Flow<WatchedMovieDbo>
 
-    /**
-     * Get all watched movies
-     */
+    /**Get all movies*/
     @Query("SELECT * FROM watched_movies")
-    fun getAllGenres(): Flow<List<WatchedMovieEntity>>
+    fun getAll(): Flow<List<WatchedMovieDbo>>
 }

@@ -1,4 +1,4 @@
-package com.yaroslavzghoba.model
+package com.yaroslavzghoba.model.util
 
 /**
  * Language of the application
