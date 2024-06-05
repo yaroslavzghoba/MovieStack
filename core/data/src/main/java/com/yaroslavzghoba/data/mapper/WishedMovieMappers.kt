@@ -22,6 +22,7 @@ internal fun WishedMovieDbo.toWishedMovie() = WishedMovie(
     voteAverage = voteAverage,
     voteCount = voteCount,
     scheduledViewingAt = scheduledViewingAt,
+    databaseId = databaseId,
 )
 
 /**
@@ -43,4 +44,5 @@ internal fun WishedMovie.toDbo() = WishedMovieDbo(
     voteAverage = voteAverage,
     voteCount = voteCount,
     scheduledViewingAt = scheduledViewingAt,
+    databaseId = databaseId,
 )

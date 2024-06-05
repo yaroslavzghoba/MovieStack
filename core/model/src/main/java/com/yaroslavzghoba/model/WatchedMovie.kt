@@ -19,4 +19,5 @@ data class WatchedMovie(
     val voteAverage: Double,
     val voteCount: Int,
     val votePersonal: Double?,
+    val databaseId: Int,  // Used instead of `id` in the db to keep the sequence
 )

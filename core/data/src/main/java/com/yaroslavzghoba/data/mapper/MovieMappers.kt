@@ -26,6 +26,7 @@ internal fun DiscoverMovieDbo.toMovie() = Movie(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )
 
 /**
@@ -46,6 +47,7 @@ internal fun NowPlayingMovieDbo.toMovie() = Movie(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )
 
 /**
@@ -66,6 +68,7 @@ internal fun PopularMovieDbo.toMovie() = Movie(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )
 
 /**
@@ -86,6 +89,7 @@ internal fun TopRatedMovieDbo.toMovie() = Movie(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )
 
 /**
@@ -106,12 +110,13 @@ internal fun UpcomingMovieDbo.toMovie() = Movie(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )
 
 /**
  * Convert [MovieDto] to [Movie]
  */
-internal fun MovieDto.toMovie() = Movie(
+internal fun MovieDto.toMovie(cacheId: Int) = Movie(
     adult = adult,
     backdropPath = backdropPath,
     genreIds = genreIds,
@@ -126,6 +131,7 @@ internal fun MovieDto.toMovie() = Movie(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId
 )
 
 /**
@@ -146,6 +152,7 @@ internal fun Movie.toDiscoverMovieDbo() = DiscoverMovieDbo(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )
 
 /**
@@ -166,6 +173,7 @@ internal fun Movie.toNowPlayingMovieDbo() = NowPlayingMovieDbo(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )
 
 /**
@@ -186,6 +194,7 @@ internal fun Movie.toPopularMovieDbo() = PopularMovieDbo(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )
 
 /**
@@ -206,6 +215,7 @@ internal fun Movie.toTopRatedMovieDbo() = TopRatedMovieDbo(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )
 
 /**
@@ -226,4 +236,5 @@ internal fun Movie.toUpcomingMovieDbo() = UpcomingMovieDbo(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    cacheId = cacheId,
 )

@@ -16,13 +16,16 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { setUrl("https://jitpack.io") }
     }
 }
 
 rootProject.name = "Movie Stack"
 include(":app")
+include(":core:data")
+include(":core:database")
+include(":core:domain")
 include(":core:model")
 include(":core:network")
-include(":core:database")
-include(":core:data")
-include(":core:domain")
+include(":core:ui")
+include(":feature:home")

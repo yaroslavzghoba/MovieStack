@@ -18,4 +18,5 @@ data class Movie(
     val video: Boolean,
     val voteAverage: Double,
     val voteCount: Int,
+    val cacheId: Int,  // Used instead of `id`, to preserve the same sequence as when loading
 )
