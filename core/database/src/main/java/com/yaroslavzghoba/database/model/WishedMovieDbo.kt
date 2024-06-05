@@ -16,7 +16,6 @@ data class WishedMovieDbo(
     @ColumnInfo("genre_ids")
     val genreIds: String,
 
-    @PrimaryKey
     @ColumnInfo("id")
     val id: Int,
 
@@ -52,4 +51,9 @@ data class WishedMovieDbo(
 
     @ColumnInfo("scheduled_viewing_at")
     val scheduledViewingAt: String,
+
+    /**Used as a primary key instead of `id`, to preserve the same sequence as when saving*/
+    @PrimaryKey
+    @ColumnInfo("database_id")
+    val databaseId: Int,
 )

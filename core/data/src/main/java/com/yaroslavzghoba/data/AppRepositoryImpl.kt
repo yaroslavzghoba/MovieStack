@@ -186,7 +186,7 @@ class AppRepositoryImpl internal constructor(
         return flow {
             val result = try {
                 val movies = network.getMoviesByQuery(query = query).results
-                    .map { it.toMovie() }
+                    .map { it.toMovie(cacheId = 0) }
                 Result.success(movies)
             } catch (exception: HttpException) {
                 Result.failure(exception = exception)

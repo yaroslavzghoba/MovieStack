@@ -41,7 +41,6 @@ dependencies {
     // For catching HttpException
     api(libs.retrofit)
 
-    // Paging3
     implementation(libs.paging.runtime)
 
     // Hilt dependency injection

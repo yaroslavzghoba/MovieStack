@@ -72,7 +72,8 @@ dependencies {
     // Hilt dependency injection
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     // Internal dependencies
-    implementation(project(":core:data"))
+    implementation(project(":feature:home"))
 }

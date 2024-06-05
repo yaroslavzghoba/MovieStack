@@ -23,6 +23,7 @@ internal fun WatchedMovieDbo.toWatchedMovie() = WatchedMovie(
     voteAverage = voteAverage,
     voteCount = voteCount,
     votePersonal = votePersonal,
+    databaseId = databaseId,
 )
 
 /**
@@ -44,4 +45,5 @@ internal fun WatchedMovie.toDbo() = WatchedMovieDbo(
     voteAverage = voteAverage,
     voteCount = voteCount,
     votePersonal = votePersonal,
+    databaseId = databaseId,
 )

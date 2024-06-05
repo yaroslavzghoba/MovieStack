@@ -16,7 +16,6 @@ data class PopularMovieDbo(
     @ColumnInfo("genre_ids")
     val genreIds: String,
 
-    @PrimaryKey
     @ColumnInfo("id")
     val id: Int,
 
@@ -49,4 +48,9 @@ data class PopularMovieDbo(
 
     @ColumnInfo("vote_count")
     val voteCount: Int,
+
+    /**Used as a primary key instead of `id`, to preserve the same sequence as when loading*/
+    @PrimaryKey
+    @ColumnInfo("cache_id")
+    val cacheId: Int,
 )

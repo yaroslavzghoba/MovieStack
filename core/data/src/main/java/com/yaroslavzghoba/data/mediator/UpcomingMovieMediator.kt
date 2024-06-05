@@ -12,6 +12,9 @@ import com.yaroslavzghoba.network.NetworkDataSource
 import retrofit2.HttpException
 import java.io.IOException
 
+// TODO: Store this value using Preferences DataStore or Proto DataStore
+private var pagesLoaded: Int = 0
+
 @OptIn(ExperimentalPagingApi::class)
 internal class UpcomingMovieMediator(
     private val database: ApplicationDatabase,
@@ -28,9 +31,9 @@ internal class UpcomingMovieMediator(
             LoadType.REFRESH -> 1
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
             LoadType.APPEND -> {
-                when (val lastItem = state.lastItemOrNull()) {
+                when (state.lastItemOrNull()) {
                     null -> 1
-                    else -> (lastItem.id / state.config.pageSize) + 1
+                    else -> pagesLoaded + 1
                 }
             }
         }
@@ -44,9 +47,15 @@ internal class UpcomingMovieMediator(
                 database.upcomingMovieDao.deleteAll()
             }
             database.upcomingMovieDao.upsertAll(
-                movies = response.results.map { it.toMovie().toUpcomingMovieDbo() }
+                movies = response.results.mapIndexed { index, movieDto ->
+                    val cacheId = (response.page - 1) * state.config.pageSize + index + 1
+                    movieDto
+                        .toMovie(cacheId = cacheId)
+                        .toUpcomingMovieDbo()
+                }
             )
 
+            pagesLoaded++
             MediatorResult.Success(
                 endOfPaginationReached = response.page == response.totalPages
             )

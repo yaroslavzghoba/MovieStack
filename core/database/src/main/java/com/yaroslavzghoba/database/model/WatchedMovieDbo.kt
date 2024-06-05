@@ -16,7 +16,6 @@ data class WatchedMovieDbo(
     @ColumnInfo("genre_ids")
     val genreIds: String,
 
-    @PrimaryKey
     @ColumnInfo("id")
     val id: Int,
 
@@ -52,4 +51,9 @@ data class WatchedMovieDbo(
 
     @ColumnInfo("vote_personal")
     val votePersonal: Double?,
+
+    /**Used as a primary key instead of `id`, to preserve the same sequence as when saving*/
+    @PrimaryKey
+    @ColumnInfo("database_id")
+    val databaseId: Int,
 )

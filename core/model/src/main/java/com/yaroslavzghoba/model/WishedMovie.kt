@@ -19,4 +19,5 @@ data class WishedMovie(
     val voteAverage: Double,
     val voteCount: Int,
     val scheduledViewingAt: String,
+    val databaseId: Int,  // Used instead of `id` in the db to keep the sequence
 )

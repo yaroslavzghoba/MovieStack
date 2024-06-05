@@ -37,7 +37,6 @@ internal fun List<Genre>.getById(id: Int): Genre? = this
 internal fun List<Int>.toStringList(
     separator: String = Constants.GENRE_LIST_SEPARATOR,
 ): String = joinToString(separator = separator) { it.toString() }
-
 /**
  * Convert the string of integers separated by [separator] to a list of integers
  *
@@ -48,6 +47,7 @@ internal fun List<Int>.toStringList(
 internal fun String.toIntList(
     separator: String = Constants.GENRE_LIST_SEPARATOR,
 ): List<Int> = this
+    .ifBlank { return emptyList() }
     .trim()
     .split(separator)
     .map { it.toInt() }

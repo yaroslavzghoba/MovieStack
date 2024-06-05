@@ -1,7 +1,9 @@
 package com.yaroslavzghoba.network.model
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UpcomingDto(
     @SerialName("dates") val dates: DatesDto,
     @SerialName("page") val page: Int,
