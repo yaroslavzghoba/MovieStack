@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Movie Stack"
 include(":app")
+include(":core:common")
 include(":core:data")
 include(":core:database")
 include(":core:domain")
@@ -29,3 +30,4 @@ include(":core:model")
 include(":core:network")
 include(":core:ui")
 include(":feature:home")
+include(":feature:movie-list")

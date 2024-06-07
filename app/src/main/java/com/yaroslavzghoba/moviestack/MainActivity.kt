@@ -4,9 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.yaroslavzghoba.home.HomeScreen
-import com.yaroslavzghoba.home.HomeViewModel
+import androidx.navigation.compose.rememberNavController
+import com.yaroslavzghoba.moviestack.navigation.AppNavigation
 import com.yaroslavzghoba.moviestack.ui.theme.MovieStackTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,8 +16,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MovieStackTheme {
-                val viewModel = hiltViewModel<HomeViewModel>()
-                HomeScreen(viewModel = viewModel)
+                val navController = rememberNavController()
+                AppNavigation(navController = navController)
             }
         }
     }

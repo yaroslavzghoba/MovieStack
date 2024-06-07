@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.serialization.android)
 }
 
 android {
@@ -61,6 +62,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -69,11 +71,19 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // Serialization
+    implementation(libs.serialization.json)
+
+    // Custom Material design system
+    implementation(libs.achromatic.material)
+
     // Hilt dependency injection
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
 
     // Internal dependencies
+    implementation(project(":core:common"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:movie-list"))
 }
