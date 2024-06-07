@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.yaroslavzghoba.home.component.MovieSection
+import com.yzghoba.achromatic.AchromaticTheme
 
 @Composable
 fun HomeScreen(
@@ -31,6 +32,7 @@ fun HomeScreen(
 
     Scaffold(
         modifier = modifier,
+        containerColor = AchromaticTheme.colorScheme.background
     ) { innerPaddings ->
         Column(
             modifier = Modifier
@@ -42,14 +44,14 @@ fun HomeScreen(
                 titleRes = R.string.home_popular_section_title,
                 contentType = "Popular movies",
                 movies = popularMovies,
-                onGetMore = onGetMoreDiscover,
+                onGetMore = onGetMorePopular,
                 modifier = Modifier.fillMaxWidth(),
             )
             MovieSection(
                 titleRes = R.string.home_top_rated_section_title,
                 contentType = "Top rated movies",
                 movies = topRatedMovies,
-                onGetMore = onGetMorePopular,
+                onGetMore = onGetMoreTopRated,
                 modifier = Modifier.fillMaxWidth(),
             )
             MovieSection(
@@ -63,14 +65,14 @@ fun HomeScreen(
                 titleRes = R.string.home_upcoming_section_title,
                 contentType = "Upcoming movies",
                 movies = upcomingMovies,
-                onGetMore = onGetMoreTopRated,
+                onGetMore = onGetMoreUpcoming,
                 modifier = Modifier.fillMaxWidth(),
             )
             MovieSection(
                 titleRes = R.string.home_discover_section_title,
                 contentType = "Discover movies",
                 movies = discoverMovies,
-                onGetMore = onGetMoreUpcoming,
+                onGetMore = onGetMoreDiscover,
                 modifier = Modifier.fillMaxWidth(),
             )
         }

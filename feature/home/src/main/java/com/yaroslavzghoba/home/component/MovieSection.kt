@@ -6,11 +6,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.CircularProgressIndicator
@@ -46,13 +45,13 @@ internal fun MovieSection(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 16.dp)
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
                     onClick = onGetMore,
                 ),
-            verticalAlignment = Alignment.Bottom,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = stringResource(id = titleRes),
@@ -64,12 +63,10 @@ internal fun MovieSection(
             )
         }
         LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = spaceBetweenCards),
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(spaceBetweenCards),
             horizontalArrangement = Arrangement.spacedBy(spaceBetweenCards),
         ) {
-            item { Spacer(modifier = Modifier.width(spaceBetweenCards)) }
             items(
                 count = movies.itemCount,
                 key = movies.itemKey { it.cacheId },
@@ -89,7 +86,6 @@ internal fun MovieSection(
                         trackColor = AchromaticTheme.colorScheme.achromaticContainer,
                     )
                 }
-                Spacer(modifier = Modifier.width(spaceBetweenCards))
             }
         }
     }

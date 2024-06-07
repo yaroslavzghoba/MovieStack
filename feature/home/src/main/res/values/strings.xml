@@ -1,8 +1,8 @@
 <resources>
     <!--Movie sections-->
-    <string name="home_discover_section_title">Discover movies</string>
-    <string name="home_now_playing_section_title">Now playing movies</string>
-    <string name="home_popular_section_title">Popular movies</string>
-    <string name="home_top_rated_section_title">Top rated movies</string>
-    <string name="home_upcoming_section_title">Upcoming movies</string>
+    <string name="home_discover_section_title">Discover</string>
+    <string name="home_now_playing_section_title">Now playing</string>
+    <string name="home_popular_section_title">Popular</string>
+    <string name="home_top_rated_section_title">Top rated</string>
+    <string name="home_upcoming_section_title">Upcoming</string>
 </resources>

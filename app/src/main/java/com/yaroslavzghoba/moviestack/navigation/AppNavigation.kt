@@ -31,27 +31,27 @@ fun AppNavigation(
                 viewModel = viewModel,
                 onGetMoreDiscover = {
                     navController.navigate(
-                        route = Screen.MovieList(movieCategory = MovieCategory.DISCOVER.name)
+                        route = Screen.MovieList(MovieCategory.DISCOVER.name)
                     )
                 },
                 onGetMorePopular = {
                     navController.navigate(
-                        route = Screen.MovieList(movieCategory = MovieCategory.POPULAR.name)
+                        route = Screen.MovieList(MovieCategory.POPULAR.name)
                     )
                 },
                 onGetMoreTopRated = {
                     navController.navigate(
-                        route = Screen.MovieList(movieCategory = MovieCategory.TOP_RATED.name)
+                        route = Screen.MovieList(MovieCategory.TOP_RATED.name)
                     )
                 },
                 onGetMoreNowPlaying = {
                     navController.navigate(
-                        route = Screen.MovieList(movieCategory = MovieCategory.NOW_PLAYING.name)
+                        route = Screen.MovieList(MovieCategory.NOW_PLAYING.name)
                     )
                 },
                 onGetMoreUpcoming = {
                     navController.navigate(
-                        route = Screen.MovieList(movieCategory = MovieCategory.UPCOMING.name)
+                        route = Screen.MovieList(MovieCategory.UPCOMING.name)
                     )
                 },
                 modifier = Modifier.fillMaxSize(),
