@@ -1,0 +1,4 @@
+<resources>
+    <!--Movie card-->
+    <string name="ui_movie_evaluation_description">Evaluation</string>
+</resources>

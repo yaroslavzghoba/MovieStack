@@ -12,55 +12,67 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.yaroslavzghoba.home.component.MovieSection
+import com.yzghoba.achromatic.AchromaticTheme
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
+    onGetMoreDiscover: () -> Unit,
+    onGetMoreNowPlaying: () -> Unit,
+    onGetMorePopular: () -> Unit,
+    onGetMoreTopRated: () -> Unit,
+    onGetMoreUpcoming: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val discoverMovies = viewModel.discoverMovies.collectAsLazyPagingItems()
+    val nowPlayingMovies = viewModel.nowPlayingMovies.collectAsLazyPagingItems()
     val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
     val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems()
-    val nowPlayingMovies = viewModel.nowPlayingMovies.collectAsLazyPagingItems()
     val upcomingMovies = viewModel.upcomingMovies.collectAsLazyPagingItems()
 
     Scaffold(
         modifier = modifier,
+        containerColor = AchromaticTheme.colorScheme.background
     ) { innerPaddings ->
         Column(
             modifier = Modifier
                 .padding(innerPaddings)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             MovieSection(
-                title = "Popular movies",
+                titleRes = R.string.home_popular_section_title,
+                contentType = "Popular movies",
                 movies = popularMovies,
-                onGetMore = { /*TODO*/ },
+                onGetMore = onGetMorePopular,
                 modifier = Modifier.fillMaxWidth(),
             )
             MovieSection(
-                title = "Top rated movies",
+                titleRes = R.string.home_top_rated_section_title,
+                contentType = "Top rated movies",
                 movies = topRatedMovies,
-                onGetMore = { /*TODO*/ },
+                onGetMore = onGetMoreTopRated,
                 modifier = Modifier.fillMaxWidth(),
             )
             MovieSection(
-                title = "Now playing movies",
+                titleRes = R.string.home_now_playing_section_title,
+                contentType = "Now playing movies",
                 movies = nowPlayingMovies,
-                onGetMore = { /*TODO*/ },
+                onGetMore = onGetMoreNowPlaying,
                 modifier = Modifier.fillMaxWidth(),
             )
             MovieSection(
-                title = "Upcoming movies",
+                titleRes = R.string.home_upcoming_section_title,
+                contentType = "Upcoming movies",
                 movies = upcomingMovies,
-                onGetMore = { /*TODO*/ },
+                onGetMore = onGetMoreUpcoming,
                 modifier = Modifier.fillMaxWidth(),
             )
             MovieSection(
-                title = "Discover movies",
+                titleRes = R.string.home_discover_section_title,
+                contentType = "Discover movies",
                 movies = discoverMovies,
-                onGetMore = { /*TODO*/ },
+                onGetMore = onGetMoreDiscover,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
