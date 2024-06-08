@@ -59,6 +59,7 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     // Internal dependencies
+    implementation(project(":core:common"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
     implementation(project(":core:model"))

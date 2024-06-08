@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.yaroslavzghoba.home.component.MovieSection
+import com.yaroslavzghoba.home.util.MovieSectionItem
+import com.yaroslavzghoba.ui.MovieBottomSheet
 import com.yzghoba.achromatic.AchromaticTheme
 
 @Composable
@@ -24,11 +26,38 @@ fun HomeScreen(
     onGetMoreUpcoming: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val discoverMovies = viewModel.discoverMovies.collectAsLazyPagingItems()
-    val nowPlayingMovies = viewModel.nowPlayingMovies.collectAsLazyPagingItems()
-    val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
-    val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems()
-    val upcomingMovies = viewModel.upcomingMovies.collectAsLazyPagingItems()
+    val sections = listOf(
+        MovieSectionItem(
+            titleRes = R.string.home_popular_section_title,
+            contentType = "Popular movies",
+            movies = viewModel.popularMovies.collectAsLazyPagingItems(),
+            onGetMoreClicked = onGetMorePopular,
+        ),
+        MovieSectionItem(
+            titleRes = R.string.home_top_rated_section_title,
+            contentType = "Top rated movies",
+            movies = viewModel.topRatedMovies.collectAsLazyPagingItems(),
+            onGetMoreClicked = onGetMoreTopRated,
+        ),
+        MovieSectionItem(
+            titleRes = R.string.home_now_playing_section_title,
+            contentType = "Now playing movies",
+            movies = viewModel.nowPlayingMovies.collectAsLazyPagingItems(),
+            onGetMoreClicked = onGetMoreNowPlaying,
+        ),
+        MovieSectionItem(
+            titleRes = R.string.home_upcoming_section_title,
+            contentType = "Upcoming movies",
+            movies = viewModel.upcomingMovies.collectAsLazyPagingItems(),
+            onGetMoreClicked = onGetMoreUpcoming,
+        ),
+        MovieSectionItem(
+            titleRes = R.string.home_discover_section_title,
+            contentType = "Discover movies",
+            movies = viewModel.discoverMovies.collectAsLazyPagingItems(),
+            onGetMoreClicked = onGetMoreDiscover,
+        ),
+    )
 
     Scaffold(
         modifier = modifier,
@@ -40,41 +69,31 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            MovieSection(
-                titleRes = R.string.home_popular_section_title,
-                contentType = "Popular movies",
-                movies = popularMovies,
-                onGetMore = onGetMorePopular,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            MovieSection(
-                titleRes = R.string.home_top_rated_section_title,
-                contentType = "Top rated movies",
-                movies = topRatedMovies,
-                onGetMore = onGetMoreTopRated,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            MovieSection(
-                titleRes = R.string.home_now_playing_section_title,
-                contentType = "Now playing movies",
-                movies = nowPlayingMovies,
-                onGetMore = onGetMoreNowPlaying,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            MovieSection(
-                titleRes = R.string.home_upcoming_section_title,
-                contentType = "Upcoming movies",
-                movies = upcomingMovies,
-                onGetMore = onGetMoreUpcoming,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            MovieSection(
-                titleRes = R.string.home_discover_section_title,
-                contentType = "Discover movies",
-                movies = discoverMovies,
-                onGetMore = onGetMoreDiscover,
-                modifier = Modifier.fillMaxWidth(),
-            )
+            // Movie details bottom sheet
+            viewModel.selectedMovie?.let { selectedMovie ->
+                MovieBottomSheet(
+                    movie = selectedMovie,
+                    onDismissRequest = {
+                        viewModel.onEvent(event = HomeUiEvent.BottomSheetDismissed)
+                    },
+                )
+            }
+
+            // Movie sections
+            sections.forEach { section ->
+                MovieSection(
+                    titleRes = section.titleRes,
+                    contentType = section.contentType,
+                    movies = section.movies,
+                    onMovieClicked = { movie ->
+                        viewModel.onEvent(
+                            event = HomeUiEvent.MovieClicked(movie = movie)
+                        )
+                    },
+                    onGetMoreClicked = section.onGetMoreClicked,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
         }
     }
 }

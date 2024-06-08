@@ -51,5 +51,6 @@ dependencies {
     implementation(libs.coil.compose)
 
     // Internal dependencies
+    implementation(project(":core:common"))
     implementation(project(":core:model"))
 }

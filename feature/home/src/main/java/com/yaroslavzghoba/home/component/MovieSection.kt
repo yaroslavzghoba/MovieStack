@@ -36,7 +36,8 @@ internal fun MovieSection(
     @StringRes titleRes: Int,
     contentType: String,
     movies: LazyPagingItems<Movie>,
-    onGetMore: () -> Unit,
+    onMovieClicked: (Movie) -> Unit,
+    onGetMoreClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val spaceBetweenCards = 8.dp
@@ -49,7 +50,7 @@ internal fun MovieSection(
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
-                    onClick = onGetMore,
+                    onClick = onGetMoreClicked,
                 ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -75,6 +76,7 @@ internal fun MovieSection(
                 movies[index]?.let { movie ->
                     MovieCard(
                         movie = movie,
+                        onClick = { onMovieClicked(movie) },
                         modifier = Modifier.widthIn(max = 150.dp)
                     )
                 }

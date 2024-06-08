@@ -10,6 +10,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.yaroslavzghoba.movie_list.component.MovieListContent
 import com.yaroslavzghoba.movie_list.component.MovieListTopBar
+import com.yaroslavzghoba.ui.MovieBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,9 +32,23 @@ fun MovieListScreen(
             )
         }
     ) { innerPaddings ->
+
+        // Bottom sheet with movie details
+        viewModel.selectedMovie?.let { selectedMovie ->
+            MovieBottomSheet(
+                movie = selectedMovie,
+                onDismissRequest = {
+                    viewModel.onEvent(event = MovieListUiEvent.BottomSheetDismissed)
+                },
+            )
+        }
+
         MovieListContent(
             movies = movies,
             contentType = viewModel.contentType,
+            onMovieClicked = { movie ->
+                viewModel.onEvent(event = MovieListUiEvent.MovieClicked(movie))
+            },
             modifier = Modifier.padding(innerPaddings),
         )
     }

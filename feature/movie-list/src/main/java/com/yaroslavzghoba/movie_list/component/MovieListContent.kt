@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
@@ -26,6 +24,7 @@ import com.yzghoba.achromatic.AchromaticTheme
 internal fun MovieListContent(
     movies: LazyPagingItems<Movie>,
     contentType: String,
+    onMovieClicked: (Movie) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val spaceBetweenCards = 8.dp
@@ -36,20 +35,21 @@ internal fun MovieListContent(
                 .background(color = AchromaticTheme.colorScheme.background),
             contentPadding = PaddingValues(spaceBetweenCards),
             verticalArrangement = Arrangement.spacedBy(spaceBetweenCards),
-            horizontalArrangement = Arrangement.spacedBy(spaceBetweenCards)
+            horizontalArrangement = Arrangement.spacedBy(spaceBetweenCards),
         ) {
             items(
                 count = movies.itemCount,
                 key = movies.itemKey { it.cacheId },
                 contentType = movies.itemContentType { contentType }
             ) { index ->
-                movies[index]?.let {
-                    MovieCard(movie = it)
+                movies[index]?.let { movie ->
+                    MovieCard(
+                        movie = movie,
+                        onClick = { onMovieClicked(movie) },
+                    )
                 }
             }
             item {
-                Spacer(modifier = Modifier.height(spaceBetweenCards))
-
                 // Next page loading indicator
                 if (movies.loadState.append is LoadState.Loading) {
                     Box(modifier = Modifier.fillMaxWidth()) {

@@ -1,6 +1,5 @@
 package com.yaroslavzghoba.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,27 +23,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.yaroslavzghoba.common.LocalPosterQuality
+import com.yaroslavzghoba.common.PosterQuality
+import com.yaroslavzghoba.common.round
 import com.yaroslavzghoba.model.Movie
 import com.yaroslavzghoba.ui.util.Constants
-import com.yaroslavzghoba.ui.util.PosterQuality
-import com.yaroslavzghoba.ui.util.round
-import com.yzghoba.achromatic.AchromaticTheme
 import com.yzghoba.achromatic.components.AchromaticCard
 import com.yzghoba.achromatic.components.AchromaticFilledTonalIconToggleButton
+import com.yzghoba.achromatic.components.cardAchromaticColors
 
 @Composable
 fun MovieCard(
     movie: Movie,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    posterQuality: PosterQuality = PosterQuality.W342
+    posterQuality: PosterQuality = LocalPosterQuality.current,
 ) {
-    val posterUrl = "${Constants.POSTER_BASE_URL}${posterQuality.path}${movie.posterPath}"
+    val posterUrl = "${Constants.IMAGE_BASE_URL}${posterQuality.path}${movie.posterPath}"
     var checked by remember { mutableStateOf(false) }
     AchromaticCard(
+        onClick = onClick,
         modifier = modifier,
+        colors = CardDefaults.cardAchromaticColors(),
         elevation = CardDefaults.elevatedCardElevation()
     ) {
-        Box(modifier = Modifier.background(AchromaticTheme.colorScheme.background)) {
+        Box {
             AsyncImage(
                 model = posterUrl,
                 contentDescription = null,
@@ -92,7 +95,7 @@ fun MovieCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "${movie.voteAverage.round(decimals = 1)}/10",
+                    text = "${movie.voteAverage.round(1)}/10",
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Icon(

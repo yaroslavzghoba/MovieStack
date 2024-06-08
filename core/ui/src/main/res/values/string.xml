@@ -1,4 +1,4 @@
 <resources>
-    <!--Movie card-->
     <string name="ui_movie_evaluation_description">Evaluation</string>
+    <string name="ui_adult_label">18+</string>
 </resources>

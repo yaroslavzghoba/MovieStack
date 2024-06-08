@@ -1,4 +1,6 @@
-package com.yaroslavzghoba.ui.util
+package com.yaroslavzghoba.common
+
+import androidx.compose.runtime.compositionLocalOf
 
 enum class PosterQuality(val path: String) {
     W92(path = "w92"),
@@ -8,3 +10,5 @@ enum class PosterQuality(val path: String) {
     W500(path = "w500"),
     W780(path = "w780"),
 }
+
+val LocalPosterQuality = compositionLocalOf { PosterQuality.W342 }
