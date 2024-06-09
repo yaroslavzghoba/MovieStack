@@ -19,6 +19,23 @@ interface ApplicationRepository {
     fun getAllGenres(): Flow<List<Genre>>
 
 
+    /**Insert or update the [movie] into watched movies*/
+    suspend fun moveMovieToWatchedMovies(movie: Movie)
+
+    /**Insert or update each movie in the [movies] list into watched movies*/
+    suspend fun moveMoviesToWatchedMovies(movies: List<Movie>)
+
+    /**
+     * Delete the [movie] from wished movies
+     * and insert or update it into watched movies
+     */
+    suspend fun moveWishedMovieToWatchedMovies(movie: WishedMovie)
+
+    /**
+     * Delete each movie in the [movies] list from wished movies
+     * and insert or update them into watched movies
+     */
+    suspend fun moveWishedMoviesToWatchedMovies(movies: List<WishedMovie>)
 
     /**Insert or update the watched [movie]*/
     suspend fun upsertWatchedMovie(movie: WatchedMovie)
@@ -39,6 +56,23 @@ interface ApplicationRepository {
     fun getAllWatchedMovies(): Flow<List<WatchedMovie>>
 
 
+    /**Insert or update the [movie] into wished movies*/
+    suspend fun moveMovieToWishedMovies(movie: Movie)
+
+    /**Insert or update each movie in the [movies] list into wished movies*/
+    suspend fun moveMoviesToWishedMovies(movies: List<Movie>)
+
+    /**
+     * Delete the [movie] from watched movies
+     * and insert or update it into wished movies
+     */
+    suspend fun moveWatchedMovieToWishedMovies(movie: WatchedMovie)
+
+    /**
+     * Delete each movie in the [movies] list from watched movies
+     * and insert or update them into wished movies
+     */
+    suspend fun moveWatchedMoviesToWishedMovies(movies: List<WatchedMovie>)
 
     /**Insert or update the wished [movie]*/
     suspend fun upsertWishedMovie(movie: WishedMovie)

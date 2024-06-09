@@ -53,7 +53,7 @@ data class WatchedMovieDbo(
     val votePersonal: Double?,
 
     /**Used as a primary key instead of `id`, to preserve the same sequence as when saving*/
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo("database_id")
     val databaseId: Int,
 )

@@ -61,7 +61,36 @@ class AppRepositoryImpl internal constructor(
     }
 
 
-    
+    override suspend fun moveMovieToWatchedMovies(movie: Movie) {
+        database.watchedMovieDao.upsert(
+            movie = movie.toWatchedMovie(votePersonal = null, databaseId = 0).toDbo()
+        )
+    }
+
+    override suspend fun moveMoviesToWatchedMovies(movies: List<Movie>) {
+        database.watchedMovieDao.upsertAll(
+            movies = movies.map { movie ->
+                movie.toWatchedMovie(votePersonal = null, databaseId = 0).toDbo()
+            }
+        )
+    }
+
+    override suspend fun moveWishedMovieToWatchedMovies(movie: WishedMovie) {
+        database.wishedMovieDao.delete(movie = movie.toDbo())
+        database.watchedMovieDao.upsert(
+            movie = movie.toWatchedMovie(votePersonal = null, databaseId = 0).toDbo()
+        )
+    }
+
+    override suspend fun moveWishedMoviesToWatchedMovies(movies: List<WishedMovie>) {
+        database.wishedMovieDao.deleteAll(movies = movies.map { it.toDbo() })
+        database.watchedMovieDao.upsertAll(
+            movies = movies.map { movie ->
+                movie.toWatchedMovie(votePersonal = null, databaseId = 0).toDbo()
+            }
+        )
+    }
+
     override suspend fun upsertWatchedMovie(movie: WatchedMovie) {
         database.watchedMovieDao.upsert(movie = movie.toDbo())
     }
@@ -95,6 +124,35 @@ class AppRepositoryImpl internal constructor(
     }
 
 
+    override suspend fun moveMovieToWishedMovies(movie: Movie) {
+        database.wishedMovieDao.upsert(
+            movie = movie.toWishedMovie(scheduledViewingAt = null, databaseId = 0).toDbo()
+        )
+    }
+
+    override suspend fun moveMoviesToWishedMovies(movies: List<Movie>) {
+        database.wishedMovieDao.upsertAll(
+            movies = movies.map { movie ->
+                movie.toWishedMovie(scheduledViewingAt = null, databaseId = 0).toDbo()
+            }
+        )
+    }
+
+    override suspend fun moveWatchedMovieToWishedMovies(movie: WatchedMovie) {
+        database.watchedMovieDao.delete(movie = movie.toDbo())
+        database.wishedMovieDao.upsert(
+            movie = movie.toWishedMovie(scheduledViewingAt = null, databaseId = 0).toDbo()
+        )
+    }
+
+    override suspend fun moveWatchedMoviesToWishedMovies(movies: List<WatchedMovie>) {
+        database.watchedMovieDao.deleteAll(movies = movies.map { it.toDbo() })
+        database.wishedMovieDao.upsertAll(
+            movies = movies.map { movie ->
+                movie.toWishedMovie(scheduledViewingAt = null, databaseId = 0).toDbo()
+            }
+        )
+    }
 
     override suspend fun upsertWishedMovie(movie: WishedMovie) {
         database.wishedMovieDao.upsert(movie = movie.toDbo())

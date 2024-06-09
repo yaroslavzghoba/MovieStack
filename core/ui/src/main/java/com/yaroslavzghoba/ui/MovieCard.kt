@@ -11,10 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -26,26 +22,24 @@ import coil.compose.AsyncImage
 import com.yaroslavzghoba.common.LocalPosterQuality
 import com.yaroslavzghoba.common.PosterQuality
 import com.yaroslavzghoba.common.round
-import com.yaroslavzghoba.model.Movie
+import com.yaroslavzghoba.model.MovieCommon
 import com.yaroslavzghoba.ui.util.Constants
 import com.yzghoba.achromatic.components.AchromaticCard
-import com.yzghoba.achromatic.components.AchromaticFilledTonalIconToggleButton
 import com.yzghoba.achromatic.components.cardAchromaticColors
 
 @Composable
 fun MovieCard(
-    movie: Movie,
-    onClick: () -> Unit,
+    movie: MovieCommon,
+    onCardClicked: () -> Unit,
     modifier: Modifier = Modifier,
+    additionalActionButton: @Composable (() -> Unit)? = null,
     posterQuality: PosterQuality = LocalPosterQuality.current,
 ) {
     val posterUrl = "${Constants.IMAGE_BASE_URL}${posterQuality.path}${movie.posterPath}"
-    var checked by remember { mutableStateOf(false) }
     AchromaticCard(
-        onClick = onClick,
+        onClick = onCardClicked,
         modifier = modifier,
         colors = CardDefaults.cardAchromaticColors(),
-        elevation = CardDefaults.elevatedCardElevation()
     ) {
         Box {
             AsyncImage(
@@ -57,20 +51,8 @@ fun MovieCard(
                 placeholder = painterResource(id = R.drawable.movie_poster_placeholder),
                 contentScale = ContentScale.Crop,
             )
-            AchromaticFilledTonalIconToggleButton(
-                checked = checked,
-                onCheckedChange = { checked = !checked },
-                modifier = Modifier.align(Alignment.TopEnd)
-            ) {
-                Icon(
-                    painter = painterResource(
-                        id = when (checked) {
-                            true -> R.drawable.baseline_favorite_24
-                            false -> R.drawable.baseline_favorite_border_24
-                        }
-                    ),
-                    contentDescription = null
-                )
+            Box(modifier = Modifier.align(Alignment.TopEnd)) {
+                additionalActionButton?.let { it() }
             }
         }
         Column(
@@ -101,7 +83,7 @@ fun MovieCard(
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_star_24),
                     contentDescription = stringResource(
-                        id = R.string.ui_movie_evaluation_description,
+                        id = R.string.movie_evaluation_description,
                     ),
                 )
             }

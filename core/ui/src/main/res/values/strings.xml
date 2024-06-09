@@ -1,0 +1,4 @@
+<resources>
+    <string name="movie_evaluation_description">Evaluation</string>
+    <string name="adult_movie_label">18+</string>
+</resources>

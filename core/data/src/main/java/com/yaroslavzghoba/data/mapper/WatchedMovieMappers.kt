@@ -47,3 +47,28 @@ internal fun WatchedMovie.toDbo() = WatchedMovieDbo(
     votePersonal = votePersonal,
     databaseId = databaseId,
 )
+
+/**
+ * Convert [WatchedMovie] to [WishedMovie]
+ */
+internal fun WatchedMovie.toWishedMovie(
+    scheduledViewingAt: String?,
+    databaseId: Int,
+): WishedMovie = WishedMovie(
+    adult = adult,
+    backdropPath = backdropPath,
+    genreIds = genreIds,
+    id = id,
+    originalLanguage = originalLanguage,
+    originalTitle = originalTitle,
+    overview = overview,
+    popularity = popularity,
+    posterPath = posterPath,
+    releaseDate = releaseDate,
+    title = title,
+    video = video,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    scheduledViewingAt = scheduledViewingAt,
+    databaseId = databaseId,
+)

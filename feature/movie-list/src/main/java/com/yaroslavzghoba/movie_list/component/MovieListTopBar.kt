@@ -28,9 +28,7 @@ internal fun MovieListTopBar(
             IconButton(onClick = onReturnBack) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_arrow_back_24),
-                    contentDescription = stringResource(
-                        id = R.string.movie_list_return_back_description,
-                    ),
+                    contentDescription = stringResource(R.string.back_button_description),
                 )
             }
         },

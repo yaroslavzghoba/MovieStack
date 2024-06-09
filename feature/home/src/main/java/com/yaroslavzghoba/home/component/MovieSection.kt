@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -36,36 +35,32 @@ internal fun MovieSection(
     @StringRes titleRes: Int,
     contentType: String,
     movies: LazyPagingItems<Movie>,
-    onMovieClicked: (Movie) -> Unit,
-    onGetMoreClicked: () -> Unit,
+    onViewAboutMovie: (Movie) -> Unit,
+    onMoveToWished: (Movie) -> Unit,
+    onMoveToWatched: (Movie) -> Unit,
+    onGetMoreMovies: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val spaceBetweenCards = 8.dp
     val interactionSource = remember { MutableInteractionSource() }
     Column(modifier = modifier) {
-        Row(
+        MovieSectionHeader(
+            title = stringResource(id = titleRes),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
-                    onClick = onGetMoreClicked,
+                    onClick = onGetMoreMovies,
                 ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = stringResource(id = titleRes),
-                style = MaterialTheme.typography.headlineSmall,
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-                contentDescription = null,
-            )
-        }
+        )
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(spaceBetweenCards),
+            contentPadding = PaddingValues(
+                horizontal = spaceBetweenCards * 2,
+                vertical = spaceBetweenCards,
+            ),
             horizontalArrangement = Arrangement.spacedBy(spaceBetweenCards),
         ) {
             items(
@@ -76,19 +71,43 @@ internal fun MovieSection(
                 movies[index]?.let { movie ->
                     MovieCard(
                         movie = movie,
-                        onClick = { onMovieClicked(movie) },
+                        onCardClicked = { onViewAboutMovie(movie) },
+                        additionalActionButton = {
+                            AdditionalActionButton(
+                                onViewAboutMovie = { onViewAboutMovie(movie) },
+                                onMoveToWished = { onMoveToWished(movie) },
+                                onMoveToWatched = { onMoveToWatched(movie) })
+                        },
                         modifier = Modifier.widthIn(max = 150.dp)
                     )
                 }
             }
             item {
-                Box {
-                    CircularProgressIndicator(
-                        color = AchromaticTheme.colorScheme.achromatic,
-                        trackColor = AchromaticTheme.colorScheme.achromaticContainer,
-                    )
-                }
+                CircularProgressIndicator(
+                    color = AchromaticTheme.colorScheme.achromatic,
+                    trackColor = AchromaticTheme.colorScheme.achromaticContainer,
+                )
             }
         }
+    }
+}
+
+@Composable
+fun MovieSectionHeader(
+    title: String,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineSmall,
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
+            contentDescription = stringResource(id = R.string.get_more_movies_btn_description),
+        )
     }
 }

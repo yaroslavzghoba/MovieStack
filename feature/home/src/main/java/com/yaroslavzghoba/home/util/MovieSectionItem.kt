@@ -8,5 +8,5 @@ internal data class MovieSectionItem(
     @StringRes val titleRes: Int,
     val contentType: String,
     val movies: LazyPagingItems<Movie>,
-    val onGetMoreClicked: () -> Unit,
+    val onGetMoreMovies: () -> Unit,
 )

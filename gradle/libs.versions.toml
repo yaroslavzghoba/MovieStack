@@ -22,6 +22,8 @@ paging = "3.3.0"
 achromatic = "1.0.0"
 coil = "2.6.0"
 navigation = "2.8.0-beta02"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +58,8 @@ paging-compose = { group = "androidx.paging", name = "paging-compose", version.r
 achromatic-material = { group = "com.github.yaroslavzghoba", name = "AchromaticMaterial", version.ref = "achromatic" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Movie Stack</string>
+
+    <string name="home_nav_bar_label">Home</string>
+    <string name="wish_list_nav_bar_label">Wish List</string>
 </resources>

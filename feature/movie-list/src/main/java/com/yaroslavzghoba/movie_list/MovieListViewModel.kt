@@ -15,6 +15,8 @@ import com.yaroslavzghoba.common.toMovieCategory
 import com.yaroslavzghoba.domain.repository.ApplicationRepository
 import com.yaroslavzghoba.model.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,17 +27,16 @@ class MovieListViewModel @Inject constructor(
 
     private val route: Screen.MovieList = savedStateHandle.toRoute()
     private val movieCategory: MovieCategory = route.movieCategory.toMovieCategory()
-    val contentType = movieCategory.name
+    internal val contentType = movieCategory.name
     @StringRes
-    val titleRes = when (movieCategory) {
-        MovieCategory.DISCOVER -> R.string.movie_list_discover_title
-        MovieCategory.POPULAR -> R.string.movie_list_popular_title
-        MovieCategory.NOW_PLAYING -> R.string.movie_list_now_playing_title
-        MovieCategory.TOP_RATED -> R.string.movie_list_top_rated_title
-        MovieCategory.UPCOMING -> R.string.movie_list_upcoming_title
+    internal val titleRes = when (movieCategory) {
+        MovieCategory.DISCOVER -> R.string.discover_screen_title
+        MovieCategory.POPULAR -> R.string.popular_screen_title
+        MovieCategory.NOW_PLAYING -> R.string.now_playing_screen_title
+        MovieCategory.TOP_RATED -> R.string.top_rated_screen_title
+        MovieCategory.UPCOMING -> R.string.upcoming_screen_title
     }
-
-    val movies = with(repository) {
+    internal val movies = with(repository) {
         when (movieCategory) {
             MovieCategory.DISCOVER -> getDiscoverMovies()
             MovieCategory.POPULAR -> getPopularMovies()
@@ -44,17 +45,31 @@ class MovieListViewModel @Inject constructor(
             MovieCategory.UPCOMING -> getUpcomingMovies()
         }.cachedIn(viewModelScope)
     }
-    var selectedMovie by mutableStateOf<Movie?>(null)
+    internal var selectedMovie by mutableStateOf<Movie?>(null)
         private set
 
 
-    fun onEvent(event: MovieListUiEvent) = when (event) {
-        is MovieListUiEvent.BottomSheetDismissed -> {
-            selectedMovie = null
-        }
+    internal fun onEvent(event: MovieListUiEvent) {
+        when (event) {
+            is MovieListUiEvent.BottomSheetDismissed -> {
+                selectedMovie = null
+            }
 
-        is MovieListUiEvent.MovieClicked -> {
-            selectedMovie = event.movie
+            is MovieListUiEvent.MovieDetails -> {
+                selectedMovie = event.movie
+            }
+
+            is MovieListUiEvent.MoveMovieToWished -> {
+                viewModelScope.launch(context = Dispatchers.IO) {
+                    repository.moveMovieToWishedMovies(movie = event.movie)
+                }
+            }
+
+            is MovieListUiEvent.MoveMovieToWatched -> {
+                viewModelScope.launch(context = Dispatchers.IO) {
+                    repository.moveMovieToWatchedMovies(movie = event.movie)
+                }
+            }
         }
     }
 }

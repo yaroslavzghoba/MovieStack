@@ -1,9 +1,15 @@
 <resources>
-    <!--Top app bar-->
-    <string name="movie_list_discover_title">Discover movies</string>
-    <string name="movie_list_popular_title">Popular movies</string>
-    <string name="movie_list_now_playing_title">Now playing movies</string>
-    <string name="movie_list_top_rated_title">Top rated movies</string>
-    <string name="movie_list_upcoming_title">Upcoming movies</string>
-    <string name="movie_list_return_back_description">Return back</string>
+    <!--Top bar-->
+    <string name="discover_screen_title">Discover movies</string>
+    <string name="popular_screen_title">Popular movies</string>
+    <string name="now_playing_screen_title">Now playing movies</string>
+    <string name="top_rated_screen_title">Top rated movies</string>
+    <string name="upcoming_screen_title">Upcoming movies</string>
+    <string name="back_button_description">Return back</string>
+
+    <!--Movie actions-->
+    <string name="more_actions_btn_description">Show more actions</string>
+    <string name="view_about_movie_action">View about movie</string>
+    <string name="move_to_wished_action">Move to wish list</string>
+    <string name="move_to_watched_action">Move to watched</string>
 </resources>

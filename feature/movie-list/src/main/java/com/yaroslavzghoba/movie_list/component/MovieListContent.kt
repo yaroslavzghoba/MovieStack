@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -24,16 +25,20 @@ import com.yzghoba.achromatic.AchromaticTheme
 internal fun MovieListContent(
     movies: LazyPagingItems<Movie>,
     contentType: String,
-    onMovieClicked: (Movie) -> Unit,
+    onViewAboutMovie: (Movie) -> Unit,
+    onMoveToWished: (Movie) -> Unit,
+    onMoveToWatched: (Movie) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val spaceBetweenCards = 8.dp
     Column(modifier = modifier) {
+        // TODO: Show loading state here
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             modifier = Modifier
+                .fillMaxSize()
                 .background(color = AchromaticTheme.colorScheme.background),
-            contentPadding = PaddingValues(spaceBetweenCards),
+            contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.spacedBy(spaceBetweenCards),
             horizontalArrangement = Arrangement.spacedBy(spaceBetweenCards),
         ) {
@@ -45,7 +50,14 @@ internal fun MovieListContent(
                 movies[index]?.let { movie ->
                     MovieCard(
                         movie = movie,
-                        onClick = { onMovieClicked(movie) },
+                        onCardClicked = { onViewAboutMovie(movie) },
+                        additionalActionButton = {
+                            AdditionalActionButton(
+                                onViewAboutMovie = { onViewAboutMovie(movie) },
+                                onMoveToWished = { onMoveToWished(movie) },
+                                onMoveToWatched = { onMoveToWatched(movie) }
+                            )
+                        },
                     )
                 }
             }
@@ -53,7 +65,10 @@ internal fun MovieListContent(
                 // Next page loading indicator
                 if (movies.loadState.append is LoadState.Loading) {
                     Box(modifier = Modifier.fillMaxWidth()) {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(
+                            color = AchromaticTheme.colorScheme.achromatic,
+                            trackColor = AchromaticTheme.colorScheme.achromaticContainer,
+                        )
                     }
                 }
             }

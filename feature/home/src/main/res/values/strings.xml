@@ -1,8 +1,15 @@
 <resources>
-    <!--Movie sections-->
-    <string name="home_discover_section_title">Discover</string>
-    <string name="home_now_playing_section_title">Now playing</string>
-    <string name="home_popular_section_title">Popular</string>
-    <string name="home_top_rated_section_title">Top rated</string>
-    <string name="home_upcoming_section_title">Upcoming</string>
+    <!--Section titles-->
+    <string name="discover_section_title">Discover</string>
+    <string name="now_playing_section_title">Now playing</string>
+    <string name="popular_section_title">Popular</string>
+    <string name="top_rated_section_title">Top rated</string>
+    <string name="upcoming_section_title">Upcoming</string>
+    <string name="get_more_movies_btn_description">Get more movies</string>
+
+    <!--Movie actions-->
+    <string name="more_actions_btn_description">Show more actions</string>
+    <string name="view_about_movie_action">View about movie</string>
+    <string name="move_to_wished_action">Move to wish list</string>
+    <string name="move_to_watched_action">Move to watched</string>
 </resources>

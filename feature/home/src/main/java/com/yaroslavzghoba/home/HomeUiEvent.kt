@@ -2,9 +2,9 @@ package com.yaroslavzghoba.home
 
 import com.yaroslavzghoba.model.Movie
 
-sealed interface HomeUiEvent {
-
+internal sealed interface HomeUiEvent {
     data object BottomSheetDismissed : HomeUiEvent
-
-    data class MovieClicked(val movie: Movie) : HomeUiEvent
+    data class MovieDetails(val movie: Movie) : HomeUiEvent
+    data class MoveMovieToWished(val movie: Movie) : HomeUiEvent
+    data class MoveMovieToWatched(val movie: Movie) : HomeUiEvent
 }

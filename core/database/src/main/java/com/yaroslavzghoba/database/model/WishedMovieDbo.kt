@@ -50,10 +50,10 @@ data class WishedMovieDbo(
     val voteCount: Int,
 
     @ColumnInfo("scheduled_viewing_at")
-    val scheduledViewingAt: String,
+    val scheduledViewingAt: String?,
 
     /**Used as a primary key instead of `id`, to preserve the same sequence as when saving*/
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo("database_id")
     val databaseId: Int,
 )

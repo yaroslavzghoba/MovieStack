@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.yaroslavzghoba.common.BackdropQuality
 import com.yaroslavzghoba.common.LocalBackdropQuality
-import com.yaroslavzghoba.model.Movie
+import com.yaroslavzghoba.model.MovieCommon
 import com.yaroslavzghoba.ui.util.Constants
 import com.yzghoba.achromatic.AchromaticTheme
 import com.yzghoba.achromatic.components.AchromaticModalBottomSheet
@@ -32,7 +32,7 @@ import com.yzghoba.achromatic.components.scrimAchromaticColor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieBottomSheet(
-    movie: Movie,
+    movie: MovieCommon,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
     backdropQuality: BackdropQuality = LocalBackdropQuality.current
@@ -74,7 +74,7 @@ fun MovieBottomSheet(
                         color = AchromaticTheme.colorScheme.errorContainer,
                     ) {
                         Text(
-                            text = stringResource(id = R.string.ui_adult_label),
+                            text = stringResource(id = R.string.adult_movie_label),
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                             style = MaterialTheme.typography.bodyLarge
                                 .copy(color = AchromaticTheme.colorScheme.onErrorContainer),
@@ -100,7 +100,7 @@ fun MovieBottomSheet(
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_star_24),
                     contentDescription = stringResource(
-                        id = R.string.ui_movie_evaluation_description,
+                        id = R.string.movie_evaluation_description,
                     )
                 )
             }

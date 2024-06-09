@@ -6,6 +6,8 @@ import com.yaroslavzghoba.database.model.PopularMovieDbo
 import com.yaroslavzghoba.database.model.TopRatedMovieDbo
 import com.yaroslavzghoba.database.model.UpcomingMovieDbo
 import com.yaroslavzghoba.model.Movie
+import com.yaroslavzghoba.model.WatchedMovie
+import com.yaroslavzghoba.model.WishedMovie
 import com.yaroslavzghoba.network.model.MovieDto
 
 /**
@@ -237,4 +239,54 @@ internal fun Movie.toUpcomingMovieDbo() = UpcomingMovieDbo(
     voteAverage = voteAverage,
     voteCount = voteCount,
     cacheId = cacheId,
+)
+
+/**
+ * Convert [Movie] to [WatchedMovie]
+ */
+internal fun Movie.toWatchedMovie(
+    votePersonal: Double?,
+    databaseId: Int,
+): WatchedMovie = WatchedMovie(
+    adult = adult,
+    backdropPath = backdropPath,
+    genreIds = genreIds,
+    id = id,
+    originalLanguage = originalLanguage,
+    originalTitle = originalTitle,
+    overview = overview,
+    popularity = popularity,
+    posterPath = posterPath,
+    releaseDate = releaseDate,
+    title = title,
+    video = video,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    votePersonal = votePersonal,
+    databaseId = databaseId,
+)
+
+/**
+ * Convert [Movie] to [WishedMovie]
+ */
+internal fun Movie.toWishedMovie(
+    scheduledViewingAt: String?,
+    databaseId: Int,
+): WishedMovie = WishedMovie(
+    adult = adult,
+    backdropPath = backdropPath,
+    genreIds = genreIds,
+    id = id,
+    originalLanguage = originalLanguage,
+    originalTitle = originalTitle,
+    overview = overview,
+    popularity = popularity,
+    posterPath = posterPath,
+    releaseDate = releaseDate,
+    title = title,
+    video = video,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    scheduledViewingAt = scheduledViewingAt,
+    databaseId = databaseId,
 )
