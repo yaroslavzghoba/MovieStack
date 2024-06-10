@@ -86,5 +86,6 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":feature:home"))
     implementation(project(":feature:movie-list"))
+    implementation(project(":feature:watched"))
     implementation(project(":feature:wish-list"))
 }

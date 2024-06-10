@@ -22,4 +22,10 @@ sealed class NavBarItem(
         titleRes = R.string.wish_list_nav_bar_label,
         iconRes = R.drawable.baseline_bookmark_24,
     )
+
+    data object Watched : NavBarItem(
+        route = Screen.Watched,
+        titleRes = R.string.watched_nav_bar_label,
+        iconRes = R.drawable.baseline_video_library_24,
+    )
 }

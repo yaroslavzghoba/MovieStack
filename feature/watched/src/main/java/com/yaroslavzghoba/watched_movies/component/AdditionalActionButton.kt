@@ -1,4 +1,4 @@
-package com.yaroslavzghoba.wish_list.component
+package com.yaroslavzghoba.watched_movies.component
 
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
@@ -11,17 +11,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.yaroslavzghoba.model.WishedMovie
-import com.yaroslavzghoba.wish_list.R
-import com.yaroslavzghoba.wish_list.WishListUiEvent
-import com.yaroslavzghoba.wish_list.WishListViewModel
+import com.yaroslavzghoba.watched.R
 import com.yzghoba.achromatic.components.AchromaticDropdownMenuItem
 import com.yzghoba.achromatic.components.AchromaticFilledTonalIconButton
 
 @Composable
 fun AdditionalActionButton(
     onViewAboutMovie: () -> Unit,
-    onMoveToWatched: () -> Unit,
+    onMoveToWished: () -> Unit,
     onDeleteMovie: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -47,10 +44,10 @@ fun AdditionalActionButton(
             },
         )
         AchromaticDropdownMenuItem(
-            text = { Text(text = stringResource(id = R.string.move_to_watched_action)) },
+            text = { Text(text = stringResource(id = R.string.move_to_wished_action)) },
             onClick = {
                 isDropdownMenuExpanded = false
-                onMoveToWatched()
+                onMoveToWished()
             },
         )
         AchromaticDropdownMenuItem(

@@ -27,6 +27,8 @@ import com.yaroslavzghoba.home.HomeViewModel
 import com.yaroslavzghoba.movie_list.MovieListScreen
 import com.yaroslavzghoba.movie_list.MovieListViewModel
 import com.yaroslavzghoba.moviestack.util.NavBarItem
+import com.yaroslavzghoba.watched_movies.WatchedScreen
+import com.yaroslavzghoba.watched_movies.WatchedViewModel
 import com.yaroslavzghoba.wish_list.WishListScreen
 import com.yaroslavzghoba.wish_list.WishListViewModel
 import com.yzghoba.achromatic.AchromaticTheme
@@ -40,7 +42,7 @@ fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    val navBarItems = listOf(NavBarItem.Home, NavBarItem.WishList)
+    val navBarItems = listOf(NavBarItem.Home, NavBarItem.WishList, NavBarItem.Watched)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val navBarDestinations: List<NavDestination> by lazy {
@@ -102,6 +104,15 @@ fun AppNavigation(
             composable<Screen.WishList> {
                 val viewModel: WishListViewModel = hiltViewModel()
                 WishListScreen(
+                    viewModel = viewModel,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .statusBarsPadding(),
+                )
+            }
+            composable<Screen.Watched> {
+                val viewModel: WatchedViewModel = hiltViewModel()
+                WatchedScreen(
                     viewModel = viewModel,
                     modifier = Modifier
                         .fillMaxSize()

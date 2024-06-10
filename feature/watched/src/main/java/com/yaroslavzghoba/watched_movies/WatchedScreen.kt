@@ -1,4 +1,4 @@
-package com.yaroslavzghoba.wish_list
+package com.yaroslavzghoba.watched_movies
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,31 +10,31 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.yaroslavzghoba.model.WishedMovie
+import com.yaroslavzghoba.model.WatchedMovie
 import com.yaroslavzghoba.ui.MovieBottomSheet
 import com.yaroslavzghoba.ui.MovieCard
-import com.yaroslavzghoba.wish_list.component.AdditionalActionButton
+import com.yaroslavzghoba.watched_movies.component.AdditionalActionButton
 import com.yzghoba.achromatic.AchromaticTheme
 
 @Composable
-fun WishListScreen(
-    viewModel: WishListViewModel,
+fun WatchedScreen(
+    viewModel: WatchedViewModel,
     modifier: Modifier = Modifier,
 ) {
     val spaceBetweenCards = 8.dp
-    val onViewAboutMovie: (WishedMovie) -> Unit = { movie ->
+    val onViewAboutMovie: (WatchedMovie) -> Unit = { movie ->
         viewModel.onEvent(
-            event = WishListUiEvent.MovieDetails(movie = movie),
+            event = WatchedUiEvent.MovieDetails(movie = movie),
         )
     }
-    val onMoveToWatched: (WishedMovie) -> Unit = { movie ->
+    val onMoveToWished: (WatchedMovie) -> Unit = { movie ->
         viewModel.onEvent(
-            event = WishListUiEvent.MoveMovieToWatched(movie = movie),
+            event = WatchedUiEvent.MoveMovieToWished(movie = movie),
         )
     }
-    val onDeleteMovie: (WishedMovie) -> Unit = { movie ->
+    val onDeleteMovie: (WatchedMovie) -> Unit = { movie ->
         viewModel.onEvent(
-            event = WishListUiEvent.DeleteMovie(movie = movie),
+            event = WatchedUiEvent.DeleteMovie(movie = movie),
         )
     }
 
@@ -48,7 +48,7 @@ fun WishListScreen(
             MovieBottomSheet(
                 movie = selectedMovie,
                 onDismissRequest = {
-                    viewModel.onEvent(event = WishListUiEvent.BottomSheetDismissed)
+                    viewModel.onEvent(event = WatchedUiEvent.BottomSheetDismissed)
                 },
             )
         }
@@ -65,14 +65,14 @@ fun WishListScreen(
                     movie = movie,
                     onCardClicked = {
                         viewModel.onEvent(
-                            event = WishListUiEvent.MovieDetails(movie = movie)
+                            event = WatchedUiEvent.MovieDetails(movie = movie)
                         )
                     },
                     modifier = modifier,
                     additionalActionButton = {
                         AdditionalActionButton(
                             onViewAboutMovie = { onViewAboutMovie(movie) },
-                            onMoveToWatched = { onMoveToWatched(movie) },
+                            onMoveToWished = { onMoveToWished(movie) },
                             onDeleteMovie = { onDeleteMovie(movie) },
                         )
                     },

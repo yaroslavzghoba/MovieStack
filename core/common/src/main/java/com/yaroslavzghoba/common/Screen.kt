@@ -12,4 +12,7 @@ sealed interface Screen {
 
     @Serializable
     data object WishList : Screen
+
+    @Serializable
+    data object Watched : Screen
 }
