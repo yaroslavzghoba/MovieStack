@@ -15,7 +15,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MovieStackTheme {
+            MovieStackTheme(
+                useAchromaticColors = true,  // TODO: Provide this property from user settings
+            ) {
                 val navController = rememberNavController()
                 AppNavigation(navController = navController)
             }

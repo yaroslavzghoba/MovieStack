@@ -1,6 +1,8 @@
 package com.yaroslavzghoba.home.component
 
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,8 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.yaroslavzghoba.home.R
-import com.yzghoba.achromatic.components.AchromaticDropdownMenuItem
-import com.yzghoba.achromatic.components.AchromaticFilledTonalIconButton
 
 @Composable
 internal fun AdditionalActionButton(
@@ -23,7 +23,7 @@ internal fun AdditionalActionButton(
     modifier: Modifier = Modifier,
 ) {
     var isDropdownMenuExpanded by remember { mutableStateOf(false) }
-    AchromaticFilledTonalIconButton(
+    FilledTonalIconButton(
         onClick = { isDropdownMenuExpanded = true },
         modifier = modifier,
     ) {
@@ -36,21 +36,21 @@ internal fun AdditionalActionButton(
         expanded = isDropdownMenuExpanded,
         onDismissRequest = { isDropdownMenuExpanded = false },
     ) {
-        AchromaticDropdownMenuItem(
+        DropdownMenuItem(
             text = { Text(text = stringResource(id = R.string.view_about_movie_action)) },
             onClick = {
                 isDropdownMenuExpanded = false
                 onViewAboutMovie()
             },
         )
-        AchromaticDropdownMenuItem(
+        DropdownMenuItem(
             text = { Text(text = stringResource(id = R.string.move_to_wished_action)) },
             onClick = {
                 isDropdownMenuExpanded = false
                 onMoveToWished()
             },
         )
-        AchromaticDropdownMenuItem(
+        DropdownMenuItem(
             text = { Text(text = stringResource(id = R.string.move_to_watched_action)) },
             onClick = {
                 isDropdownMenuExpanded = false

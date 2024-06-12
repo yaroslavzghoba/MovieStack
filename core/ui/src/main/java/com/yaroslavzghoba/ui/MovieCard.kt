@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,8 +24,6 @@ import com.yaroslavzghoba.common.PosterQuality
 import com.yaroslavzghoba.common.round
 import com.yaroslavzghoba.model.MovieCommon
 import com.yaroslavzghoba.ui.util.Constants
-import com.yzghoba.achromatic.components.AchromaticCard
-import com.yzghoba.achromatic.components.cardAchromaticColors
 
 @Composable
 fun MovieCard(
@@ -36,10 +34,9 @@ fun MovieCard(
     posterQuality: PosterQuality = LocalPosterQuality.current,
 ) {
     val posterUrl = "${Constants.IMAGE_BASE_URL}${posterQuality.path}${movie.posterPath}"
-    AchromaticCard(
+    Card(
         onClick = onCardClicked,
         modifier = modifier,
-        colors = CardDefaults.cardAchromaticColors(),
     ) {
         Box {
             AsyncImage(

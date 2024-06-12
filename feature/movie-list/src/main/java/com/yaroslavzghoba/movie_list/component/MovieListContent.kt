@@ -1,6 +1,5 @@
 package com.yaroslavzghoba.movie_list.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +18,6 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.yaroslavzghoba.model.Movie
 import com.yaroslavzghoba.ui.MovieCard
-import com.yzghoba.achromatic.AchromaticTheme
 
 @Composable
 internal fun MovieListContent(
@@ -35,9 +33,7 @@ internal fun MovieListContent(
         // TODO: Show loading state here
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = AchromaticTheme.colorScheme.background),
+            modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.spacedBy(spaceBetweenCards),
             horizontalArrangement = Arrangement.spacedBy(spaceBetweenCards),
@@ -65,10 +61,7 @@ internal fun MovieListContent(
                 // Next page loading indicator
                 if (movies.loadState.append is LoadState.Loading) {
                     Box(modifier = Modifier.fillMaxWidth()) {
-                        CircularProgressIndicator(
-                            color = AchromaticTheme.colorScheme.achromatic,
-                            trackColor = AchromaticTheme.colorScheme.achromaticContainer,
-                        )
+                        CircularProgressIndicator()
                     }
                 }
             }

@@ -14,7 +14,6 @@ import com.yaroslavzghoba.model.WishedMovie
 import com.yaroslavzghoba.ui.MovieBottomSheet
 import com.yaroslavzghoba.ui.MovieCard
 import com.yaroslavzghoba.wish_list.component.AdditionalActionButton
-import com.yzghoba.achromatic.AchromaticTheme
 
 @Composable
 fun WishListScreen(
@@ -38,11 +37,7 @@ fun WishListScreen(
         )
     }
 
-    Surface(
-        modifier = modifier,
-        color = AchromaticTheme.colorScheme.background,
-        contentColor = AchromaticTheme.colorScheme.onBackground,
-    ) {
+    Surface(modifier = modifier) {
         // Bottom sheet with movie details
         viewModel.selectedMovie?.let { selectedMovie ->
             MovieBottomSheet(

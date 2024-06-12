@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,9 +25,6 @@ import com.yaroslavzghoba.common.BackdropQuality
 import com.yaroslavzghoba.common.LocalBackdropQuality
 import com.yaroslavzghoba.model.MovieCommon
 import com.yaroslavzghoba.ui.util.Constants
-import com.yzghoba.achromatic.AchromaticTheme
-import com.yzghoba.achromatic.components.AchromaticModalBottomSheet
-import com.yzghoba.achromatic.components.scrimAchromaticColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,10 +34,9 @@ fun MovieBottomSheet(
     modifier: Modifier = Modifier,
     backdropQuality: BackdropQuality = LocalBackdropQuality.current
 ) {
-    AchromaticModalBottomSheet(
+    ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
-        scrimColor = BottomSheetDefaults.scrimAchromaticColor.copy(alpha = 0.32f),
         dragHandle = null,
     ) {
         movie.backdropPath?.let { backdropPath ->
@@ -71,13 +67,13 @@ fun MovieBottomSheet(
                     Surface(
                         modifier = Modifier.padding(horizontal = 8.dp),
                         shape = CircleShape,
-                        color = AchromaticTheme.colorScheme.errorContainer,
+                        color = MaterialTheme.colorScheme.errorContainer,
                     ) {
                         Text(
                             text = stringResource(id = R.string.adult_movie_label),
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                             style = MaterialTheme.typography.bodyLarge
-                                .copy(color = AchromaticTheme.colorScheme.onErrorContainer),
+                                .copy(color = MaterialTheme.colorScheme.onErrorContainer),
                         )
                     }
                 }

@@ -3,6 +3,7 @@ package com.yaroslavzghoba.movie_list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,7 +12,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.yaroslavzghoba.movie_list.component.MovieListContent
 import com.yaroslavzghoba.movie_list.component.MovieListTopBar
 import com.yaroslavzghoba.ui.MovieBottomSheet
-import com.yzghoba.achromatic.AchromaticTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,7 +26,7 @@ fun MovieListScreen(
     Column(
         modifier = modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .background(AchromaticTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         // Bottom sheet with movie details
         viewModel.selectedMovie?.let { selectedMovie ->

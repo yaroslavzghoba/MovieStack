@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,9 +34,6 @@ import com.yaroslavzghoba.watched_movies.WatchedScreen
 import com.yaroslavzghoba.watched_movies.WatchedViewModel
 import com.yaroslavzghoba.wish_list.WishListScreen
 import com.yaroslavzghoba.wish_list.WishListViewModel
-import com.yzghoba.achromatic.AchromaticTheme
-import com.yzghoba.achromatic.components.AchromaticNavigationBar
-import com.yzghoba.achromatic.components.AchromaticNavigationBarItem
 
 private const val TAG = "AppNavigation"
 
@@ -49,15 +49,13 @@ fun AppNavigation(
         navBarItems.map { navController.graph[it.route] }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(AchromaticTheme.colorScheme.background)
-    ) {
+    Column(modifier = modifier.fillMaxSize()) {
         NavHost(
             navController = navController,
             startDestination = Screen.Home,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .background(MaterialTheme.colorScheme.background),
         ) {
             composable<Screen.Home> {
                 val viewModel: HomeViewModel = hiltViewModel()
@@ -93,7 +91,7 @@ fun AppNavigation(
                         .statusBarsPadding(),
                 )
             }
-            composable<Screen.MovieList> { backStackEntry ->
+            composable<Screen.MovieList> {
                 val viewModel: MovieListViewModel = hiltViewModel()
                 MovieListScreen(
                     viewModel = viewModel,
@@ -123,10 +121,15 @@ fun AppNavigation(
 
         // Navigation bar
         if (navBarDestinations.any { it.id == currentDestination?.id }) {
-            AchromaticNavigationBar {
+            NavigationBar {
                 navBarItems.forEachIndexed { index, navBarItem ->
-                    AchromaticNavigationBarItem(
-                        selected = navBarDestinations[index].id == currentDestination?.id,
+                    val selected = navBarDestinations[index].id == currentDestination?.id
+                    val iconRes = when (selected) {
+                        true -> navBarItem.selectedIconRes
+                        false -> navBarItem.unselectedIconRes
+                    }
+                    NavigationBarItem(
+                        selected = false,
                         onClick = {
                             navController.navigate(route = navBarItem.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
@@ -138,13 +141,11 @@ fun AppNavigation(
                         },
                         icon = {
                             Icon(
-                                painter = painterResource(id = navBarItem.iconRes),
+                                painter = painterResource(id = iconRes),
                                 contentDescription = null,
                             )
                         },
-                        label = {
-                            Text(text = stringResource(id = navBarItem.titleRes))
-                        },
+                        label = { Text(text = stringResource(id = navBarItem.titleRes)) },
                     )
                 }
             }

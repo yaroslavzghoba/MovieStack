@@ -14,7 +14,6 @@ import com.yaroslavzghoba.model.WatchedMovie
 import com.yaroslavzghoba.ui.MovieBottomSheet
 import com.yaroslavzghoba.ui.MovieCard
 import com.yaroslavzghoba.watched_movies.component.AdditionalActionButton
-import com.yzghoba.achromatic.AchromaticTheme
 
 @Composable
 fun WatchedScreen(
@@ -38,11 +37,7 @@ fun WatchedScreen(
         )
     }
 
-    Surface(
-        modifier = modifier,
-        color = AchromaticTheme.colorScheme.background,
-        contentColor = AchromaticTheme.colorScheme.onBackground,
-    ) {
+    Surface(modifier = modifier) {
         // Bottom sheet with movie details
         viewModel.selectedMovie?.let { selectedMovie ->
             MovieBottomSheet(

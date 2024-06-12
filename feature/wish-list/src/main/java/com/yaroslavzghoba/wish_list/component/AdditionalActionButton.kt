@@ -1,6 +1,8 @@
 package com.yaroslavzghoba.wish_list.component
 
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,12 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.yaroslavzghoba.model.WishedMovie
 import com.yaroslavzghoba.wish_list.R
-import com.yaroslavzghoba.wish_list.WishListUiEvent
-import com.yaroslavzghoba.wish_list.WishListViewModel
-import com.yzghoba.achromatic.components.AchromaticDropdownMenuItem
-import com.yzghoba.achromatic.components.AchromaticFilledTonalIconButton
 
 @Composable
 fun AdditionalActionButton(
@@ -26,7 +23,7 @@ fun AdditionalActionButton(
     modifier: Modifier = Modifier,
 ) {
     var isDropdownMenuExpanded by remember { mutableStateOf(false) }
-    AchromaticFilledTonalIconButton(
+    FilledTonalIconButton(
         onClick = { isDropdownMenuExpanded = true },
         modifier = modifier,
     ) {
@@ -39,21 +36,21 @@ fun AdditionalActionButton(
         expanded = isDropdownMenuExpanded,
         onDismissRequest = { isDropdownMenuExpanded = false },
     ) {
-        AchromaticDropdownMenuItem(
+        DropdownMenuItem(
             text = { Text(text = stringResource(id = R.string.view_about_movie_action)) },
             onClick = {
                 isDropdownMenuExpanded = false
                 onViewAboutMovie()
             },
         )
-        AchromaticDropdownMenuItem(
+        DropdownMenuItem(
             text = { Text(text = stringResource(id = R.string.move_to_watched_action)) },
             onClick = {
                 isDropdownMenuExpanded = false
                 onMoveToWatched()
             },
         )
-        AchromaticDropdownMenuItem(
+        DropdownMenuItem(
             text = { Text(text = stringResource(id = R.string.delete_movie_action)) },
             onClick = {
                 isDropdownMenuExpanded = false

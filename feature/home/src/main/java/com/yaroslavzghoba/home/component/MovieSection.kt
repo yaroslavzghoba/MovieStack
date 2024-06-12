@@ -28,7 +28,6 @@ import androidx.paging.compose.itemKey
 import com.yaroslavzghoba.home.R
 import com.yaroslavzghoba.model.Movie
 import com.yaroslavzghoba.ui.MovieCard
-import com.yzghoba.achromatic.AchromaticTheme
 
 @Composable
 internal fun MovieSection(
@@ -83,10 +82,7 @@ internal fun MovieSection(
                 }
             }
             item {
-                CircularProgressIndicator(
-                    color = AchromaticTheme.colorScheme.achromatic,
-                    trackColor = AchromaticTheme.colorScheme.achromaticContainer,
-                )
+                CircularProgressIndicator()
             }
         }
     }
@@ -103,11 +99,13 @@ fun MovieSectionHeader(
     ) {
         Text(
             text = title,
+            color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.headlineSmall,
         )
         Icon(
             painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
             contentDescription = stringResource(id = R.string.get_more_movies_btn_description),
+            tint = MaterialTheme.colorScheme.onBackground,
         )
     }
 }
