@@ -4,6 +4,7 @@ import com.yaroslavzghoba.network.model.DiscoverDto
 import com.yaroslavzghoba.network.model.GenresDto
 import com.yaroslavzghoba.network.model.NowPlayingDto
 import com.yaroslavzghoba.network.model.PopularDto
+import com.yaroslavzghoba.network.model.SearchedDto
 import com.yaroslavzghoba.network.model.TopRatedDto
 import com.yaroslavzghoba.network.model.UpcomingDto
 import com.yaroslavzghoba.network.service.MovieService
@@ -59,8 +60,10 @@ class NetworkDataSourceImpl internal constructor(
     override suspend fun getMoviesByQuery(
         query: String,
         language: String,
-    ): DiscoverDto = movieService.getMoviesByQuery(
+        page: Int,
+    ): SearchedDto = movieService.getMoviesByQuery(
         query = query,
         language = language,
+        page = page,
     )
 }

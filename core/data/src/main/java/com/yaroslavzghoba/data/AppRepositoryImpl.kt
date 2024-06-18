@@ -1,6 +1,8 @@
 package com.yaroslavzghoba.data
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.yaroslavzghoba.data.mapper.toDbo
@@ -8,6 +10,7 @@ import com.yaroslavzghoba.data.mapper.toGenre
 import com.yaroslavzghoba.data.mapper.toMovie
 import com.yaroslavzghoba.data.mapper.toWatchedMovie
 import com.yaroslavzghoba.data.mapper.toWishedMovie
+import com.yaroslavzghoba.data.mediator.SearchedMovieMediator
 import com.yaroslavzghoba.database.ApplicationDatabase
 import com.yaroslavzghoba.database.model.DiscoverMovieDbo
 import com.yaroslavzghoba.database.model.NowPlayingMovieDbo
@@ -21,7 +24,6 @@ import com.yaroslavzghoba.model.WatchedMovie
 import com.yaroslavzghoba.model.WishedMovie
 import com.yaroslavzghoba.network.NetworkDataSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import java.io.IOException
@@ -38,6 +40,7 @@ class AppRepositoryImpl internal constructor(
 
     // TODO: Use the language selected by user
     // TODO: Consider creating backups to restore data if network request is unsuccessful
+    // TODO: Store movie genres in the database
     override suspend fun updateGenres() {
         database.genreDao.deleteAll()
         try {
@@ -126,7 +129,10 @@ class AppRepositoryImpl internal constructor(
 
     override suspend fun moveMovieToWishedMovies(movie: Movie) {
         database.wishedMovieDao.upsert(
-            movie = movie.toWishedMovie(scheduledViewingAt = null, databaseId = 0).toDbo()
+            movie = movie.toWishedMovie(
+                scheduledViewingAt = null,
+                databaseId = 0
+            ).toDbo()
         )
     }
 
@@ -238,20 +244,25 @@ class AppRepositoryImpl internal constructor(
         }
     }
 
-    // TODO: Consider creating cache for searched movies
-    // TODO: Consider creating custom request state holder class
-    override fun getMoviesByQuery(query: String): Flow<Result<List<Movie>>> {
-        return flow {
-            val result = try {
-                val movies = network.getMoviesByQuery(query = query).results
-                    .map { it.toMovie(cacheId = 0) }
-                Result.success(movies)
-            } catch (exception: HttpException) {
-                Result.failure(exception = exception)
-            } catch (exception: IOException) {
-                Result.failure(exception = exception)
-            }
-            emit(result)
+    override suspend fun clearSearchedMoviesCache() {
+        database.searchedMovieDao.deleteAll()
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getMoviesByQuery(query: String): Flow<PagingData<Movie>> {
+        require(query.isNotBlank()) { "The search query cannot be blank" }
+        return Pager(
+            config = PagingConfig(network.PAGE_SIZE),
+            remoteMediator = SearchedMovieMediator(
+                query = query,
+                database = database,
+                network = network,
+            ),
+            pagingSourceFactory = {
+                database.searchedMovieDao.pagingSource()
+            },
+        ).flow.map { pagingData ->
+            pagingData.map { it.toMovie() }
         }
     }
 }

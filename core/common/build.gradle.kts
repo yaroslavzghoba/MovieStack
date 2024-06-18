@@ -37,5 +37,8 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.animation)
+
+    // For modern navigation
     implementation(libs.serialization.json)
 }

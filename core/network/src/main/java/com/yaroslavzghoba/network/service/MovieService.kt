@@ -6,8 +6,10 @@ import com.yaroslavzghoba.network.model.GenresDto
 import com.yaroslavzghoba.network.model.MovieDto
 import com.yaroslavzghoba.network.model.NowPlayingDto
 import com.yaroslavzghoba.network.model.PopularDto
+import com.yaroslavzghoba.network.model.SearchedDto
 import com.yaroslavzghoba.network.model.TopRatedDto
 import com.yaroslavzghoba.network.model.UpcomingDto
+import com.yaroslavzghoba.network.util.Constants
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -131,13 +133,14 @@ internal interface MovieService {
      * @param query describing the content the user wants to find
      * @param language of the content. Accepts two-letter ISO 369-1 language code. See more about
      * [ISO-369 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
+     * @param page number of the current page. By default it's [Constants.DEFAULT_PAGE]
      */
     // TODO: Create interceptor to replace `Headers` annotation
-    // TODO: Consider creating a separate class to respond to the `getMoviesByQuery`
     @Headers("Authorization: Bearer $ACCESS_TOKEN")
     @GET("search/movie")
     suspend fun getMoviesByQuery(
         @Query("query") query: String,
         @Query("language") language: String,
-    ): DiscoverDto
+        @Query("page") page: Int,
+    ): SearchedDto
 }

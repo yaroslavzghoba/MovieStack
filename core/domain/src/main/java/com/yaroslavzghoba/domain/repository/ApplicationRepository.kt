@@ -124,6 +124,9 @@ interface ApplicationRepository {
     /**Get upcoming movies cache*/
     fun getUpcomingMovies(): Flow<PagingData<Movie>>
 
+    /**Clear searched movies cache*/
+    suspend fun clearSearchedMoviesCache()
+
     /**Get movies by search [query]*/
-    fun getMoviesByQuery(query: String): Flow<Result<List<Movie>>>
+    fun getMoviesByQuery(query: String): Flow<PagingData<Movie>>
 }

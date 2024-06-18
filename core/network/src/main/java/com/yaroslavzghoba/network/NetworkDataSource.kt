@@ -5,6 +5,7 @@ import com.yaroslavzghoba.network.model.GenresDto
 import com.yaroslavzghoba.network.model.MovieDto
 import com.yaroslavzghoba.network.model.NowPlayingDto
 import com.yaroslavzghoba.network.model.PopularDto
+import com.yaroslavzghoba.network.model.SearchedDto
 import com.yaroslavzghoba.network.model.TopRatedDto
 import com.yaroslavzghoba.network.model.UpcomingDto
 import com.yaroslavzghoba.network.util.Constants
@@ -117,12 +118,13 @@ interface NetworkDataSource {
      * @param language of the content. By default it's ISO 369-1 of [Constants.DEFAULT_LANGUAGE]
      * Accepts two-letter ISO 369-1 language code. See more about
      * [ISO-369 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
+     * @param page number of the current page. By default it's [Constants.DEFAULT_PAGE]
      *
      * @return [DiscoverDto] that contains a list of [MovieDto]
      */
-    // TODO: Consider creating a separate class to respond to the `getMoviesByQuery`
     suspend fun getMoviesByQuery(
         query: String,
         language: String = Constants.DEFAULT_LANGUAGE.iso369Code1,
-    ): DiscoverDto
+        page: Int = Constants.DEFAULT_PAGE,
+    ): SearchedDto
 }

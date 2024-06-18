@@ -1,4 +1,7 @@
 <resources>
     <string name="movie_evaluation_description">Evaluation</string>
     <string name="adult_movie_label">18+</string>
+    <string name="search_bar_placeholder">Search</string>
+    <string name="search_button_description">Search</string>
+    <string name="return_back_btn_description">Return back</string>
 </resources>

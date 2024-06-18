@@ -3,6 +3,7 @@ package com.yaroslavzghoba.data.mapper
 import com.yaroslavzghoba.database.model.DiscoverMovieDbo
 import com.yaroslavzghoba.database.model.NowPlayingMovieDbo
 import com.yaroslavzghoba.database.model.PopularMovieDbo
+import com.yaroslavzghoba.database.model.SearchedMovieDbo
 import com.yaroslavzghoba.database.model.TopRatedMovieDbo
 import com.yaroslavzghoba.database.model.UpcomingMovieDbo
 import com.yaroslavzghoba.model.Movie
@@ -56,6 +57,27 @@ internal fun NowPlayingMovieDbo.toMovie() = Movie(
  * Convert [PopularMovieDbo] to [Movie]
  */
 internal fun PopularMovieDbo.toMovie() = Movie(
+    adult = adult,
+    backdropPath = backdropPath,
+    genreIds = genreIds.toIntList(),
+    id = id,
+    originalLanguage = originalLanguage,
+    originalTitle = originalTitle,
+    overview = overview,
+    popularity = popularity,
+    posterPath = posterPath,
+    releaseDate = releaseDate,
+    title = title,
+    video = video,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    cacheId = cacheId,
+)
+
+/**
+ * Convert [PopularMovieDbo] to [Movie]
+ */
+internal fun SearchedMovieDbo.toMovie() = Movie(
     adult = adult,
     backdropPath = backdropPath,
     genreIds = genreIds.toIntList(),
@@ -182,6 +204,27 @@ internal fun Movie.toNowPlayingMovieDbo() = NowPlayingMovieDbo(
  * Convert [Movie] to [PopularMovieDbo]
  */
 internal fun Movie.toPopularMovieDbo() = PopularMovieDbo(
+    adult = adult,
+    backdropPath = backdropPath,
+    genreIds = genreIds.toStringList(),
+    id = id,
+    originalLanguage = originalLanguage,
+    originalTitle = originalTitle,
+    overview = overview,
+    popularity = popularity,
+    posterPath = posterPath,
+    releaseDate = releaseDate,
+    title = title,
+    video = video,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+    cacheId = cacheId,
+)
+
+/**
+ * Convert [Movie] to [SearchedMovieDbo]
+ */
+internal fun Movie.toSearchedMovieDbo() = SearchedMovieDbo(
     adult = adult,
     backdropPath = backdropPath,
     genreIds = genreIds.toStringList(),

@@ -4,6 +4,7 @@ import com.yaroslavzghoba.database.dao.DiscoverMovieDao
 import com.yaroslavzghoba.database.dao.GenreDao
 import com.yaroslavzghoba.database.dao.NowPlayingMovieDao
 import com.yaroslavzghoba.database.dao.PopularMovieDao
+import com.yaroslavzghoba.database.dao.SearchedMovieDao
 import com.yaroslavzghoba.database.dao.TopRatedMovieDao
 import com.yaroslavzghoba.database.dao.UpcomingMovieDao
 import com.yaroslavzghoba.database.dao.WatchedMovieDao
@@ -38,6 +39,10 @@ class ApplicationDatabase internal constructor(
     /**Provide access to [PopularMovieDbo]*/
     val popularMovieDao: PopularMovieDao
         get() = database.popularMovieDao
+
+    /**Provide access to [PopularMovieDao]*/
+    val searchedMovieDao: SearchedMovieDao
+        get() = database.searchedMovieDao
 
     /**Provide access to [TopRatedMovieDbo]*/
     val topRatedMovieDao: TopRatedMovieDao

@@ -8,6 +8,7 @@ import com.yaroslavzghoba.database.dao.DiscoverMovieDao
 import com.yaroslavzghoba.database.dao.GenreDao
 import com.yaroslavzghoba.database.dao.NowPlayingMovieDao
 import com.yaroslavzghoba.database.dao.PopularMovieDao
+import com.yaroslavzghoba.database.dao.SearchedMovieDao
 import com.yaroslavzghoba.database.dao.TopRatedMovieDao
 import com.yaroslavzghoba.database.dao.UpcomingMovieDao
 import com.yaroslavzghoba.database.dao.WatchedMovieDao
@@ -16,6 +17,7 @@ import com.yaroslavzghoba.database.model.DiscoverMovieDbo
 import com.yaroslavzghoba.database.model.GenreDbo
 import com.yaroslavzghoba.database.model.NowPlayingMovieDbo
 import com.yaroslavzghoba.database.model.PopularMovieDbo
+import com.yaroslavzghoba.database.model.SearchedMovieDbo
 import com.yaroslavzghoba.database.model.TopRatedMovieDbo
 import com.yaroslavzghoba.database.model.UpcomingMovieDbo
 import com.yaroslavzghoba.database.model.WatchedMovieDbo
@@ -28,6 +30,7 @@ import com.yaroslavzghoba.database.util.Constants
         GenreDbo::class,
         NowPlayingMovieDbo::class,
         PopularMovieDbo::class,
+        SearchedMovieDbo::class,
         TopRatedMovieDbo::class,
         UpcomingMovieDbo::class,
         WatchedMovieDbo::class,
@@ -41,6 +44,7 @@ internal abstract class ApplicationRoomDb : RoomDatabase() {
     abstract val genreDao: GenreDao
     abstract val nowPlayingMovieDao: NowPlayingMovieDao
     abstract val popularMovieDao: PopularMovieDao
+    abstract val searchedMovieDao: SearchedMovieDao
     abstract val topRatedMovieDao: TopRatedMovieDao
     abstract val upcomingMovieDao: UpcomingMovieDao
     abstract val watchedMovieDao: WatchedMovieDao

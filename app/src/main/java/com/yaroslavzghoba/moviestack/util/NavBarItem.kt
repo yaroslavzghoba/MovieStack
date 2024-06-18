@@ -15,7 +15,7 @@ sealed class NavBarItem(
     data object Home : NavBarItem(
         route = Screen.Home,
         titleRes = R.string.home_nav_bar_label,
-        selectedIconRes = R.drawable.baseline_home_24,
+        selectedIconRes = R.drawable.baseline_home_filled_24,
         unselectedIconRes = R.drawable.outline_home_24,
     )
 

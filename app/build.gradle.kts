@@ -30,6 +30,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -72,7 +73,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // Serialization
-    implementation(libs.serialization.json)
+//    implementation(libs.serialization.json)
 
     // Custom Material design system
     implementation(libs.achromatic.material)
