@@ -72,9 +72,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // Serialization
-//    implementation(libs.serialization.json)
-
     // Custom Material design system
     implementation(libs.achromatic.material)
 
@@ -85,6 +82,8 @@ dependencies {
 
     // Internal dependencies
     implementation(project(":core:common"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
     implementation(project(":feature:home"))
     implementation(project(":feature:movie-list"))
     implementation(project(":feature:watched"))

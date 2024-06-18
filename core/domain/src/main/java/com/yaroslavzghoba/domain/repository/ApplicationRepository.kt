@@ -3,6 +3,7 @@ package com.yaroslavzghoba.domain.repository
 import androidx.paging.PagingData
 import com.yaroslavzghoba.model.Genre
 import com.yaroslavzghoba.model.Movie
+import com.yaroslavzghoba.model.UserPreferences
 import com.yaroslavzghoba.model.WatchedMovie
 import com.yaroslavzghoba.model.WishedMovie
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +12,13 @@ import kotlinx.coroutines.flow.Flow
  * Repository that binds all application data sources.
  */
 interface ApplicationRepository {
+
+    /**Get user preferences*/
+    fun getUserPreferences(): Flow<UserPreferences>
+
+    /**Update user preferences*/
+    suspend fun updateUserPreferences(userPreferences: UserPreferences)
+
 
     /**Delete exist and save new genres*/
     suspend fun updateGenres()

@@ -12,7 +12,6 @@ import com.yaroslavzghoba.network.NetworkDataSource
 import retrofit2.HttpException
 import java.io.IOException
 
-// TODO: Store this value using Preferences DataStore or Proto DataStore
 private var pagesLoaded: Int = 0
 
 @OptIn(ExperimentalPagingApi::class)

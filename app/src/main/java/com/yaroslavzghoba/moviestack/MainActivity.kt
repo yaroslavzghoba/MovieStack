@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.yaroslavzghoba.model.util.ThemeMode
 import com.yaroslavzghoba.moviestack.ui.theme.MovieStackTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,9 +16,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val viewModel: MainViewModel = hiltViewModel()
             MovieStackTheme(
-                useAchromaticColors = true,  // TODO: Provide the property from user prefs
-                isDarkTheme = isSystemInDarkTheme(),  // TODO: Provide the property from user prefs
+                useAchromaticColors = viewModel.userPreferences.useAchromaticColors,
+                isDarkTheme = when (viewModel.userPreferences.themeMode) {
+                    ThemeMode.FOLLOW_SYSTEM -> isSystemInDarkTheme()
+                    ThemeMode.LIGHT -> true
+                    ThemeMode.DARK -> false
+                },
             ) {
                 ApplicationContent()
             }

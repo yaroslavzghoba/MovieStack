@@ -17,9 +17,11 @@ import com.yaroslavzghoba.database.model.NowPlayingMovieDbo
 import com.yaroslavzghoba.database.model.PopularMovieDbo
 import com.yaroslavzghoba.database.model.TopRatedMovieDbo
 import com.yaroslavzghoba.database.model.UpcomingMovieDbo
+import com.yaroslavzghoba.datastore.UserPrefsRepository
 import com.yaroslavzghoba.domain.repository.ApplicationRepository
 import com.yaroslavzghoba.model.Genre
 import com.yaroslavzghoba.model.Movie
+import com.yaroslavzghoba.model.UserPreferences
 import com.yaroslavzghoba.model.WatchedMovie
 import com.yaroslavzghoba.model.WishedMovie
 import com.yaroslavzghoba.network.NetworkDataSource
@@ -29,6 +31,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class AppRepositoryImpl internal constructor(
+    private val userPrefsRepository: UserPrefsRepository,
     private val database: ApplicationDatabase,
     private val network: NetworkDataSource,
     private val discoverMoviePager: Pager<Int, DiscoverMovieDbo>,
@@ -37,6 +40,15 @@ class AppRepositoryImpl internal constructor(
     private val topRatedMoviePager: Pager<Int, TopRatedMovieDbo>,
     private val upcomingMoviePager: Pager<Int, UpcomingMovieDbo>,
 ) : ApplicationRepository {
+
+    override fun getUserPreferences(): Flow<UserPreferences> {
+        return userPrefsRepository.getUserPreferences()
+    }
+
+    override suspend fun updateUserPreferences(userPreferences: UserPreferences) {
+        userPrefsRepository.updateUserPreferences(userPreferences = userPreferences)
+    }
+
 
     // TODO: Use the language selected by user
     // TODO: Consider creating backups to restore data if network request is unsuccessful

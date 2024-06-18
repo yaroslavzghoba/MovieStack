@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.yaroslavzghoba.data"
+    namespace = "com.yaroslavzghoba.datastore"
     compileSdk = 34
 
     defaultConfig {
@@ -38,19 +38,13 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
 
-    // For catching HttpException
-    api(libs.retrofit)
-
-    implementation(libs.paging.runtime)
+    // Preferences datastore
+    implementation(libs.androidx.datastore.preferences)
 
     // Hilt dependency injection
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
     // Internal dependencies
-    implementation(project(":core:database"))
-    implementation(project(":core:datastore"))
-    implementation(project(":core:domain"))
     implementation(project(":core:model"))
-    implementation(project(":core:network"))
 }

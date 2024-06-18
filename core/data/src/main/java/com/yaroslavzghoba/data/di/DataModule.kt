@@ -15,6 +15,7 @@ import com.yaroslavzghoba.database.model.NowPlayingMovieDbo
 import com.yaroslavzghoba.database.model.PopularMovieDbo
 import com.yaroslavzghoba.database.model.TopRatedMovieDbo
 import com.yaroslavzghoba.database.model.UpcomingMovieDbo
+import com.yaroslavzghoba.datastore.UserPrefsRepository
 import com.yaroslavzghoba.domain.repository.ApplicationRepository
 import com.yaroslavzghoba.network.NetworkDataSource
 import dagger.Module
@@ -124,6 +125,7 @@ internal object DataModule {
 
     @Provides
     fun provideApplicationRepository(
+        userPrefsRepository: UserPrefsRepository,
         database: ApplicationDatabase,
         network: NetworkDataSource,
         discoverMoviePager: Pager<Int, DiscoverMovieDbo>,
@@ -133,6 +135,7 @@ internal object DataModule {
         upcomingMoviePager: Pager<Int, UpcomingMovieDbo>,
     ): ApplicationRepository {
         return AppRepositoryImpl(
+            userPrefsRepository = userPrefsRepository,
             database = database,
             network = network,
             discoverMoviePager = discoverMoviePager,
