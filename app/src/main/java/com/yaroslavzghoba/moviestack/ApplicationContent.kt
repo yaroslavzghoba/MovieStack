@@ -24,7 +24,8 @@ import com.yaroslavzghoba.moviestack.util.NavBarItem
 fun ApplicationContent(modifier: Modifier = Modifier) {
 
     val navController = rememberNavController()
-    val navBarItems = listOf(NavBarItem.Home, NavBarItem.WishList, NavBarItem.Watched)
+    val navBarItems =
+        listOf(NavBarItem.Home, NavBarItem.WishList, NavBarItem.Watched, NavBarItem.Settings)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val destinations: List<NavDestination> by lazy {

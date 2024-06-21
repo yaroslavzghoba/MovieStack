@@ -32,7 +32,7 @@ interface NetworkDataSource {
      * @return [GenresDto] that contains a list of [GenresDto]
      */
     suspend fun getAllGenres(
-        language: String = Constants.DEFAULT_LANGUAGE.iso369Code1,
+        language: String = Constants.DEFAULT_LANGUAGE.iso369,
     ): GenresDto
 
     /**
@@ -47,7 +47,7 @@ interface NetworkDataSource {
      */
     // TODO: Add more filters for `getMovies` endpoint
     suspend fun getMovies(
-        language: String = Constants.DEFAULT_LANGUAGE.iso369Code1,
+        language: String = Constants.DEFAULT_LANGUAGE.iso369,
         page: Int = Constants.DEFAULT_PAGE,
     ): DiscoverDto
 
@@ -62,7 +62,7 @@ interface NetworkDataSource {
      * @return [NowPlayingDto] that contains a list of [MovieDto]
      */
     suspend fun getNowPlayingMovies(
-        language: String = Constants.DEFAULT_LANGUAGE.iso369Code1,
+        language: String = Constants.DEFAULT_LANGUAGE.iso369,
         page: Int = Constants.DEFAULT_PAGE,
     ): NowPlayingDto
 
@@ -77,7 +77,7 @@ interface NetworkDataSource {
      * @return [PopularDto] that contains a list of [MovieDto]
      */
     suspend fun getPopularMovies(
-        language: String = Constants.DEFAULT_LANGUAGE.iso369Code1,
+        language: String = Constants.DEFAULT_LANGUAGE.iso369,
         page: Int = Constants.DEFAULT_PAGE,
     ): PopularDto
 
@@ -92,7 +92,7 @@ interface NetworkDataSource {
      * @return [TopRatedDto] that contains a list of [MovieDto]
      */
     suspend fun getTopRatedMovies(
-        language: String = Constants.DEFAULT_LANGUAGE.iso369Code1,
+        language: String = Constants.DEFAULT_LANGUAGE.iso369,
         page: Int = Constants.DEFAULT_PAGE,
     ): TopRatedDto
 
@@ -107,7 +107,7 @@ interface NetworkDataSource {
      * @return [UpcomingDto] that contains a list of [MovieDto]
      */
     suspend fun getUpcomingMovies(
-        language: String = Constants.DEFAULT_LANGUAGE.iso369Code1,
+        language: String = Constants.DEFAULT_LANGUAGE.iso369,
         page: Int = Constants.DEFAULT_PAGE,
     ): UpcomingDto
 
@@ -124,7 +124,7 @@ interface NetworkDataSource {
      */
     suspend fun getMoviesByQuery(
         query: String,
-        language: String = Constants.DEFAULT_LANGUAGE.iso369Code1,
+        language: String = Constants.DEFAULT_LANGUAGE.iso369,
         page: Int = Constants.DEFAULT_PAGE,
     ): SearchedDto
 }

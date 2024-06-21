@@ -21,9 +21,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.yaroslavzghoba.common.BackdropQuality
 import com.yaroslavzghoba.common.LocalBackdropQuality
 import com.yaroslavzghoba.model.MovieCommon
+import com.yaroslavzghoba.model.util.BackdropQuality
 import com.yaroslavzghoba.ui.util.Constants
 
 @OptIn(ExperimentalMaterial3Api::class)

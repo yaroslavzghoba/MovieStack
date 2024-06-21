@@ -32,4 +32,11 @@ sealed class NavBarItem(
         selectedIconRes = R.drawable.baseline_video_library_24,
         unselectedIconRes = R.drawable.outline_video_library_24,
     )
+
+    data object Settings : NavBarItem(
+        route = Screen.Settings,
+        titleRes = R.string.settings_nav_bar_label,
+        selectedIconRes = R.drawable.baseline_settings_24,
+        unselectedIconRes = R.drawable.outline_settings_24,
+    )
 }

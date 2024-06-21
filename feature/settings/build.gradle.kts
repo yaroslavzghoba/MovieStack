@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.serialization.android)
+    id("kotlin-kapt")
+    alias(libs.plugins.hilt.android)
 }
 
 android {
-    namespace = "com.yaroslavzghoba.common"
+    namespace = "com.yaroslavzghoba.settings"
     compileSdk = 34
 
     defaultConfig {
@@ -31,16 +32,32 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
+
+    // Compose & UI
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.animation)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.material3)
+    implementation(libs.achromatic.material)
 
-    // For modern navigation
-    implementation(libs.serialization.json)
+    // Hilt dependency injection
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
+    // Internal dependencies
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
     implementation(project(":core:model"))
 }

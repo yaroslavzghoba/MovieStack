@@ -17,6 +17,8 @@ import com.yaroslavzghoba.home.HomeScreen
 import com.yaroslavzghoba.home.HomeViewModel
 import com.yaroslavzghoba.movie_list.MovieListScreen
 import com.yaroslavzghoba.movie_list.MovieListViewModel
+import com.yaroslavzghoba.settings.SettingsScreen
+import com.yaroslavzghoba.settings.SettingsViewModel
 import com.yaroslavzghoba.watched_movies.WatchedScreen
 import com.yaroslavzghoba.watched_movies.WatchedViewModel
 import com.yaroslavzghoba.wish_list.WishListScreen
@@ -76,6 +78,16 @@ fun AppNavigation(
             isNavigationBarVisible(true)
             val viewModel: WishListViewModel = hiltViewModel()
             WishListScreen(
+                viewModel = viewModel,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding(),
+            )
+        }
+        composable<Screen.Settings> {
+            isNavigationBarVisible(true)
+            val viewModel: SettingsViewModel = hiltViewModel()
+            SettingsScreen(
                 viewModel = viewModel,
                 modifier = Modifier
                     .fillMaxSize()

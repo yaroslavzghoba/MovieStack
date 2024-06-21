@@ -22,9 +22,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.yaroslavzghoba.common.LocalPosterQuality
-import com.yaroslavzghoba.common.PosterQuality
 import com.yaroslavzghoba.common.round
 import com.yaroslavzghoba.model.MovieCommon
+import com.yaroslavzghoba.model.util.PosterQuality
 import com.yaroslavzghoba.ui.util.Constants
 
 @Composable

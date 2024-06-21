@@ -86,6 +86,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":feature:home"))
     implementation(project(":feature:movie-list"))
+    implementation(project(":feature:settings"))
     implementation(project(":feature:watched"))
     implementation(project(":feature:wish-list"))
 }

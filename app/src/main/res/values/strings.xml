@@ -4,4 +4,5 @@
     <string name="home_nav_bar_label">Home</string>
     <string name="wish_list_nav_bar_label">Wish List</string>
     <string name="watched_nav_bar_label">Watched</string>
+    <string name="settings_nav_bar_label">Settings</string>
 </resources>

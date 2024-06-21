@@ -36,11 +36,10 @@ fun MovieStackTheme(
 
     // Achromatic color scheme
     // Will be applied if useAchromaticColors is true
-    val achromaticScheme = when {
-        isDarkTheme -> darkAchromaticScheme()
-        else -> lightAchromaticScheme()
+    val achromaticScheme = when (isDarkTheme) {
+        true -> darkAchromaticScheme()
+        false -> lightAchromaticScheme()
     }
-
 
     AchromaticTheme(
         useAchromaticColors = useAchromaticColors,

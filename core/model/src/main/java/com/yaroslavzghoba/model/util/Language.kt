@@ -3,14 +3,14 @@ package com.yaroslavzghoba.model.util
 /**
  * Language of the application
  *
- * @param iso369Code1 two-letter ISO 369-1 code of language. See more about
+ * @param iso369 two-letter ISO 369-1 code of language. See more about
  * [ISO-369 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
  */
 // TODO: Add more languages
-enum class Language(val iso369Code1: String) {
-    ENGLISH(iso369Code1 = "en"),
-    RUSSIAN(iso369Code1 = "ru"),
-    UKRAINIAN(iso369Code1 = "uk"),
+enum class Language(val iso369: String) {
+    ENGLISH(iso369 = "en"),
+    RUSSIAN(iso369 = "ru"),
+    UKRAINIAN(iso369 = "uk"),
 }
 
 /**
@@ -22,13 +22,14 @@ enum class Language(val iso369Code1: String) {
  * @throws UnknownLanguageException if language with received ISO 369-1 code doesn't exist
  */
 // TODO: Add usage sample to the documentation
-internal fun String.toLanguage(): Language = when (this) {
-    Language.ENGLISH.iso369Code1 -> Language.ENGLISH
-    Language.RUSSIAN.iso369Code1 -> Language.RUSSIAN
-    Language.UKRAINIAN.iso369Code1 -> Language.UKRAINIAN
-    else -> throw UnknownLanguageException(
-        message = "Cannot cast \"$this\" ISO 369-1 code to Language",
-    )
+internal fun String.toLanguage(): Language {
+    return try {
+        Language.valueOf(this)
+    } catch (exception: IllegalArgumentException) {
+        throw UnknownLanguageException(
+            message = "Cannot cast \"$this\" ISO 369-1 code to Language",
+        )
+    }
 }
 
 /**
@@ -36,4 +37,4 @@ internal fun String.toLanguage(): Language = when (this) {
  */
 internal class UnknownLanguageException(
     message: String = "Unknown Language identifier",
-) : Exception(message)
+) : IllegalArgumentException(message)

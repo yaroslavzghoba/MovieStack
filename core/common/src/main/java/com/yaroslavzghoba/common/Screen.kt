@@ -11,6 +11,9 @@ sealed interface Screen {
     data class MovieList(val movieCategory: String) : Screen
 
     @Serializable
+    data object Settings : Screen
+
+    @Serializable
     data object WishList : Screen
 
     @Serializable

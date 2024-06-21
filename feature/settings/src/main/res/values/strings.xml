@@ -1,0 +1,22 @@
+<resources>
+    <string name="use_achromatic_colors_title">Achromatic colors</string>
+    <string name="use_achromatic_colors_description">Use achromatic colors in UI design</string>
+
+    <string name="dynamic_theme_title">Dynamic theme</string>
+    <string name="dynamic_theme_description">The color palette should consist of colors matched to the color of the wallpaper</string>
+
+    <string name="theme_mode_title">Theme mode</string>
+    <string name="theme_mode_follow_system_option">Follow system</string>
+    <string name="theme_mode_light_option">Light</string>
+    <string name="theme_mode_dark_option">Dark</string>
+
+    <string name="posters_quality_title">Poster quality</string>
+    <string name="posters_quality_low_option">Low</string>
+    <string name="posters_quality_middle_option">Middle</string>
+    <string name="posters_quality_high_option">High</string>
+
+    <string name="backdrops_quality_title">Backdrops quality</string>
+    <string name="backdrops_quality_low_option">Low</string>
+    <string name="backdrops_quality_middle_option">Middle</string>
+    <string name="backdrops_quality_high_option">High</string>
+</resources>
