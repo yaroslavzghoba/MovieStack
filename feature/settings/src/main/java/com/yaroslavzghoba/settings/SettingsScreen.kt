@@ -3,6 +3,7 @@ package com.yaroslavzghoba.settings
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ListItem
@@ -38,7 +39,8 @@ fun SettingsScreen(
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
-            .background(MaterialTheme.colorScheme.surface),
+            .background(MaterialTheme.colorScheme.surface)
+            .statusBarsPadding(),
     ) {
         ListItem(
             headlineContent = {

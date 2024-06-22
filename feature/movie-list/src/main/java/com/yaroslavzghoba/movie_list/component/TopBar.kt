@@ -15,7 +15,7 @@ import com.yaroslavzghoba.movie_list.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MovieListTopBar(
+internal fun TopBar(
     @StringRes titleRes: Int,
     onReturnBack: () -> Unit,
     modifier: Modifier = Modifier,

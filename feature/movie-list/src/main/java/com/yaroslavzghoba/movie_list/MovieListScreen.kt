@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.yaroslavzghoba.movie_list.component.MovieListContent
-import com.yaroslavzghoba.movie_list.component.MovieListTopBar
-import com.yaroslavzghoba.ui.MovieBottomSheet
+import com.yaroslavzghoba.movie_list.component.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieListScreen(
     viewModel: MovieListViewModel,
     onReturnBack: () -> Unit,
+    onGetMovieDetails: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val movies = viewModel.movies.collectAsLazyPagingItems()
@@ -28,17 +28,8 @@ fun MovieListScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection)
             .background(MaterialTheme.colorScheme.background),
     ) {
-        // Bottom sheet with movie details
-        viewModel.selectedMovie?.let { selectedMovie ->
-            MovieBottomSheet(
-                movie = selectedMovie,
-                onDismissRequest = {
-                    viewModel.onEvent(event = MovieListUiEvent.BottomSheetDismissed)
-                },
-            )
-        }
-
-        MovieListTopBar(
+        // Includes status bar padding
+        TopBar(
             titleRes = viewModel.titleRes,
             onReturnBack = onReturnBack,
             scrollBehavior = scrollBehavior,
@@ -47,15 +38,7 @@ fun MovieListScreen(
         MovieListContent(
             movies = movies,
             contentType = viewModel.contentType,
-            onViewAboutMovie = { movie ->
-                viewModel.onEvent(event = MovieListUiEvent.MovieDetails(movie = movie))
-            },
-            onMoveToWished = { movie ->
-                viewModel.onEvent(event = MovieListUiEvent.MoveMovieToWished(movie = movie))
-            },
-            onMoveToWatched = { movie ->
-                viewModel.onEvent(event = MovieListUiEvent.MoveMovieToWatched(movie = movie))
-            },
+            onViewAboutMovie = { onGetMovieDetails(it.id) },
             modifier = Modifier.weight(1f),
         )
     }

@@ -50,7 +50,6 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.material3)
-    implementation(libs.achromatic.material)
 
     // Paging3
     implementation(libs.paging.runtime)
@@ -60,7 +59,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    // Navigation
+    // Get nav arguments
     implementation(libs.androidx.navigation.compose)
 
     // Internal dependencies

@@ -114,7 +114,8 @@ fun SearchLayout(
         BasicTextField(
             state = textFieldState,
             modifier = Modifier.padding(top = innerTopPadding),
-            textStyle = MaterialTheme.typography.bodyLarge,
+            textStyle = MaterialTheme.typography.bodyLarge
+                .copy(color = MaterialTheme.colorScheme.onSurface),
             decorator = { innerTextField ->
                 Row(
                     modifier = Modifier

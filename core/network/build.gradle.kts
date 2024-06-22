@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.serialization.json)
     implementation(libs.serialization.converter)
     implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
 
     // Hilt dependency injection
     implementation(libs.hilt.android)

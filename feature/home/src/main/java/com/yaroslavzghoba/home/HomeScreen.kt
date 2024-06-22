@@ -2,12 +2,14 @@ package com.yaroslavzghoba.home
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,8 +22,6 @@ import com.yaroslavzghoba.common.animationSpecDefault
 import com.yaroslavzghoba.home.component.MovieSection
 import com.yaroslavzghoba.home.component.SearchContent
 import com.yaroslavzghoba.home.util.MovieSectionItem
-import com.yaroslavzghoba.model.Movie
-import com.yaroslavzghoba.ui.MovieBottomSheet
 import com.yaroslavzghoba.ui.SearchLayout
 import com.yaroslavzghoba.ui.rememberSearchLayoutState
 
@@ -29,6 +29,7 @@ import com.yaroslavzghoba.ui.rememberSearchLayoutState
 fun HomeScreen(
     viewModel: HomeViewModel,
     isNavigationBarVisible: (Boolean) -> Unit,
+    onGetMovieDetails: (Int) -> Unit,
     onGetMoreDiscover: () -> Unit,
     onGetMoreNowPlaying: () -> Unit,
     onGetMorePopular: () -> Unit,
@@ -76,27 +77,13 @@ fun HomeScreen(
         animationSpec = animationSpecDefault(),
         label = "Search layout external paddings",
     )
+
     // Hide navigation bar if the search layout is expanded
-    LaunchedEffect(searchLayoutState.expanded) {
-        isNavigationBarVisible(!searchLayoutState.expanded)
-    }
+    isNavigationBarVisible(!searchLayoutState.expanded)
+
     // Search every time when the search query was changed
     LaunchedEffect(searchLayoutState.query) {
         val event = HomeUiEvent.SearchMoviesRequest(query = searchLayoutState.query)
-        viewModel.onEvent(event = event)
-    }
-
-    // Movie actions
-    val onViewAboutMovie: (Movie) -> Unit = { movie ->
-        val event = HomeUiEvent.MovieDetails(movie = movie)
-        viewModel.onEvent(event = event)
-    }
-    val onMoveToWished: (Movie) -> Unit = { movie ->
-        val event = HomeUiEvent.MoveMovieToWished(movie = movie)
-        viewModel.onEvent(event = event)
-    }
-    val onMoveToWatched: (Movie) -> Unit = { movie ->
-        val event = HomeUiEvent.MoveMovieToWatched(movie = movie)
         viewModel.onEvent(event = event)
     }
 
@@ -108,17 +95,11 @@ fun HomeScreen(
         }
     }
 
-    // Movie details bottom sheet
-    viewModel.selectedMovie?.let { selectedMovie ->
-        MovieBottomSheet(
-            movie = selectedMovie,
-            onDismissRequest = {
-                viewModel.onEvent(event = HomeUiEvent.BottomSheetDismissed)
-            },
-        )
-    }
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surface),
+    ) {
         SearchLayout(
             searchLayoutState = searchLayoutState,
             onActionButtonClicked = {
@@ -126,6 +107,7 @@ fun HomeScreen(
                     focusManager.clearFocus()
                     searchLayoutState.collapse()
                 } else {
+                    // TODO: Make focus request to focus user on the input field
                     searchLayoutState.expand()
                 }
             },
@@ -137,9 +119,7 @@ fun HomeScreen(
         ) {
             SearchContent(
                 movies = viewModel.searchedMovies.collectAsLazyPagingItems(),
-                onViewAboutMovie = onViewAboutMovie,
-                onMoveToWished = onMoveToWished,
-                onMoveToWatched = onMoveToWatched,
+                onGetMovieDetails = onGetMovieDetails,
             )
         }
 
@@ -152,9 +132,7 @@ fun HomeScreen(
                     titleRes = movieSection.titleRes,
                     contentType = movieSection.contentType,
                     movies = movieSection.movies,
-                    onViewAboutMovie = onViewAboutMovie,
-                    onMoveToWished = onMoveToWished,
-                    onMoveToWatched = onMoveToWatched,
+                    onGetMovieDetails = onGetMovieDetails,
                     onGetMoreMovies = movieSection.onGetMoreMovies,
                     modifier = Modifier.fillMaxWidth(),
                 )

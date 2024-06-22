@@ -3,6 +3,7 @@ package com.yaroslavzghoba.network.service
 import com.yaroslavzghoba.core.network.BuildConfig
 import com.yaroslavzghoba.network.model.DiscoverDto
 import com.yaroslavzghoba.network.model.GenresDto
+import com.yaroslavzghoba.network.model.MovieDetailsDto
 import com.yaroslavzghoba.network.model.MovieDto
 import com.yaroslavzghoba.network.model.NowPlayingDto
 import com.yaroslavzghoba.network.model.PopularDto
@@ -12,6 +13,7 @@ import com.yaroslavzghoba.network.model.UpcomingDto
 import com.yaroslavzghoba.network.util.Constants
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -143,4 +145,21 @@ internal interface MovieService {
         @Query("language") language: String,
         @Query("page") page: Int,
     ): SearchedDto
+
+    /**
+     * Get details about movie by its [id]
+     *
+     * @param id of the movie you want to get details from.
+     * @param language of the content. Accepts two-letter ISO 369-1 language code. See more about
+     * [ISO-369 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
+     *
+     * @return [MovieDetailsDto]
+     */
+    // TODO: Create interceptor to replace `Headers` annotation
+    @Headers("Authorization: Bearer $ACCESS_TOKEN")
+    @GET("movie/{id}")
+    suspend fun getMovieDetails(
+        @Path("id") id: Int,
+        @Query("language") language: String,
+    ): MovieDetailsDto
 }

@@ -1,6 +1,5 @@
 package com.yaroslavzghoba.ui
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -32,7 +31,6 @@ fun MovieCard(
     movie: MovieCommon,
     onCardClicked: () -> Unit,
     modifier: Modifier = Modifier,
-    additionalActionButton: @Composable (() -> Unit)? = null,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHighest,
     posterQuality: PosterQuality = LocalPosterQuality.current,
 ) {
@@ -42,20 +40,15 @@ fun MovieCard(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = containerColor),
     ) {
-        Box {
-            AsyncImage(
-                model = posterUrl,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f / 1.5f),
-                placeholder = painterResource(id = R.drawable.movie_poster_placeholder),
-                contentScale = ContentScale.Crop,
-            )
-            Box(modifier = Modifier.align(Alignment.TopEnd)) {
-                additionalActionButton?.let { it() }
-            }
-        }
+        AsyncImage(
+            model = posterUrl,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f / 1.5f),
+            placeholder = painterResource(id = R.drawable.movie_poster_placeholder),
+            contentScale = ContentScale.Crop,
+        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()

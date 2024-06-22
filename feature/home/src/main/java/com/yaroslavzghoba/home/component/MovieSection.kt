@@ -34,9 +34,7 @@ internal fun MovieSection(
     @StringRes titleRes: Int,
     contentType: String,
     movies: LazyPagingItems<Movie>,
-    onViewAboutMovie: (Movie) -> Unit,
-    onMoveToWished: (Movie) -> Unit,
-    onMoveToWatched: (Movie) -> Unit,
+    onGetMovieDetails: (Int) -> Unit,
     onGetMoreMovies: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -56,10 +54,7 @@ internal fun MovieSection(
         )
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(
-                horizontal = spaceBetweenCards * 2,
-                vertical = spaceBetweenCards,
-            ),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(spaceBetweenCards),
         ) {
             items(
@@ -70,20 +65,12 @@ internal fun MovieSection(
                 movies[index]?.let { movie ->
                     MovieCard(
                         movie = movie,
-                        onCardClicked = { onViewAboutMovie(movie) },
-                        additionalActionButton = {
-                            AdditionalActionButton(
-                                onViewAboutMovie = { onViewAboutMovie(movie) },
-                                onMoveToWished = { onMoveToWished(movie) },
-                                onMoveToWatched = { onMoveToWatched(movie) })
-                        },
-                        modifier = Modifier.widthIn(max = 150.dp)
+                        onCardClicked = { onGetMovieDetails(movie.id) },
+                        modifier = Modifier.widthIn(max = 160.dp)
                     )
                 }
             }
-            item {
-                CircularProgressIndicator()
-            }
+            item { CircularProgressIndicator() }
         }
     }
 }

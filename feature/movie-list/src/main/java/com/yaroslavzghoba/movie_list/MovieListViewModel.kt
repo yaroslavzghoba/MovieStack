@@ -1,9 +1,6 @@
 package com.yaroslavzghoba.movie_list
 
 import androidx.annotation.StringRes
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,16 +10,13 @@ import com.yaroslavzghoba.common.MovieCategory
 import com.yaroslavzghoba.common.Screen
 import com.yaroslavzghoba.common.toMovieCategory
 import com.yaroslavzghoba.domain.repository.ApplicationRepository
-import com.yaroslavzghoba.model.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repository: ApplicationRepository,
+    repository: ApplicationRepository,
 ) : ViewModel() {
 
     private val route: Screen.MovieList = savedStateHandle.toRoute()
@@ -44,32 +38,5 @@ class MovieListViewModel @Inject constructor(
             MovieCategory.TOP_RATED -> getTopRatedMovies()
             MovieCategory.UPCOMING -> getUpcomingMovies()
         }.cachedIn(viewModelScope)
-    }
-    internal var selectedMovie by mutableStateOf<Movie?>(null)
-        private set
-
-
-    internal fun onEvent(event: MovieListUiEvent) {
-        when (event) {
-            is MovieListUiEvent.BottomSheetDismissed -> {
-                selectedMovie = null
-            }
-
-            is MovieListUiEvent.MovieDetails -> {
-                selectedMovie = event.movie
-            }
-
-            is MovieListUiEvent.MoveMovieToWished -> {
-                viewModelScope.launch(context = Dispatchers.IO) {
-                    repository.moveMovieToWishedMovies(movie = event.movie)
-                }
-            }
-
-            is MovieListUiEvent.MoveMovieToWatched -> {
-                viewModelScope.launch(context = Dispatchers.IO) {
-                    repository.moveMovieToWatchedMovies(movie = event.movie)
-                }
-            }
-        }
     }
 }

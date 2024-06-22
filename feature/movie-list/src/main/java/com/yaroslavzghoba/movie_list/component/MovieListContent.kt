@@ -24,8 +24,6 @@ internal fun MovieListContent(
     movies: LazyPagingItems<Movie>,
     contentType: String,
     onViewAboutMovie: (Movie) -> Unit,
-    onMoveToWished: (Movie) -> Unit,
-    onMoveToWatched: (Movie) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val spaceBetweenCards = 8.dp
@@ -34,7 +32,7 @@ internal fun MovieListContent(
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(8.dp),
+            contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(spaceBetweenCards),
             horizontalArrangement = Arrangement.spacedBy(spaceBetweenCards),
         ) {
@@ -47,13 +45,6 @@ internal fun MovieListContent(
                     MovieCard(
                         movie = movie,
                         onCardClicked = { onViewAboutMovie(movie) },
-                        additionalActionButton = {
-                            AdditionalActionButton(
-                                onViewAboutMovie = { onViewAboutMovie(movie) },
-                                onMoveToWished = { onMoveToWished(movie) },
-                                onMoveToWatched = { onMoveToWatched(movie) }
-                            )
-                        },
                     )
                 }
             }

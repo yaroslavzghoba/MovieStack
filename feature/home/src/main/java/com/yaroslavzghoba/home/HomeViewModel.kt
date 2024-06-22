@@ -23,8 +23,6 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var job: Job? = null
-    var selectedMovie by mutableStateOf<Movie?>(null)
-        private set
 
     /**A list of discover movies that can be updated*/
     var searchedMovies: Flow<PagingData<Movie>> by mutableStateOf(emptyFlow())
@@ -58,22 +56,6 @@ class HomeViewModel @Inject constructor(
                 job = viewModelScope.launch(context = Dispatchers.IO) {
                     searchedMovies = repository.getMoviesByQuery(query = event.query)
                         .cachedIn(viewModelScope)
-                }
-            }
-            is HomeUiEvent.BottomSheetDismissed -> {
-                selectedMovie = null
-            }
-            is HomeUiEvent.MovieDetails -> {
-                selectedMovie = event.movie
-            }
-            is HomeUiEvent.MoveMovieToWished -> {
-                viewModelScope.launch(context = Dispatchers.IO) {
-                    repository.moveMovieToWishedMovies(movie = event.movie)
-                }
-            }
-            is HomeUiEvent.MoveMovieToWatched -> {
-                viewModelScope.launch(context = Dispatchers.IO) {
-                    repository.moveMovieToWatchedMovies(movie = event.movie)
                 }
             }
         }

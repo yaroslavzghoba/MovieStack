@@ -31,11 +31,15 @@ interface WishedMovieDao {
     @Delete
     suspend fun deleteAll(movies: List<WishedMovieDbo>)
 
-    /**Find and return movie whose id equals [id]*/
-    @Query("SELECT * FROM wished_movies WHERE id = :id")
-    fun getById(id: Int): Flow<WishedMovieDbo>
+    /**Delete all movies with where movie id is [id]*/
+    @Query("DELETE FROM wished_movies WHERE id = :id")
+    suspend fun deleteMoviesById(id: Int)
 
     /**Get all movies*/
     @Query("SELECT * FROM wished_movies")
     fun getAll(): Flow<List<WishedMovieDbo>>
+
+    /**Count the number of movies by movie id*/
+    @Query("SELECT COUNT(*) FROM wished_movies WHERE id = :id")
+    fun countMovies(id: Int): Flow<Int>
 }

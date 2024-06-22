@@ -2,6 +2,7 @@ package com.yaroslavzghoba.network
 
 import com.yaroslavzghoba.network.model.DiscoverDto
 import com.yaroslavzghoba.network.model.GenresDto
+import com.yaroslavzghoba.network.model.MovieDetailsDto
 import com.yaroslavzghoba.network.model.NowPlayingDto
 import com.yaroslavzghoba.network.model.PopularDto
 import com.yaroslavzghoba.network.model.SearchedDto
@@ -65,5 +66,13 @@ class NetworkDataSourceImpl internal constructor(
         query = query,
         language = language,
         page = page,
+    )
+
+    override suspend fun getMovieDetails(
+        id: Int,
+        language: String,
+    ): MovieDetailsDto = movieService.getMovieDetails(
+        id = id,
+        language = language,
     )
 }

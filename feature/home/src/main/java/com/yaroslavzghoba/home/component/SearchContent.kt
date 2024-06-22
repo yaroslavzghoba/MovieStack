@@ -22,16 +22,14 @@ import com.yaroslavzghoba.ui.MovieCard
 @Composable
 fun SearchContent(
     movies: LazyPagingItems<Movie>,
-    onViewAboutMovie: (Movie) -> Unit,
-    onMoveToWished: (Movie) -> Unit,
-    onMoveToWatched: (Movie) -> Unit,
+    onGetMovieDetails: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val spaceBetweenCards = 8.dp
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(8.dp),
+        contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(spaceBetweenCards),
         horizontalArrangement = Arrangement.spacedBy(spaceBetweenCards),
     ) {
@@ -43,14 +41,7 @@ fun SearchContent(
             movies[index]?.let { movie ->
                 MovieCard(
                     movie = movie,
-                    onCardClicked = { onViewAboutMovie(movie) },
-                    additionalActionButton = {
-                        AdditionalActionButton(
-                            onViewAboutMovie = { onViewAboutMovie(movie) },
-                            onMoveToWished = { onMoveToWished(movie) },
-                            onMoveToWatched = { onMoveToWatched(movie) }
-                        )
-                    },
+                    onCardClicked = { onGetMovieDetails(movie.id) },
                     containerColor = MaterialTheme.colorScheme.surface,
                 )
             }

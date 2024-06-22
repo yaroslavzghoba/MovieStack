@@ -3,6 +3,7 @@ package com.yaroslavzghoba.domain.repository
 import androidx.paging.PagingData
 import com.yaroslavzghoba.model.Genre
 import com.yaroslavzghoba.model.Movie
+import com.yaroslavzghoba.model.MovieDetails
 import com.yaroslavzghoba.model.UserPreferences
 import com.yaroslavzghoba.model.WatchedMovie
 import com.yaroslavzghoba.model.WishedMovie
@@ -20,73 +21,50 @@ interface ApplicationRepository {
     suspend fun updateUserPreferences(userPreferences: UserPreferences)
 
 
-    /**Delete exist and save new genres*/
-    suspend fun updateGenres()
-
-    /**Get all genres*/
-    fun getAllGenres(): Flow<List<Genre>>
-
-
-    /**Insert or update the [movie] into watched movies*/
-    suspend fun moveMovieToWatchedMovies(movie: Movie)
-
-    /**Insert or update each movie in the [movies] list into watched movies*/
-    suspend fun moveMoviesToWatchedMovies(movies: List<Movie>)
-
-    /**
-     * Delete the [movie] from wished movies
-     * and insert or update it into watched movies
-     */
-    suspend fun moveWishedMovieToWatchedMovies(movie: WishedMovie)
-
-    /**
-     * Delete each movie in the [movies] list from wished movies
-     * and insert or update them into watched movies
-     */
-    suspend fun moveWishedMoviesToWatchedMovies(movies: List<WishedMovie>)
-
+    // ==========WATCHED MOVIES==========
     /**Insert or update the watched [movie]*/
     suspend fun upsertWatchedMovie(movie: WatchedMovie)
 
     /**Insert or update each watched movie in the [movies] list*/
     suspend fun upsertWatchedMovies(movies: List<WatchedMovie>)
 
+    /**Add [movie] to the watched movies*/
+    suspend fun addMovieToWatched(movie: MovieDetails)
+
+    /**Remove the [movie] from the watched and insert it to into the wished*/
+    suspend fun moveWatchedMovieToWished(movie: MovieDetails)
+
     /**Delete the watched [movie]*/
     suspend fun deleteWatchedMovie(movie: WatchedMovie)
+
+    /**
+     * Delete the watched movie by its movie id.
+     * If the table contains several entries with the same id it'll delete theme all!
+     */
+    suspend fun deleteWatchedMoviesById(id: Int)
 
     /**Delete each watched movie in the [movies] list*/
     suspend fun deleteWatchedMovies(movies: List<WatchedMovie>)
 
-    /**Find and return watched movie whose id equals [id]*/
-    fun getWatchedMovieById(id: Int): Flow<WatchedMovie>
-
     /**Get all watched movies*/
     fun getAllWatchedMovies(): Flow<List<WatchedMovie>>
 
+    /**Count the number of watched movies by movie id*/
+    fun countWatchedMoviesById(id: Int): Flow<Int>
 
-    /**Insert or update the [movie] into wished movies*/
-    suspend fun moveMovieToWishedMovies(movie: Movie)
 
-    /**Insert or update each movie in the [movies] list into wished movies*/
-    suspend fun moveMoviesToWishedMovies(movies: List<Movie>)
-
-    /**
-     * Delete the [movie] from watched movies
-     * and insert or update it into wished movies
-     */
-    suspend fun moveWatchedMovieToWishedMovies(movie: WatchedMovie)
-
-    /**
-     * Delete each movie in the [movies] list from watched movies
-     * and insert or update them into wished movies
-     */
-    suspend fun moveWatchedMoviesToWishedMovies(movies: List<WatchedMovie>)
-
+    // ==========WISHED MOVIES==========
     /**Insert or update the wished [movie]*/
     suspend fun upsertWishedMovie(movie: WishedMovie)
 
     /**Insert or update each wished movie in the [movies] list*/
     suspend fun upsertWishedMovies(movies: List<WishedMovie>)
+
+    /**Add [movie] to the wished movies*/
+    suspend fun addMovieToWished(movie: MovieDetails)
+
+    /**Remove the [movie] from the wished and insert it to into the watched*/
+    suspend fun moveWishedMovieToWatched(movie: MovieDetails)
 
     /**Delete the wished [movie]*/
     suspend fun deleteWishedMovie(movie: WishedMovie)
@@ -94,13 +72,25 @@ interface ApplicationRepository {
     /**Delete each wished movie in the [movies] list*/
     suspend fun deleteWishedMovies(movies: List<WishedMovie>)
 
-    /**Find and return wished movie whose id equals [id]*/
-    fun getWishedMovieById(id: Int): Flow<WishedMovie>
+    /**
+     * Delete the wished movie by its movie id.
+     * If the table contains several entries with the same id it'll delete theme all!
+     */
+    suspend fun deleteWishedMoviesById(id: Int)
 
     /**Get all movies*/
     fun getAllWishedMovies(): Flow<List<WishedMovie>>
 
+    /**Count the number of wished movies by movie id*/
+    fun countWishedMoviesById(id: Int): Flow<Int>
 
+
+    // ==========NETWORK==========
+    /**Delete exist and save new genres*/
+    suspend fun updateGenres()
+
+    /**Get all genres*/
+    fun getAllGenres(): Flow<List<Genre>>
 
     /**Clear discover movies cache*/
     suspend fun clearDiscoverMoviesCache()
@@ -137,4 +127,7 @@ interface ApplicationRepository {
 
     /**Get movies by search [query]*/
     fun getMoviesByQuery(query: String): Flow<PagingData<Movie>>
+
+    /**Get movie details by its id*/
+    suspend fun getMovieDetails(id: Int): Flow<Result<MovieDetails>>
 }

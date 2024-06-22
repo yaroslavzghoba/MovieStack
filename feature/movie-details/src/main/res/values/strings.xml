@@ -1,0 +1,13 @@
+<resources>
+    <string name="return_back_btn_description">Return back</string>
+
+    <string name="add_movie_to_wish_list_option">Add to wish list</string>
+    <string name="add_movie_to_watched_option">Add to watched</string>
+    <string name="remove_movie_from_wish_list_option">Remove from wish list</string>
+    <string name="remove_movie_from_watched_option">Remove from watched</string>
+    <string name="move_movie_to_wish_list_option">Move to wish list</string>
+    <string name="move_movie_to_watched_option">Move to watched</string>
+
+    <string name="movie_evaluation_description">Evaluation</string>
+    <string name="adult_movie_label">18+</string>
+</resources>

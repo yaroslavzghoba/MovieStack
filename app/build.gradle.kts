@@ -85,6 +85,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:movie-details"))
     implementation(project(":feature:movie-list"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:watched"))

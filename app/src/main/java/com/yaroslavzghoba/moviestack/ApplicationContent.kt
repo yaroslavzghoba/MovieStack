@@ -22,7 +22,6 @@ import com.yaroslavzghoba.moviestack.util.NavBarItem
 
 @Composable
 fun ApplicationContent(modifier: Modifier = Modifier) {
-
     val navController = rememberNavController()
     val navBarItems =
         listOf(NavBarItem.Home, NavBarItem.WishList, NavBarItem.Watched, NavBarItem.Settings)

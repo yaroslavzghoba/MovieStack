@@ -1,9 +1,6 @@
 package com.yaroslavzghoba.moviestack.navigation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,6 +12,9 @@ import com.yaroslavzghoba.common.MovieCategory
 import com.yaroslavzghoba.common.Screen
 import com.yaroslavzghoba.home.HomeScreen
 import com.yaroslavzghoba.home.HomeViewModel
+import com.yaroslavzghoba.model.WatchedMovie
+import com.yaroslavzghoba.movie_details.MovieDetailsScreen
+import com.yaroslavzghoba.movie_details.MovieDetailsViewModel
 import com.yaroslavzghoba.movie_list.MovieListScreen
 import com.yaroslavzghoba.movie_list.MovieListViewModel
 import com.yaroslavzghoba.settings.SettingsScreen
@@ -40,6 +40,10 @@ fun AppNavigation(
             HomeScreen(
                 viewModel = viewModel,
                 isNavigationBarVisible = isNavigationBarVisible,
+                onGetMovieDetails = { id ->
+                    val route = Screen.MovieDetails(id = id)
+                    navController.navigate(route = route)
+                },
                 onGetMoreDiscover = {
                     val route = Screen.MovieList(MovieCategory.DISCOVER.name)
                     navController.navigate(route = route)
@@ -60,9 +64,16 @@ fun AppNavigation(
                     val route = Screen.MovieList(MovieCategory.UPCOMING.name)
                     navController.navigate(route = route)
                 },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface),
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
+        composable<Screen.MovieDetails> {
+            isNavigationBarVisible(false)
+            val viewModel: MovieDetailsViewModel = hiltViewModel()
+            MovieDetailsScreen(
+                viewModel = viewModel,
+                onReturnBackRequest = { navController.navigateUp() },
+                modifier = Modifier.fillMaxSize(),
             )
         }
         composable<Screen.MovieList> {
@@ -71,6 +82,10 @@ fun AppNavigation(
             MovieListScreen(
                 viewModel = viewModel,
                 onReturnBack = { navController.navigateUp() },
+                onGetMovieDetails = { id ->
+                    val route = Screen.MovieDetails(id = id)
+                    navController.navigate(route = route)
+                },
                 modifier = Modifier.fillMaxSize(),
             )
         }
@@ -79,9 +94,11 @@ fun AppNavigation(
             val viewModel: WishListViewModel = hiltViewModel()
             WishListScreen(
                 viewModel = viewModel,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .statusBarsPadding(),
+                onGetMovieDetails = { id ->
+                    val route = Screen.MovieDetails(id = id)
+                    navController.navigate(route = route)
+                },
+                modifier = Modifier.fillMaxSize(),
             )
         }
         composable<Screen.Settings> {
@@ -89,9 +106,7 @@ fun AppNavigation(
             val viewModel: SettingsViewModel = hiltViewModel()
             SettingsScreen(
                 viewModel = viewModel,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .statusBarsPadding(),
+                modifier = Modifier.fillMaxSize(),
             )
         }
         composable<Screen.Watched> {
@@ -99,9 +114,11 @@ fun AppNavigation(
             val viewModel: WatchedViewModel = hiltViewModel()
             WatchedScreen(
                 viewModel = viewModel,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .statusBarsPadding(),
+                onGetMovieDetails = { movie: WatchedMovie ->
+                    val route = Screen.MovieDetails(id = movie.id)
+                    navController.navigate(route = route)
+                },
+                modifier = Modifier.fillMaxSize(),
             )
         }
     }

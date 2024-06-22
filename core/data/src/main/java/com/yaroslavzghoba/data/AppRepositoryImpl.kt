@@ -1,5 +1,6 @@
 package com.yaroslavzghoba.data
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -8,6 +9,7 @@ import androidx.paging.map
 import com.yaroslavzghoba.data.mapper.toDbo
 import com.yaroslavzghoba.data.mapper.toGenre
 import com.yaroslavzghoba.data.mapper.toMovie
+import com.yaroslavzghoba.data.mapper.toMovieDetails
 import com.yaroslavzghoba.data.mapper.toWatchedMovie
 import com.yaroslavzghoba.data.mapper.toWishedMovie
 import com.yaroslavzghoba.data.mediator.SearchedMovieMediator
@@ -21,12 +23,15 @@ import com.yaroslavzghoba.datastore.UserPrefsRepository
 import com.yaroslavzghoba.domain.repository.ApplicationRepository
 import com.yaroslavzghoba.model.Genre
 import com.yaroslavzghoba.model.Movie
+import com.yaroslavzghoba.model.MovieDetails
 import com.yaroslavzghoba.model.UserPreferences
 import com.yaroslavzghoba.model.WatchedMovie
 import com.yaroslavzghoba.model.WishedMovie
 import com.yaroslavzghoba.network.NetworkDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -50,6 +55,119 @@ class AppRepositoryImpl internal constructor(
     }
 
 
+    // ==========WATCHED MOVIES==========
+    override suspend fun upsertWatchedMovie(movie: WatchedMovie) {
+        database.watchedMovieDao.upsert(movie = movie.toDbo())
+    }
+
+    override suspend fun upsertWatchedMovies(movies: List<WatchedMovie>) {
+        database.watchedMovieDao.upsertAll(
+            movies = movies.map { it.toDbo() }
+        )
+    }
+
+    override suspend fun addMovieToWatched(movie: MovieDetails) {
+        database.watchedMovieDao.upsert(
+            movie = movie
+                .toMovie(cacheId = 0)
+                .toWatchedMovie(votePersonal = null, databaseId = 0)
+                .toDbo()
+        )
+    }
+
+    override suspend fun moveWatchedMovieToWished(movie: MovieDetails) {
+        database.watchedMovieDao.deleteMoviesById(id = movie.id)
+        database.wishedMovieDao.upsert(
+            movie = movie
+                .toMovie(cacheId = 0)
+                .toWishedMovie(scheduledViewingAt = null, databaseId = 0)
+                .toDbo()
+        )
+    }
+
+    override suspend fun deleteWatchedMovie(movie: WatchedMovie) {
+        database.watchedMovieDao.delete(movie = movie.toDbo())
+    }
+
+    override suspend fun deleteWatchedMovies(movies: List<WatchedMovie>) {
+        database.watchedMovieDao.deleteAll(
+            movies = movies.map { it.toDbo() }
+        )
+    }
+
+    override suspend fun deleteWatchedMoviesById(id: Int) {
+        database.watchedMovieDao.deleteMoviesById(id = id)
+    }
+
+    override fun getAllWatchedMovies(): Flow<List<WatchedMovie>> {
+        return database.watchedMovieDao.getAll().map { watchedMovieDbos ->
+            watchedMovieDbos.map { it.toWatchedMovie() }
+        }
+    }
+
+    override fun countWatchedMoviesById(id: Int): Flow<Int> {
+        return database.watchedMovieDao.countMovies(id = id)
+            .onEach { Log.d("Data layer", "countWatchedMoviesById: $it") }
+    }
+
+
+    // ==========WISHED MOVIES==========
+    override suspend fun upsertWishedMovie(movie: WishedMovie) {
+        database.wishedMovieDao.upsert(movie = movie.toDbo())
+    }
+
+    override suspend fun upsertWishedMovies(movies: List<WishedMovie>) {
+        database.wishedMovieDao.upsertAll(
+            movies = movies.map { it.toDbo() }
+        )
+    }
+
+    override suspend fun addMovieToWished(movie: MovieDetails) {
+        database.wishedMovieDao.upsert(
+            movie = movie
+                .toMovie(cacheId = 0)
+                .toWishedMovie(scheduledViewingAt = null, databaseId = 0)
+                .toDbo()
+        )
+    }
+
+    override suspend fun moveWishedMovieToWatched(movie: MovieDetails) {
+        database.wishedMovieDao.deleteMoviesById(id = movie.id)
+        database.watchedMovieDao.upsert(
+            movie = movie
+                .toMovie(cacheId = 0)
+                .toWatchedMovie(votePersonal = null, databaseId = 0)
+                .toDbo()
+        )
+    }
+
+    override suspend fun deleteWishedMovie(movie: WishedMovie) {
+        database.wishedMovieDao.delete(movie = movie.toDbo())
+    }
+
+    override suspend fun deleteWishedMovies(movies: List<WishedMovie>) {
+        database.wishedMovieDao.deleteAll(
+            movies = movies.map { it.toDbo() }
+        )
+    }
+
+    override suspend fun deleteWishedMoviesById(id: Int) {
+        database.wishedMovieDao.deleteMoviesById(id = id)
+    }
+
+    override fun getAllWishedMovies(): Flow<List<WishedMovie>> {
+        return database.wishedMovieDao.getAll().map { wishedMovieDbos ->
+            wishedMovieDbos.map { it.toWishedMovie() }
+        }
+    }
+
+    override fun countWishedMoviesById(id: Int): Flow<Int> {
+        return database.wishedMovieDao.countMovies(id = id)
+            .onEach { Log.d("Data layer", "countWatchedMoviesById: $it") }
+    }
+
+
+    // ==========NETWORK==========
     // TODO: Use the language selected by user
     // TODO: Consider creating backups to restore data if network request is unsuccessful
     // TODO: Store movie genres in the database
@@ -74,137 +192,6 @@ class AppRepositoryImpl internal constructor(
             genreDbos.map { it.toGenre() }
         }
     }
-
-
-    override suspend fun moveMovieToWatchedMovies(movie: Movie) {
-        database.watchedMovieDao.upsert(
-            movie = movie.toWatchedMovie(votePersonal = null, databaseId = 0).toDbo()
-        )
-    }
-
-    override suspend fun moveMoviesToWatchedMovies(movies: List<Movie>) {
-        database.watchedMovieDao.upsertAll(
-            movies = movies.map { movie ->
-                movie.toWatchedMovie(votePersonal = null, databaseId = 0).toDbo()
-            }
-        )
-    }
-
-    override suspend fun moveWishedMovieToWatchedMovies(movie: WishedMovie) {
-        database.wishedMovieDao.delete(movie = movie.toDbo())
-        database.watchedMovieDao.upsert(
-            movie = movie.toWatchedMovie(votePersonal = null, databaseId = 0).toDbo()
-        )
-    }
-
-    override suspend fun moveWishedMoviesToWatchedMovies(movies: List<WishedMovie>) {
-        database.wishedMovieDao.deleteAll(movies = movies.map { it.toDbo() })
-        database.watchedMovieDao.upsertAll(
-            movies = movies.map { movie ->
-                movie.toWatchedMovie(votePersonal = null, databaseId = 0).toDbo()
-            }
-        )
-    }
-
-    override suspend fun upsertWatchedMovie(movie: WatchedMovie) {
-        database.watchedMovieDao.upsert(movie = movie.toDbo())
-    }
-
-    override suspend fun upsertWatchedMovies(movies: List<WatchedMovie>) {
-        database.watchedMovieDao.upsertAll(
-            movies = movies.map { it.toDbo() }
-        )
-    }
-
-    override suspend fun deleteWatchedMovie(movie: WatchedMovie) {
-        database.watchedMovieDao.delete(movie = movie.toDbo())
-    }
-
-    override suspend fun deleteWatchedMovies(movies: List<WatchedMovie>) {
-        database.watchedMovieDao.deleteAll(
-            movies = movies.map { it.toDbo() }
-        )
-    }
-
-    override fun getWatchedMovieById(id: Int): Flow<WatchedMovie> {
-        return database.watchedMovieDao
-            .getById(id = id)
-            .map { it.toWatchedMovie() }
-    }
-
-    override fun getAllWatchedMovies(): Flow<List<WatchedMovie>> {
-        return database.watchedMovieDao.getAll().map { watchedMovieDbos ->
-            watchedMovieDbos.map { it.toWatchedMovie() }
-        }
-    }
-
-
-    override suspend fun moveMovieToWishedMovies(movie: Movie) {
-        database.wishedMovieDao.upsert(
-            movie = movie.toWishedMovie(
-                scheduledViewingAt = null,
-                databaseId = 0
-            ).toDbo()
-        )
-    }
-
-    override suspend fun moveMoviesToWishedMovies(movies: List<Movie>) {
-        database.wishedMovieDao.upsertAll(
-            movies = movies.map { movie ->
-                movie.toWishedMovie(scheduledViewingAt = null, databaseId = 0).toDbo()
-            }
-        )
-    }
-
-    override suspend fun moveWatchedMovieToWishedMovies(movie: WatchedMovie) {
-        database.watchedMovieDao.delete(movie = movie.toDbo())
-        database.wishedMovieDao.upsert(
-            movie = movie.toWishedMovie(scheduledViewingAt = null, databaseId = 0).toDbo()
-        )
-    }
-
-    override suspend fun moveWatchedMoviesToWishedMovies(movies: List<WatchedMovie>) {
-        database.watchedMovieDao.deleteAll(movies = movies.map { it.toDbo() })
-        database.wishedMovieDao.upsertAll(
-            movies = movies.map { movie ->
-                movie.toWishedMovie(scheduledViewingAt = null, databaseId = 0).toDbo()
-            }
-        )
-    }
-
-    override suspend fun upsertWishedMovie(movie: WishedMovie) {
-        database.wishedMovieDao.upsert(movie = movie.toDbo())
-    }
-
-    override suspend fun upsertWishedMovies(movies: List<WishedMovie>) {
-        database.wishedMovieDao.upsertAll(
-            movies = movies.map { it.toDbo() }
-        )
-    }
-
-    override suspend fun deleteWishedMovie(movie: WishedMovie) {
-        database.wishedMovieDao.delete(movie = movie.toDbo())
-    }
-
-    override suspend fun deleteWishedMovies(movies: List<WishedMovie>) {
-        database.wishedMovieDao.deleteAll(
-            movies = movies.map { it.toDbo() }
-        )
-    }
-
-    override fun getWishedMovieById(id: Int): Flow<WishedMovie> {
-        return database.wishedMovieDao
-            .getById(id = id)
-            .map { it.toWishedMovie() }
-    }
-
-    override fun getAllWishedMovies(): Flow<List<WishedMovie>> {
-        return database.wishedMovieDao.getAll().map { wishedMovieDbos ->
-            wishedMovieDbos.map { it.toWishedMovie() }
-        }
-    }
-
-
 
     override suspend fun clearDiscoverMoviesCache() {
         database.discoverMovieDao.deleteAll()
@@ -275,6 +262,19 @@ class AppRepositoryImpl internal constructor(
             },
         ).flow.map { pagingData ->
             pagingData.map { it.toMovie() }
+        }
+    }
+
+    override suspend fun getMovieDetails(id: Int): Flow<Result<MovieDetails>> {
+        return flow {
+            val result: Result<MovieDetails> = try {
+                Result.success(network.getMovieDetails(id = id).toMovieDetails())
+            } catch (exception: HttpException) {
+                Result.failure(exception = exception)
+            } catch (exception: IOException) {
+                Result.failure(exception = exception)
+            }
+            emit(result)
         }
     }
 }
