@@ -29,7 +29,7 @@ data class WatchedMovieDbo(
     val overview: String,
 
     @ColumnInfo("popularity")
-    val popularity: Double,
+    val popularity: Double?,
 
     @ColumnInfo("poster_path")
     val posterPath: String?,
@@ -41,13 +41,13 @@ data class WatchedMovieDbo(
     val title: String,
 
     @ColumnInfo("video")
-    val video: Boolean,
+    val video: Boolean?,
 
     @ColumnInfo("vote_average")
-    val voteAverage: Double,
+    val voteAverage: Double?,
 
     @ColumnInfo("vote_count")
-    val voteCount: Int,
+    val voteCount: Int?,
 
     @ColumnInfo("vote_personal")
     val votePersonal: Double?,

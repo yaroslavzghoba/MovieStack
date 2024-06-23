@@ -11,6 +11,7 @@ import com.yaroslavzghoba.network.model.MovieDetailsDto
 import com.yaroslavzghoba.network.model.ProductionCompanyDto
 import com.yaroslavzghoba.network.model.ProductionCountryDto
 import com.yaroslavzghoba.network.model.SpokenLanguageDto
+import kotlinx.datetime.LocalDate
 
 /**
  * Covert [MovieDetailsDto] to [MovieDetails]
@@ -32,7 +33,7 @@ internal fun MovieDetailsDto.toMovieDetails() = MovieDetails(
     posterPath = posterPath,
     productionCompanies = productionCompanies.map { it.toProductionCompany() },
     productionCountries = productionCountries.map { it.toProductionCountry() },
-    releaseDate = releaseDate,
+    releaseDate = LocalDate.parse(releaseDate),
     revenue = revenue,
     runtime = runtime,
     spokenLanguages = spokenLanguages.map { it.toSpokenLanguage() },

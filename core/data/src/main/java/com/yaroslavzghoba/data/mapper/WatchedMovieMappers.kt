@@ -3,6 +3,7 @@ package com.yaroslavzghoba.data.mapper
 import com.yaroslavzghoba.database.model.WatchedMovieDbo
 import com.yaroslavzghoba.model.WatchedMovie
 import com.yaroslavzghoba.model.WishedMovie
+import kotlinx.datetime.LocalDate
 
 /**
  * Convert [WatchedMovieDbo] to [WatchedMovie]
@@ -17,7 +18,7 @@ internal fun WatchedMovieDbo.toWatchedMovie() = WatchedMovie(
     overview = overview,
     popularity = popularity,
     posterPath = posterPath,
-    releaseDate = releaseDate,
+    releaseDate = LocalDate.parse(releaseDate),
     title = title,
     video = video,
     voteAverage = voteAverage,
@@ -39,7 +40,7 @@ internal fun WatchedMovie.toDbo() = WatchedMovieDbo(
     overview = overview,
     popularity = popularity,
     posterPath = posterPath,
-    releaseDate = releaseDate,
+    releaseDate = releaseDate.toString(),
     title = title,
     video = video,
     voteAverage = voteAverage,

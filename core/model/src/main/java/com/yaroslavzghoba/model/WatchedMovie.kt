@@ -1,5 +1,7 @@
 package com.yaroslavzghoba.model
 
+import kotlinx.datetime.LocalDate
+
 /**
  * The movie that the user has already watched
  */
@@ -11,13 +13,13 @@ class WatchedMovie(
     originalLanguage: String,
     originalTitle: String,
     overview: String,
-    popularity: Double,
+    popularity: Double?,
     posterPath: String?,
-    releaseDate: String,
+    releaseDate: LocalDate,
     title: String,
-    video: Boolean,
-    voteAverage: Double,
-    voteCount: Int,
+    video: Boolean?,
+    voteAverage: Double?,
+    voteCount: Int?,
     val votePersonal: Double?,
     val databaseId: Int,  // Used instead of `id` in the db to keep the sequence
 ) : MovieCommon(

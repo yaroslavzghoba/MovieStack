@@ -52,6 +52,9 @@ dependencies {
     // Load images
     implementation(libs.coil.compose)
 
+    // Date formating
+    implementation(libs.kotlinx.datetime)
+
     // Internal dependencies
     implementation(project(":core:common"))
     implementation(project(":core:model"))

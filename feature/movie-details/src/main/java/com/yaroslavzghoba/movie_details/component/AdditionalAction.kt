@@ -27,47 +27,62 @@ internal fun AdditionalAction(
     val isWatchedMovie = viewModel.isWatchedMovie
     val isWishedMovie = viewModel.isWishedMovie
     var isDropdownMenuExpanded by remember { mutableStateOf(false) }
-    val onDismissRequest: () -> Unit = { isDropdownMenuExpanded = false }
+    val onMenuDismissRequest: () -> Unit = { isDropdownMenuExpanded = false }
+    val onClick: (event: MovieDetailsUiEvent?) -> Unit = { event ->
+        event?.let { viewModel.onEvent(event = it) }
+        onMenuDismissRequest()
+    }
+
     Box(modifier = modifier) {
         FilledTonalIconToggleButton(
             checked = isDropdownMenuExpanded,
-            onCheckedChange = { isDropdownMenuExpanded = it }
+            onCheckedChange = { isDropdownMenuExpanded = it },
         ) {
             Icon(
                 painter = painterResource(R.drawable.baseline_more_vert_24),
                 contentDescription = null,
             )
         }
-        when {
-            !isWatchedMovie && !isWishedMovie -> {
-                NotWatchedNotWishedMenu(
-                    viewModel = viewModel,
-                    isDropdownMenuExpanded = isDropdownMenuExpanded,
-                    onDismissRequest = onDismissRequest,
+        DropdownMenu(
+            expanded = isDropdownMenuExpanded,
+            onDismissRequest = onMenuDismissRequest,
+        ) {
+            if (!isWatchedMovie && !isWishedMovie) {
+                MovieDropdownMenuItem(
+                    textRes = R.string.add_movie_to_wish_list_option,
+                    onClick = { onClick(MovieDetailsUiEvent.AddMovieToWishList) },
+                )
+                MovieDropdownMenuItem(
+                    textRes = R.string.add_movie_to_watched_option,
+                    onClick = { onClick(MovieDetailsUiEvent.AddMovieToWatched) },
                 )
             }
-
-            !isWatchedMovie && isWishedMovie -> {
-                NotWatchedButWishedMenu(
-                    viewModel = viewModel,
-                    isDropdownMenuExpanded = isDropdownMenuExpanded,
-                    onDismissRequest = onDismissRequest,
+            if (!isWatchedMovie && isWishedMovie) {
+                MovieDropdownMenuItem(
+                    textRes = R.string.add_movie_to_your_calendar,
+                    onClick = { onClick(MovieDetailsUiEvent.ViewingScheduling) },
+                )
+                MovieDropdownMenuItem(
+                    textRes = R.string.move_movie_to_watched_option,
+                    onClick = { onClick(MovieDetailsUiEvent.MoveMovieToWatched) },
                 )
             }
-
-            isWatchedMovie && !isWishedMovie -> {
-                WatchedButNotWishedMenu(
-                    viewModel = viewModel,
-                    isDropdownMenuExpanded = isDropdownMenuExpanded,
-                    onDismissRequest = onDismissRequest,
+            if (isWishedMovie) {
+                MovieDropdownMenuItem(
+                    textRes = R.string.remove_movie_from_wish_list_option,
+                    onClick = { onClick(MovieDetailsUiEvent.AddMovieToWatched) },
                 )
             }
-
-            isWatchedMovie && isWishedMovie -> {
-                WatchedAndWishedMenu(
-                    viewModel = viewModel,
-                    isDropdownMenuExpanded = isDropdownMenuExpanded,
-                    onDismissRequest = onDismissRequest,
+            if (isWatchedMovie && !isWishedMovie) {
+                MovieDropdownMenuItem(
+                    textRes = R.string.move_movie_to_wish_list_option,
+                    onClick = { onClick(MovieDetailsUiEvent.MoveMovieToWishList) },
+                )
+            }
+            if (isWatchedMovie) {
+                MovieDropdownMenuItem(
+                    textRes = R.string.remove_movie_from_watched_option,
+                    onClick = { onClick(MovieDetailsUiEvent.RemoveMovieFromWatched) },
                 )
             }
         }
@@ -75,141 +90,14 @@ internal fun AdditionalAction(
 }
 
 @Composable
-private fun NotWatchedNotWishedMenu(
-    viewModel: MovieDetailsViewModel,
-    isDropdownMenuExpanded: Boolean,
-    onDismissRequest: () -> Unit,
+private fun MovieDropdownMenuItem(
+    @StringRes textRes: Int,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    DropdownMenu(
-        expanded = isDropdownMenuExpanded,
-        onDismissRequest = onDismissRequest,
+    DropdownMenuItem(
+        text = { Text(text = stringResource(textRes)) },
+        onClick = onClick,
         modifier = modifier,
-    ) {
-        DropdownMenuItem(
-            text = {
-                @StringRes val textRes = R.string.add_movie_to_wish_list_option
-                Text(text = stringResource(textRes))
-            },
-            onClick = {
-                viewModel.onEvent(event = MovieDetailsUiEvent.AddMovieToWishList)
-                onDismissRequest()
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                @StringRes val textRes = R.string.add_movie_to_watched_option
-                Text(text = stringResource(textRes))
-            },
-            onClick = {
-                viewModel.onEvent(event = MovieDetailsUiEvent.AddMovieToWatched)
-                onDismissRequest()
-            }
-        )
-    }
-}
-
-@Composable
-private fun NotWatchedButWishedMenu(
-    viewModel: MovieDetailsViewModel,
-    isDropdownMenuExpanded: Boolean,
-    onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    DropdownMenu(
-        expanded = isDropdownMenuExpanded,
-        onDismissRequest = onDismissRequest,
-        modifier = modifier,
-    ) {
-        DropdownMenuItem(
-            text = {
-                @StringRes val textRes = R.string.move_movie_to_watched_option
-                Text(text = stringResource(textRes))
-            },
-            onClick = {
-                viewModel.onEvent(event = MovieDetailsUiEvent.MoveMovieToWatched)
-                onDismissRequest()
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                @StringRes val textRes = R.string.remove_movie_from_wish_list_option
-                Text(text = stringResource(textRes))
-            },
-            onClick = {
-                viewModel.onEvent(event = MovieDetailsUiEvent.RemoveMovieFromWishList)
-                onDismissRequest()
-            }
-        )
-    }
-}
-
-@Composable
-private fun WatchedButNotWishedMenu(
-    viewModel: MovieDetailsViewModel,
-    isDropdownMenuExpanded: Boolean,
-    onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    DropdownMenu(
-        expanded = isDropdownMenuExpanded,
-        onDismissRequest = onDismissRequest,
-        modifier = modifier,
-    ) {
-        DropdownMenuItem(
-            text = {
-                @StringRes val textRes = R.string.move_movie_to_wish_list_option
-                Text(text = stringResource(textRes))
-            },
-            onClick = {
-                viewModel.onEvent(event = MovieDetailsUiEvent.MoveMovieToWishList)
-                onDismissRequest()
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                @StringRes val textRes = R.string.remove_movie_from_watched_option
-                Text(text = stringResource(textRes))
-            },
-            onClick = {
-                viewModel.onEvent(event = MovieDetailsUiEvent.RemoveMovieFromWatched)
-                onDismissRequest()
-            }
-        )
-    }
-}
-
-@Composable
-private fun WatchedAndWishedMenu(
-    viewModel: MovieDetailsViewModel,
-    isDropdownMenuExpanded: Boolean,
-    onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    DropdownMenu(
-        expanded = isDropdownMenuExpanded,
-        onDismissRequest = onDismissRequest,
-        modifier = modifier,
-    ) {
-        DropdownMenuItem(
-            text = {
-                @StringRes val textRes = R.string.remove_movie_from_wish_list_option
-                Text(text = stringResource(textRes))
-            },
-            onClick = {
-                viewModel.onEvent(event = MovieDetailsUiEvent.RemoveMovieFromWishList)
-                onDismissRequest()
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                @StringRes val textRes = R.string.remove_movie_from_watched_option
-                Text(text = stringResource(textRes))
-            },
-            onClick = {
-                viewModel.onEvent(event = MovieDetailsUiEvent.RemoveMovieFromWatched)
-                onDismissRequest()
-            }
-        )
-    }
+    )
 }

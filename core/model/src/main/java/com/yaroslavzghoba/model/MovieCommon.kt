@@ -1,5 +1,7 @@
 package com.yaroslavzghoba.model
 
+import kotlinx.datetime.LocalDate
+
 /**
  * Common properties for all movies
  */
@@ -11,11 +13,11 @@ abstract class MovieCommon(
     val originalLanguage: String,
     val originalTitle: String,
     val overview: String,
-    val popularity: Double,
+    val popularity: Double?,
     val posterPath: String?,
-    val releaseDate: String,
+    val releaseDate: LocalDate,
     val title: String,
-    val video: Boolean,
-    val voteAverage: Double,
-    val voteCount: Int,
+    val video: Boolean?,
+    val voteAverage: Double?,
+    val voteCount: Int?,
 )

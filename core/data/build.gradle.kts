@@ -38,10 +38,9 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
 
-    // For catching HttpException
-    api(libs.retrofit)
-
-    implementation(libs.paging.runtime)
+    api(libs.retrofit)  // for catching HttpException
+    implementation(libs.paging.runtime)  // for creating pagers
+    implementation(libs.kotlinx.datetime)  // DateSerializer
 
     // Hilt dependency injection
     implementation(libs.hilt.android)

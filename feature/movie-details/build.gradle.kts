@@ -58,6 +58,9 @@ dependencies {
     // Get nav arguments
     implementation(libs.androidx.navigation.compose)
 
+    // Date formating
+    implementation(libs.kotlinx.datetime)
+
     // Internal dependencies
     implementation(project(":core:common"))
     implementation(project(":core:data"))

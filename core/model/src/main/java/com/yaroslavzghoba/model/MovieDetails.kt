@@ -1,5 +1,7 @@
 package com.yaroslavzghoba.model
 
+import kotlinx.datetime.LocalDate
+
 data class MovieDetails(
     val adult: Boolean,
     val backdropPath: String,
@@ -17,7 +19,7 @@ data class MovieDetails(
     val posterPath: String,
     val productionCompanies: List<ProductionCompany>,
     val productionCountries: List<ProductionCountry>,
-    val releaseDate: String,
+    val releaseDate: LocalDate,
     val revenue: Int,
     val runtime: Int,
     val spokenLanguages: List<SpokenLanguage>,

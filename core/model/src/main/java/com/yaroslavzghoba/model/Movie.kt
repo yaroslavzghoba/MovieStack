@@ -1,5 +1,7 @@
 package com.yaroslavzghoba.model
 
+import kotlinx.datetime.LocalDate
+
 /**
  * The movie suggested to the user
  */
@@ -11,13 +13,13 @@ class Movie(
     originalLanguage: String,
     originalTitle: String,
     overview: String,
-    popularity: Double,
+    popularity: Double?,
     posterPath: String?,
-    releaseDate: String,
+    releaseDate: LocalDate,
     title: String,
-    video: Boolean,
-    voteAverage: Double,
-    voteCount: Int,
+    video: Boolean?,
+    voteAverage: Double?,
+    voteCount: Int?,
     val cacheId: Int,  // Used instead of `id`, to preserve the same sequence as when loading
 ) : MovieCommon(
     adult = adult,

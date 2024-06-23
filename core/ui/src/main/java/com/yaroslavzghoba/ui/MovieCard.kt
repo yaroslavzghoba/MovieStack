@@ -25,7 +25,12 @@ import com.yaroslavzghoba.common.round
 import com.yaroslavzghoba.model.MovieCommon
 import com.yaroslavzghoba.model.util.PosterQuality
 import com.yaroslavzghoba.ui.util.Constants
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.format
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
 
+@OptIn(FormatStringsInDatetimeFormats::class)
 @Composable
 fun MovieCard(
     movie: MovieCommon,
@@ -35,6 +40,8 @@ fun MovieCard(
     posterQuality: PosterQuality = LocalPosterQuality.current,
 ) {
     val posterUrl = "${Constants.IMAGE_BASE_URL}${posterQuality.path}${movie.posterPath}"
+    val dateFormat = LocalDate.Format { byUnicodePattern(Constants.DATE_FORMAT_PATTERN) }
+    val releaseDate = movie.releaseDate.format(dateFormat)
     Card(
         onClick = onCardClicked,
         modifier = modifier,
@@ -62,7 +69,7 @@ fun MovieCard(
                 style = MaterialTheme.typography.titleMedium,
             )
             Text(
-                text = movie.releaseDate,
+                text = releaseDate,
                 style = MaterialTheme.typography.labelSmall
                     .copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
             )
@@ -71,7 +78,7 @@ fun MovieCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "${movie.voteAverage.round(1)}/10",
+                    text = "${movie.voteAverage?.round(1) ?: "-"}/10",
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Icon(

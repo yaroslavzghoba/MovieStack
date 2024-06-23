@@ -1,6 +1,7 @@
 package com.yaroslavzghoba.movie_details
 
 internal sealed interface MovieDetailsUiEvent {
+    data object ViewingScheduling : MovieDetailsUiEvent
     data object AddMovieToWatched : MovieDetailsUiEvent
     data object AddMovieToWishList : MovieDetailsUiEvent
     data object RemoveMovieFromWatched : MovieDetailsUiEvent

@@ -20,8 +20,14 @@ import androidx.compose.ui.unit.dp
 import com.yaroslavzghoba.model.MovieDetails
 import com.yaroslavzghoba.movie_details.component.AdditionalAction
 import com.yaroslavzghoba.movie_details.component.MovieHeader
+import com.yaroslavzghoba.movie_details.util.Constants
 import com.yaroslavzghoba.ui.MovieBackdrop
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.format
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
 
+@OptIn(FormatStringsInDatetimeFormats::class)
 @Composable
 fun MovieDetailsScreen(
     viewModel: MovieDetailsViewModel,
@@ -29,6 +35,8 @@ fun MovieDetailsScreen(
     modifier: Modifier = Modifier,
 ) {
     val movie = viewModel.result?.getOrNull()
+    val dateFormat = LocalDate.Format { byUnicodePattern(Constants.DATE_FORMAT_PATTERN) }
+    val releaseDate = movie?.releaseDate?.format(dateFormat)
     Column(
         modifier = modifier.background(
             color = MaterialTheme.colorScheme.surface,
@@ -44,7 +52,7 @@ fun MovieDetailsScreen(
                 modifier = Modifier.wrapContentSize(),
             )
             Text(
-                text = movie?.releaseDate ?: "",
+                text = releaseDate ?: "",
                 style = MaterialTheme.typography.labelMedium
                     .copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
             )

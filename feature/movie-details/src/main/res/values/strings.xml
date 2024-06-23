@@ -1,6 +1,8 @@
 <resources>
     <string name="return_back_btn_description">Return back</string>
 
+    <!--Movie actions-->
+    <string name="add_movie_to_your_calendar">Add movie to your calendar</string>
     <string name="add_movie_to_wish_list_option">Add to wish list</string>
     <string name="add_movie_to_watched_option">Add to watched</string>
     <string name="remove_movie_from_wish_list_option">Remove from wish list</string>
@@ -10,4 +12,9 @@
 
     <string name="movie_evaluation_description">Evaluation</string>
     <string name="adult_movie_label">18+</string>
+
+    <!--Calendar event-->
+    <string name="calendar_event_title">Watch movie 🎥</string>
+    <string name="calendar_event_description">Watch "%1$s" movie</string>
+    <string name="calendar_not_found">Calendar not found</string>
 </resources>
