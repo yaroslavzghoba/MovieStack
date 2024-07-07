@@ -1,5 +1,6 @@
 package com.yaroslavzghoba.database
 
+import android.content.Context
 import com.yaroslavzghoba.database.dao.DiscoverMovieDao
 import com.yaroslavzghoba.database.dao.GenreDao
 import com.yaroslavzghoba.database.dao.NowPlayingMovieDao
@@ -59,4 +60,12 @@ class ApplicationDatabase internal constructor(
     /**Provide access to [WishedMovieDbo]*/
     val wishedMovieDao: WishedMovieDao
         get() = database.wishedMovieDao
+
+    companion object {
+        fun build(context: Context): ApplicationDatabase {
+            return ApplicationDatabase(
+                database = ApplicationRoomDb.getInstance(context = context)
+            )
+        }
+    }
 }

@@ -1,11 +1,15 @@
 package com.yaroslavzghoba.data
 
+import android.content.Context
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.yaroslavzghoba.data.mapper.toDbo
 import com.yaroslavzghoba.data.mapper.toGenre
 import com.yaroslavzghoba.data.mapper.toMovie
@@ -13,6 +17,9 @@ import com.yaroslavzghoba.data.mapper.toMovieDetails
 import com.yaroslavzghoba.data.mapper.toWatchedMovie
 import com.yaroslavzghoba.data.mapper.toWishedMovie
 import com.yaroslavzghoba.data.mediator.SearchedMovieMediator
+import com.yaroslavzghoba.data.util.Constants.MOVIE_RELEASE_WORK_NAME
+import com.yaroslavzghoba.data.util.getInitialDelay
+import com.yaroslavzghoba.data.worker.MovieReleaseWorker
 import com.yaroslavzghoba.database.ApplicationDatabase
 import com.yaroslavzghoba.database.model.DiscoverMovieDbo
 import com.yaroslavzghoba.database.model.NowPlayingMovieDbo
@@ -32,10 +39,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.LocalTime
 import retrofit2.HttpException
 import java.io.IOException
+import java.util.concurrent.TimeUnit
+
+private const val TAG = "AppRepositoryImpl"
 
 class AppRepositoryImpl internal constructor(
+    private val context: Context,
     private val userPrefsRepository: UserPrefsRepository,
     private val database: ApplicationDatabase,
     private val network: NetworkDataSource,
@@ -276,5 +288,22 @@ class AppRepositoryImpl internal constructor(
             }
             emit(result)
         }
+    }
+
+
+    // ==========NOTIFICATIONS==========
+    override fun launchMovieReleaseNotifications() {
+        // TODO: Inject the target time for notifications from a local storage
+        val targetTime = LocalTime(hour = 12, minute = 0)
+        val delay = getInitialDelay(targetTime = targetTime)
+        val request = PeriodicWorkRequestBuilder<MovieReleaseWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+            .build()
+        WorkManager.getInstance(context)
+            .enqueueUniquePeriodicWork(
+                MOVIE_RELEASE_WORK_NAME,
+                ExistingPeriodicWorkPolicy.UPDATE,
+                request,
+            )
     }
 }

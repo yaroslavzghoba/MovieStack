@@ -50,16 +50,13 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.material3)
+    implementation(libs.accompanist.permissions)  // for notification permission
+    implementation(libs.kotlinx.datetime)  // for date formatting
+    implementation(libs.androidx.navigation.compose)  // to get nav args
 
     // Hilt dependency injection
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-
-    // Get nav arguments
-    implementation(libs.androidx.navigation.compose)
-
-    // Date formating
-    implementation(libs.kotlinx.datetime)
 
     // Internal dependencies
     implementation(project(":core:common"))

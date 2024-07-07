@@ -25,10 +25,13 @@ import com.yaroslavzghoba.common.round
 import com.yaroslavzghoba.model.MovieCommon
 import com.yaroslavzghoba.model.util.PosterQuality
 import com.yaroslavzghoba.ui.util.Constants
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(FormatStringsInDatetimeFormats::class)
 @Composable
@@ -41,7 +44,11 @@ fun MovieCard(
 ) {
     val posterUrl = "${Constants.IMAGE_BASE_URL}${posterQuality.path}${movie.posterPath}"
     val dateFormat = LocalDate.Format { byUnicodePattern(Constants.DATE_FORMAT_PATTERN) }
-    val releaseDate = movie.releaseDate.format(dateFormat)
+    val releaseDate = movie.releaseDate
+    val today = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
+    val isReleased = releaseDate?.let { it <= today } ?: false
+    val evaluation = movie.voteAverage
+        ?.let { if (isReleased) it.round(1).toString() else null } ?: "-"
     Card(
         onClick = onCardClicked,
         modifier = modifier,
@@ -69,7 +76,7 @@ fun MovieCard(
                 style = MaterialTheme.typography.titleMedium,
             )
             Text(
-                text = releaseDate,
+                text = releaseDate?.format(dateFormat) ?: Constants.DATE_FORMAT_PATTERN,
                 style = MaterialTheme.typography.labelSmall
                     .copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
             )
@@ -78,7 +85,7 @@ fun MovieCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "${movie.voteAverage?.round(1) ?: "-"}/10",
+                    text = "$evaluation/10",
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Icon(

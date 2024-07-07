@@ -1,7 +1,7 @@
-package com.yaroslavzghoba.database.di
+package com.yaroslavzghoba.notification.di
 
 import android.content.Context
-import com.yaroslavzghoba.database.ApplicationDatabase
+import com.yaroslavzghoba.notification.ApplicationNotifier
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,11 +11,13 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object DatabaseModule {
+internal object NotificationModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): ApplicationDatabase {
-        return ApplicationDatabase.build(context = context)
+    fun provideApplicationNotifier(
+        @ApplicationContext context: Context,
+    ): ApplicationNotifier {
+        return ApplicationNotifier(context = context)
     }
 }

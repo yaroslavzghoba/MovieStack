@@ -15,7 +15,7 @@ class WatchedMovie(
     overview: String,
     popularity: Double?,
     posterPath: String?,
-    releaseDate: LocalDate,
+    releaseDate: LocalDate?,
     title: String,
     video: Boolean?,
     voteAverage: Double?,

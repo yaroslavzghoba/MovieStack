@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.yaroslavzghoba.data"
+    namespace = "com.yaroslavzghoba.notification"
     compileSdk = 34
 
     defaultConfig {
@@ -38,22 +38,14 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
 
-    api(libs.retrofit)  // for catching HttpException
-    implementation(libs.paging.runtime)  // for creating pagers
-    implementation(libs.kotlinx.datetime)  // for date serialization
-
     // Hilt dependency injection
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    // Schedule notifications
-    implementation(libs.androidx.work.runtime.ktx)
+    // Load images
+    implementation(libs.coil.compose)
 
     // Internal dependencies
-    implementation(project(":core:database"))
-    implementation(project(":core:datastore"))
-    implementation(project(":core:domain"))
+    implementation(project(":core:common"))
     implementation(project(":core:model"))
-    implementation(project(":core:network"))
-    implementation(project(":core:notification"))
 }

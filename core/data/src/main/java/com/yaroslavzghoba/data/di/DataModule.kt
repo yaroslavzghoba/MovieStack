@@ -1,5 +1,6 @@
 package com.yaroslavzghoba.data.di
 
+import android.content.Context
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -21,6 +22,7 @@ import com.yaroslavzghoba.network.NetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -125,6 +127,7 @@ internal object DataModule {
 
     @Provides
     fun provideApplicationRepository(
+        @ApplicationContext context: Context,
         userPrefsRepository: UserPrefsRepository,
         database: ApplicationDatabase,
         network: NetworkDataSource,
@@ -135,6 +138,7 @@ internal object DataModule {
         upcomingMoviePager: Pager<Int, UpcomingMovieDbo>,
     ): ApplicationRepository {
         return AppRepositoryImpl(
+            context = context,
             userPrefsRepository = userPrefsRepository,
             database = database,
             network = network,

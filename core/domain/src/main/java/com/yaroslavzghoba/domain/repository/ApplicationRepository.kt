@@ -130,4 +130,9 @@ interface ApplicationRepository {
 
     /**Get movie details by its id*/
     suspend fun getMovieDetails(id: Int): Flow<Result<MovieDetails>>
+
+
+    // ==========NOTIFICATIONS==========
+    /**Launch daily notifications about wished movie releases*/
+    fun launchMovieReleaseNotifications()
 }

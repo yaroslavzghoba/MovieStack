@@ -20,6 +20,7 @@ class MainViewModel @Inject constructor(
     val userPreferences = _userPreferences.asStateFlow()
 
     init {
+        repository.launchMovieReleaseNotifications()
         viewModelScope.launch(context = Dispatchers.IO) {
             repository.getUserPreferences().collect {
                 _userPreferences.value = it

@@ -65,6 +65,10 @@ class MovieDetailsViewModel @Inject constructor(
 
     internal fun onEvent(event: MovieDetailsUiEvent) {
         when (event) {
+//            MovieDetailsUiEvent.NotificationsGrated -> {
+//                repository.launchMovieReleaseNotifications()
+//            }
+
             MovieDetailsUiEvent.ViewingScheduling -> {
                 val movie = result?.getOrNull() ?: return
                 val timeOffset = DateTimePeriod(minutes = 30)
@@ -127,7 +131,7 @@ class MovieDetailsViewModel @Inject constructor(
         val intent = Intent(Intent.ACTION_EDIT).apply {
             setType("vnd.android.cursor.item/event")
             putExtra(CalendarContract.Events.TITLE, title)
-//            putExtra(CalendarContract.Events.DESCRIPTION, movie.overview)
+            putExtra(CalendarContract.Events.DESCRIPTION, movie.overview)
             putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTimeMillis)
             putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTimeMillis)
             putExtra(CalendarContract.Events.ALL_DAY, false)  // periodicity
@@ -136,11 +140,8 @@ class MovieDetailsViewModel @Inject constructor(
         try {
             context.startActivity(intent)
         } catch (exception: ActivityNotFoundException) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.calendar_not_found),
-                Toast.LENGTH_LONG,
-            ).show()
+            val message = context.getString(R.string.calendar_not_found)
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
 }

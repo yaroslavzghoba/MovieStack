@@ -35,7 +35,7 @@ data class TopRatedMovieDbo(
     val posterPath: String?,
 
     @ColumnInfo("release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
 
     @ColumnInfo("title")
     val title: String,

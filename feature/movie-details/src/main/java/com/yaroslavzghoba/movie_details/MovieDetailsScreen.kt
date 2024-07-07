@@ -1,5 +1,7 @@
 package com.yaroslavzghoba.movie_details
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,16 +19,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.yaroslavzghoba.common.round
 import com.yaroslavzghoba.model.MovieDetails
 import com.yaroslavzghoba.movie_details.component.AdditionalAction
 import com.yaroslavzghoba.movie_details.component.MovieHeader
 import com.yaroslavzghoba.movie_details.util.Constants
 import com.yaroslavzghoba.ui.MovieBackdrop
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
+import kotlinx.datetime.toLocalDateTime
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(FormatStringsInDatetimeFormats::class)
 @Composable
 fun MovieDetailsScreen(
@@ -52,7 +59,7 @@ fun MovieDetailsScreen(
                 modifier = Modifier.wrapContentSize(),
             )
             Text(
-                text = releaseDate ?: "",
+                text = releaseDate ?: Constants.DATE_FORMAT_PATTERN,
                 style = MaterialTheme.typography.labelMedium
                     .copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
             )
@@ -68,6 +75,7 @@ fun MovieDetailsScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun BackdropWishActions(
     viewModel: MovieDetailsViewModel,
@@ -106,12 +114,16 @@ private fun MovieEvaluation(
     movie: MovieDetails?,
     modifier: Modifier = Modifier,
 ) {
+    val today = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
+    val isReleased = movie?.releaseDate?.let { it <= today } ?: false
+    val evaluation = movie?.voteAverage
+        ?.let { if (isReleased) it.round(1).toString() else null } ?: "-"
     Row(
         modifier = modifier.wrapContentSize(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = movie?.voteAverage?.let { "${it}/10" } ?: "",
+            text = "$evaluation/10",
             style = MaterialTheme.typography.titleLarge
                 .copy(color = MaterialTheme.colorScheme.onSurface),
         )

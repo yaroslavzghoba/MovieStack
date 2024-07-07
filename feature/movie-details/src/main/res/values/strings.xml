@@ -14,7 +14,7 @@
     <string name="adult_movie_label">18+</string>
 
     <!--Calendar event-->
-    <string name="calendar_event_title">Watch movie 🎥</string>
+    <string name="calendar_event_title">Watch movie 🍿</string>
     <string name="calendar_event_description">Watch "%1$s" movie</string>
     <string name="calendar_not_found">Calendar not found</string>
 </resources>

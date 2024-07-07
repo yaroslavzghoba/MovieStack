@@ -5,4 +5,5 @@ package com.yaroslavzghoba.data.util
  */
 internal object Constants {
     const val GENRE_LIST_SEPARATOR = "|"
+    const val MOVIE_RELEASE_WORK_NAME = "movie_release_notifications_work"
 }

@@ -1,0 +1,4 @@
+<resources>
+    <string name="release_movie_notification_title">The wished movie was released 🍿</string>
+    <string name="release_movie_notification_description">The \"%1$s\" movie from your wish list was released today. Let\'s watch it!</string>
+</resources>
