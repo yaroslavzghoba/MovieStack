@@ -7,19 +7,18 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.yaroslavzghoba.common.LocalBackdropQuality
 import com.yaroslavzghoba.common.LocalPosterQuality
 import com.yaroslavzghoba.model.util.ThemeMode
 import com.yaroslavzghoba.moviestack.ui.theme.MovieStackTheme
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.compose.viewmodel.koinViewModel
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val viewModel: MainViewModel = hiltViewModel()
+            val viewModel = koinViewModel<MainViewModel>()
             val userPreferences by viewModel.userPreferences.collectAsState()
             CompositionLocalProvider(
                 LocalPosterQuality provides userPreferences.posterQuality,

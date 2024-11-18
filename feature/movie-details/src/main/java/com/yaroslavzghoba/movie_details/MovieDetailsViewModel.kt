@@ -1,7 +1,7 @@
 package com.yaroslavzghoba.movie_details
 
+import android.app.Application
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
 import android.widget.Toast
@@ -15,11 +15,8 @@ import androidx.navigation.toRoute
 import com.yaroslavzghoba.common.Screen
 import com.yaroslavzghoba.domain.repository.ApplicationRepository
 import com.yaroslavzghoba.model.MovieDetails
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -27,38 +24,51 @@ import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
-import javax.inject.Inject
 
-@HiltViewModel
-class MovieDetailsViewModel @Inject constructor(
+class MovieDetailsViewModel(
     savedStateHandle: SavedStateHandle,
-    @ApplicationContext private val context: Context,
+    private val context: Application,
     private val repository: ApplicationRepository,
 ) : ViewModel() {
 
-    private val id = savedStateHandle.toRoute<Screen.MovieDetails>().id
+    private val movieId = savedStateHandle.toRoute<Screen.MovieDetails>().id
+
+    /**The result of executing movie details request*/
     var result by mutableStateOf<Result<MovieDetails>?>(null)
         private set
+
+    /**Indicates is the requested movie saved in watched*/
     var isWatchedMovie by mutableStateOf(false)
         private set
+
+    /**Indicates is the requested movie saved in wished*/
     var isWishedMovie by mutableStateOf(false)
         private set
 
     init {
+        // Get movie by movie id
         viewModelScope.launch(context = Dispatchers.IO) {
-            repository.getMovieDetails(id = id)
-                .collectLatest { requestResult ->
+            repository.getMovieDetails(id = movieId)
+                .collectLatest movieCollector@{ requestResult ->
                     result = requestResult
-                    val movie = requestResult.getOrNull() ?: return@collectLatest
-                    val numWatchedMovies = repository.countWatchedMoviesById(id = movie.id)
-                    val numWishedMovies = repository.countWishedMoviesById(id = movie.id)
-                    numWatchedMovies
-                        .combine(numWishedMovies) { flow1, flow2 -> listOf(flow1, flow2) }
-                        .map { numMovies -> numMovies.map { it > 0 } }
-                        .collect {
-                            isWatchedMovie = it.first()
-                            isWishedMovie = it.last()
-                        }
+                }
+        }
+
+        // Check is the current movie saved in wished
+        viewModelScope.launch {
+            repository.countWishedMoviesById(id = movieId)
+                .map { moviesNum -> moviesNum > 0 }
+                .collectLatest { isWished ->
+                    isWishedMovie = isWished
+                }
+        }
+
+        // Check is the current movie saved in watched
+        viewModelScope.launch {
+            repository.countWatchedMoviesById(id = movieId)
+                .map { moviesNum -> moviesNum > 0 }
+                .collectLatest { isWatched ->
+                    isWatchedMovie = isWatched
                 }
         }
     }

@@ -4,48 +4,41 @@ import com.yaroslavzghoba.network.NetworkDataSource
 import com.yaroslavzghoba.network.NetworkDataSourceImpl
 import com.yaroslavzghoba.network.service.MovieService
 import com.yaroslavzghoba.network.util.Constants
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.dsl.bind
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal object NetworkModule {
+val networkModule = module {
 
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    single {
         val interceptor = HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
-        return OkHttpClient.Builder()
+        OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .build()
-    }
+    }.bind<OkHttpClient>()
 
-    @Provides
-    @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(Constants.BASE_URL)
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-        .client(client)
-        .build()
+    single {
+        val client: OkHttpClient = get()
+        Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .client(client)
+            .build()
+    }.bind<Retrofit>()
 
-    @Provides
-    @Singleton
-    fun provideMovieService(retrofit: Retrofit): MovieService {
-        return retrofit.create(MovieService::class.java)
-    }
+    single {
+        val retrofit: Retrofit = get()
+        retrofit.create(MovieService::class.java)
+    }.bind<MovieService>()
 
-    @Provides
-    fun provideNetworkDataSource(movieService: MovieService): NetworkDataSource {
-        return NetworkDataSourceImpl(movieService = movieService)
-    }
+    factory {
+        val movieService: MovieService = get()
+        NetworkDataSourceImpl(movieService = movieService)
+    }.bind<NetworkDataSource>()
 }

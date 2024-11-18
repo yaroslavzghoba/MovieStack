@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
-    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -42,9 +40,8 @@ dependencies {
     implementation(libs.paging.runtime)  // for creating pagers
     implementation(libs.kotlinx.datetime)  // for date serialization
 
-    // Hilt dependency injection
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    // Dependency injection
+    implementation(libs.koin.android)
 
     // Schedule notifications
     implementation(libs.androidx.work.runtime.ktx)

@@ -44,8 +44,6 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-private const val TAG = "AppRepositoryImpl"
-
 class AppRepositoryImpl internal constructor(
     private val context: Context,
     private val userPrefsRepository: UserPrefsRepository,
@@ -119,7 +117,6 @@ class AppRepositoryImpl internal constructor(
 
     override fun countWatchedMoviesById(id: Int): Flow<Int> {
         return database.watchedMovieDao.countMovies(id = id)
-            .onEach { Log.d("Data layer", "countWatchedMoviesById: $it") }
     }
 
 

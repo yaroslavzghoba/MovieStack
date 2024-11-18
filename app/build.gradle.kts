@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
-    alias(libs.plugins.hilt.android)
     alias(libs.plugins.serialization.android)
     alias(libs.plugins.compose.compiler)
 }
@@ -66,10 +64,9 @@ dependencies {
     // Custom Material design system
     implementation(libs.achromatic.material)
 
-    // Hilt dependency injection
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
-    implementation(libs.hilt.navigation.compose)
+    // Dependency injection
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose.viewmodel)
 
     // Internal dependencies
     implementation(project(":core:common"))

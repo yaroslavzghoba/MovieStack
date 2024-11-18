@@ -4,8 +4,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.serialization.android)
-    id("kotlin-kapt")
-    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -56,10 +54,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 dependencies {
@@ -73,9 +67,8 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
 
-    // Hilt dependency injection
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    // Dependency injection
+    implementation(libs.koin.android)
 
     // Internal dependencies
     implementation(project(":core:model"))

@@ -3,7 +3,6 @@ package com.yaroslavzghoba.moviestack.navigation
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +22,7 @@ import com.yaroslavzghoba.watched_movies.WatchedScreen
 import com.yaroslavzghoba.watched_movies.WatchedViewModel
 import com.yaroslavzghoba.wish_list.WishListScreen
 import com.yaroslavzghoba.wish_list.WishListViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AppNavigation(
@@ -36,7 +36,7 @@ fun AppNavigation(
         modifier = modifier,
     ) {
         composable<Screen.Home> {
-            val viewModel: HomeViewModel = hiltViewModel()
+            val viewModel = koinViewModel<HomeViewModel>()
             HomeScreen(
                 viewModel = viewModel,
                 isNavigationBarVisible = isNavigationBarVisible,
@@ -69,7 +69,7 @@ fun AppNavigation(
         }
         composable<Screen.MovieDetails> {
             isNavigationBarVisible(false)
-            val viewModel: MovieDetailsViewModel = hiltViewModel()
+            val viewModel = koinViewModel<MovieDetailsViewModel>()
             MovieDetailsScreen(
                 viewModel = viewModel,
                 onReturnBackRequest = { navController.navigateUp() },
@@ -78,7 +78,7 @@ fun AppNavigation(
         }
         composable<Screen.MovieList> {
             isNavigationBarVisible(false)
-            val viewModel: MovieListViewModel = hiltViewModel()
+            val viewModel = koinViewModel<MovieListViewModel>()
             MovieListScreen(
                 viewModel = viewModel,
                 onReturnBack = { navController.navigateUp() },
@@ -91,7 +91,7 @@ fun AppNavigation(
         }
         composable<Screen.WishList> {
             isNavigationBarVisible(true)
-            val viewModel: WishListViewModel = hiltViewModel()
+            val viewModel = koinViewModel<WishListViewModel>()
             WishListScreen(
                 viewModel = viewModel,
                 onGetMovieDetails = { id ->
@@ -103,7 +103,7 @@ fun AppNavigation(
         }
         composable<Screen.Settings> {
             isNavigationBarVisible(true)
-            val viewModel: SettingsViewModel = hiltViewModel()
+            val viewModel = koinViewModel<SettingsViewModel>()
             SettingsScreen(
                 viewModel = viewModel,
                 modifier = Modifier.fillMaxSize(),
@@ -111,7 +111,7 @@ fun AppNavigation(
         }
         composable<Screen.Watched> {
             isNavigationBarVisible(true)
-            val viewModel: WatchedViewModel = hiltViewModel()
+            val viewModel = koinViewModel<WatchedViewModel>()
             WatchedScreen(
                 viewModel = viewModel,
                 onGetMovieDetails = { movie: WatchedMovie ->

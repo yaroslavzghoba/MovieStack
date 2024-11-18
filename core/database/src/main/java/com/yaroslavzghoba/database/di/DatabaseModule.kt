@@ -1,21 +1,13 @@
 package com.yaroslavzghoba.database.di
 
-import android.content.Context
 import com.yaroslavzghoba.database.ApplicationDatabase
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal object DatabaseModule {
+val databaseModule = module {
 
-    @Provides
-    @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): ApplicationDatabase {
-        return ApplicationDatabase.build(context = context)
-    }
+    single {
+        ApplicationDatabase.build(context = androidContext())
+    }.bind<ApplicationDatabase>()
 }

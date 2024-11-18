@@ -7,12 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaroslavzghoba.domain.repository.ApplicationRepository
 import com.yaroslavzghoba.model.WishedMovie
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class WishListViewModel @Inject constructor(
+class WishListViewModel(
     private val repository: ApplicationRepository,
 ) : ViewModel() {
 

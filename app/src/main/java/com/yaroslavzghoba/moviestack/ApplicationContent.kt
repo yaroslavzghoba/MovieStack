@@ -1,5 +1,6 @@
 package com.yaroslavzghoba.moviestack
 
+import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -21,7 +22,7 @@ import com.yaroslavzghoba.moviestack.navigation.AppNavigation
 import com.yaroslavzghoba.moviestack.util.NavBarItem
 
 @Composable
-fun ApplicationContent(modifier: Modifier = Modifier) {
+fun ComponentActivity.ApplicationContent(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
     val navBarItems =
         listOf(NavBarItem.Home, NavBarItem.WishList, NavBarItem.Watched, NavBarItem.Settings)
@@ -35,8 +36,8 @@ fun ApplicationContent(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         AppNavigation(
             isNavigationBarVisible = { isNavBarVisible = it },
-            navController = navController,
             modifier = Modifier.weight(1f),
+            navController = navController,
         )
 
         // Navigation bar

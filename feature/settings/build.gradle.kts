@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
-    alias(libs.plugins.hilt.android)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -49,9 +47,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.material3)
 
-    // Hilt dependency injection
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    // Dependency injection
+    implementation(libs.koin.android)
 
     // Internal dependencies
     implementation(project(":core:data"))

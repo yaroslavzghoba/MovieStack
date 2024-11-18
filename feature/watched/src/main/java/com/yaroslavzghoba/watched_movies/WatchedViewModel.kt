@@ -7,12 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaroslavzghoba.domain.repository.ApplicationRepository
 import com.yaroslavzghoba.model.WatchedMovie
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class WatchedViewModel @Inject constructor(
+class WatchedViewModel(
     private val repository: ApplicationRepository,
 ) : ViewModel() {
 
