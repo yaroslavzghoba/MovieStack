@@ -36,7 +36,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
 
-    api(libs.retrofit)  // for catching HttpException
+    implementation(libs.ktor.client.core)  // for network responses validation
     implementation(libs.paging.runtime)  // for creating pagers
     implementation(libs.kotlinx.datetime)  // for date serialization
 

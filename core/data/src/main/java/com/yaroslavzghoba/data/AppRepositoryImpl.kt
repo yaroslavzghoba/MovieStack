@@ -1,7 +1,6 @@
 package com.yaroslavzghoba.data
 
 import android.content.Context
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -35,12 +34,11 @@ import com.yaroslavzghoba.model.UserPreferences
 import com.yaroslavzghoba.model.WatchedMovie
 import com.yaroslavzghoba.model.WishedMovie
 import com.yaroslavzghoba.network.NetworkDataSource
+import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.LocalTime
-import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -172,7 +170,6 @@ class AppRepositoryImpl internal constructor(
 
     override fun countWishedMoviesById(id: Int): Flow<Int> {
         return database.wishedMovieDao.countMovies(id = id)
-            .onEach { Log.d("Data layer", "countWatchedMoviesById: $it") }
     }
 
 
@@ -189,7 +186,7 @@ class AppRepositoryImpl internal constructor(
                     genreDto.toGenre().toDbo()
                 }
             )
-        } catch (exception: HttpException) {
+        } catch (exception: ResponseException) {
             // TODO: Handle exception
         } catch (exception: IOException) {
             // TODO: Handle exception
@@ -278,7 +275,7 @@ class AppRepositoryImpl internal constructor(
         return flow {
             val result: Result<MovieDetails> = try {
                 Result.success(network.getMovieDetails(id = id).toMovieDetails())
-            } catch (exception: HttpException) {
+            } catch (exception: ResponseException) {
                 Result.failure(exception = exception)
             } catch (exception: IOException) {
                 Result.failure(exception = exception)

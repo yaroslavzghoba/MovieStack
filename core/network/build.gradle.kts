@@ -60,12 +60,13 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
 
-    // Retrofit & Serialization
-    implementation(libs.retrofit)
-    implementation(libs.serialization.json)
-    implementation(libs.serialization.converter)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
+    // Network requests
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.client.logging)
+
 
     // Dependency injection
     implementation(libs.koin.android)

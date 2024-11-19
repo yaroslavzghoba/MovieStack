@@ -8,71 +8,99 @@ import com.yaroslavzghoba.network.model.PopularDto
 import com.yaroslavzghoba.network.model.SearchedDto
 import com.yaroslavzghoba.network.model.TopRatedDto
 import com.yaroslavzghoba.network.model.UpcomingDto
-import com.yaroslavzghoba.network.service.MovieService
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.http.path
 
 class NetworkDataSourceImpl internal constructor(
-    private val movieService: MovieService
+    private val httpClient: HttpClient,
 ) : NetworkDataSource {
 
     override suspend fun getAllGenres(language: String): GenresDto {
-        return movieService.getAllGenres(language = language)
+        return httpClient.get {
+            url {
+                path("genre/movie/list")
+                parameters.append(name = "language", value = language)
+            }
+        }.body()
     }
 
     override suspend fun getMovies(
         language: String,
         page: Int,
-    ): DiscoverDto = movieService.getMovies(
-        language = language,
-        page = page
-    )
+    ): DiscoverDto = httpClient.get {
+        url {
+            path("discover/movie")
+            parameters.append(name = "language", value = language)
+            parameters.append(name = "page", value = page.toString())
+        }
+    }.body()
 
     override suspend fun getNowPlayingMovies(
         language: String,
         page: Int,
-    ): NowPlayingDto = movieService.getNowPlayingMovies(
-        language = language,
-        page = page
-    )
+    ): NowPlayingDto = httpClient.get {
+        url {
+            path("movie/now_playing")
+            parameters.append(name = "language", value = language)
+            parameters.append(name = "page", value = page.toString())
+        }
+    }.body()
 
     override suspend fun getPopularMovies(
         language: String,
         page: Int,
-    ): PopularDto = movieService.getPopularMovies(
-        language = language,
-        page = page,
-    )
+    ): PopularDto = httpClient.get {
+        url {
+            path("movie/popular")
+            parameters.append(name = "language", value = language)
+            parameters.append(name = "page", value = page.toString())
+        }
+    }.body()
 
     override suspend fun getTopRatedMovies(
         language: String,
         page: Int,
-    ): TopRatedDto = movieService.getTopRatedMovies(
-        language = language,
-        page = page,
-    )
+    ): TopRatedDto = httpClient.get {
+        url {
+            path("movie/top_rated")
+            parameters.append(name = "language", value = language)
+            parameters.append(name = "page", value = page.toString())
+        }
+    }.body()
 
     override suspend fun getUpcomingMovies(
         language: String,
         page: Int,
-    ): UpcomingDto = movieService.getUpcomingMovies(
-        language = language,
-        page = page,
-    )
+    ): UpcomingDto = httpClient.get {
+        url {
+            path("movie/upcoming")
+            parameters.append(name = "language", value = language)
+            parameters.append(name = "page", value = page.toString())
+        }
+    }.body()
 
     override suspend fun getMoviesByQuery(
         query: String,
         language: String,
         page: Int,
-    ): SearchedDto = movieService.getMoviesByQuery(
-        query = query,
-        language = language,
-        page = page,
-    )
+    ): SearchedDto = httpClient.get {
+        url {
+            path("search/movie")
+            parameters.append(name = "query", value = query)
+            parameters.append(name = "language", value = language)
+            parameters.append(name = "page", value = page.toString())
+        }
+    }.body()
 
     override suspend fun getMovieDetails(
         id: Int,
         language: String,
-    ): MovieDetailsDto = movieService.getMovieDetails(
-        id = id,
-        language = language,
-    )
+    ): MovieDetailsDto = httpClient.get {
+        url {
+            path("movie/$id")
+            parameters.append(name = "language", value = language)
+        }
+    }.body()
 }

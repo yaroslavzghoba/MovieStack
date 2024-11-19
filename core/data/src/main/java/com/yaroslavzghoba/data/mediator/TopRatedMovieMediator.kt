@@ -9,7 +9,7 @@ import com.yaroslavzghoba.data.mapper.toTopRatedMovieDbo
 import com.yaroslavzghoba.database.ApplicationDatabase
 import com.yaroslavzghoba.database.model.TopRatedMovieDbo
 import com.yaroslavzghoba.network.NetworkDataSource
-import retrofit2.HttpException
+import io.ktor.client.plugins.ResponseException
 import java.io.IOException
 
 private var pagesLoaded: Int = 0
@@ -60,7 +60,7 @@ internal class TopRatedMovieMediator(
             )
         } catch (exception: IOException) {
             MediatorResult.Error(exception)
-        } catch (exception: HttpException) {
+        } catch (exception: ResponseException) {
             MediatorResult.Error(exception)
         }
     }
